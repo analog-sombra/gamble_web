@@ -99,7 +99,7 @@ export default function TotalBidAmount() {
             {array.map((value, index) => (
               <tr key={index}>
                 {array.map((value, index) => (
-                  <td className="border w-24 text-center">
+                  <td key={index} className="border w-24 text-center">
                     <div>
                       <p className="bg-indigo-600 text-white">{counter++}</p>
                       <p>{Math.round(Math.random() * 2342342)}</p>
