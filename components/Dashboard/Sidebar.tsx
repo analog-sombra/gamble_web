@@ -6,6 +6,7 @@ import {
   MaterialSymbolsBubbleChartOutlineRounded,
   MaterialSymbolsDashboard,
   MaterialSymbolsHeadsetMicOutlineRounded,
+  MaterialSymbolsLightFeatureSearchOutline,
   MaterialSymbolsManageHistory,
   SystemUiconsBell,
   SystemUiconsBook,
@@ -141,6 +142,11 @@ const navLinks = [
     name: "Daily in record bonus",
     url: "/dashboard/daily-in-record-bonus",
     icon: <MaterialSymbolsManageHistory />,
+  },
+  {
+    name: "OCR",
+    url: "/dashboard/ocr",
+    icon: <MaterialSymbolsLightFeatureSearchOutline />,
   },
 ];
 

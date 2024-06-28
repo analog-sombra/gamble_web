@@ -1,8 +1,9 @@
-// alternative: https://codepen.io/elujambio/pen/YLMVed
-
+"use client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
+  const router = useRouter();
   return (
     <main className="h-screen bg-[linear-gradient(90deg,#C7C5F4,#776BCC)] flex items-center justify-center overflow-hidden">
       <section className="bg-gray-50 dark:bg-gray-900 w-full">
@@ -55,8 +56,8 @@ export default function Login() {
                   </a>
                 </div>
                 <button
-                  type="submit"
-                  className="w-full text-white bg-blue-600 hover:bg-white dark:hover:bg-black hover:border-blue-600 dark:hover:border-white hover:text-blue-600 border-[1px] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                  onClick={() => router.push("/dashboard/home")}
+                  className="w-full text-white bg-blue-600 hover:bg-white dark:hover:bg-black hover:border-blue-600 dark:hover:border-white hover:text-blue-600 border-[1px] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:focus:ring-primary-800"
                 >
                   Sign in
                 </button>
