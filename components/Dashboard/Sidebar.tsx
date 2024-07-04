@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
+  FluentWalletCreditCard16Regular,
   MaterialSymbolsBubbleChartOutlineRounded,
   MaterialSymbolsDashboard,
   MaterialSymbolsHeadsetMicOutlineRounded,
@@ -119,9 +120,9 @@ const navLinks = [
     icon: <SystemUiconsBell />,
   },
   {
-    name: "Direct add",
-    url: "/dashboard/direct-add",
-    icon: <MaterialSymbolsManageHistory />,
+    name: "Direct Add Cash",
+    url: "/dashboard/direct-add-cash",
+    icon: <FluentWalletCreditCard16Regular />,
   },
   {
     name: "P&L record",
@@ -173,9 +174,9 @@ export default function Sidebar() {
           return (
             <div
               key={index}
-              className={`flex gap-2 items-center justify-start cursor-pointer py-2 pr-2 mx-2 ${
+              className={`flex gap-2 items-center justify-start cursor-pointer py-2 pr-2 pl-4 rounded-r-md ${
                 isActive
-                  ? "text-black bg-white rounded-md"
+                  ? "text-black bg-white border-blue-500 border-l-4"
                   : "text-gray-500  hover:text-black "
               }`}
             >

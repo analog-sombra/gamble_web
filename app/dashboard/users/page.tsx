@@ -1,194 +1,196 @@
-// https://in.pinterest.com/pin/388717011599283978/
-// https://in.pinterest.com/pin/844493670812075/
 "use client";
 
+import { ColumnDef } from "@tanstack/react-table";
 import {
-  MaterialSymbolsLightDeleteForever,
-  MaterialSymbolsLightEdit,
-  MaterialSymbolsLightVisibilityRounded,
-} from "@/components/Icon";
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import { Divider, Input, Modal, Pagination, Popover, Select } from "antd";
 import {
-  Avatar,
-  Chip,
   Table,
   TableBody,
   TableCell,
-  TableColumn,
+  TableHead,
   TableHeader,
   TableRow,
-  Tooltip,
-  User,
-} from "@nextui-org/react";
-import { useCallback } from "react";
+} from "@/components/ui/table";
+import { useState } from "react";
 
-export default function Dashboard() {
-  const renderCell = useCallback((user: any, columnKey: any) => {
-    const cellValue = user[columnKey];
+export default function Users() {
+  const [open, setOpen] = useState(false);
 
-    switch (columnKey) {
-      case "name":
-        return (
-          <User
-            avatarProps={{ radius: "lg", src: user.avatar }}
-            description={user.email}
-            name={cellValue}
-          >
-            {user.email}
-          </User>
-        );
-      case "role":
-        return (
-          <div className="flex flex-col">
-            <p className="text-bold text-sm capitalize">{cellValue}</p>
-            <p className="text-bold text-sm capitalize text-default-400">
-              {user.team}
-            </p>
-          </div>
-        );
-      case "status":
-        return (
-          <Chip
-            className="capitalize"
-            color={user.status == "active" ? "success" : "danger"}
-            size="sm"
-            variant="flat"
-          >
-            {cellValue}
-          </Chip>
-        );
-      case "actions":
-        return (
-          <div className="relative flex items-center gap-2">
-            <Tooltip content="Details">
-              <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                <MaterialSymbolsLightVisibilityRounded className="text-blue-500" />
-              </span>
-            </Tooltip>
-            <Tooltip content="Edit user">
-              <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                <MaterialSymbolsLightEdit />
-              </span>
-            </Tooltip>
-            <Tooltip color="danger" content="Delete user">
-              <span className="text-lg text-danger cursor-pointer active:opacity-50">
-                <MaterialSymbolsLightDeleteForever />
-              </span>
-            </Tooltip>
-          </div>
-        );
-      default:
-        return cellValue;
-    }
-  }, []);
+  const [passwordBox, setPasswordBox] = useState(false);
+  const [amountBox, setAmountBox] = useState(false);
 
+  const handleOpenChange = (newOpen: boolean) => {
+    setOpen(newOpen);
+  };
   return (
-    <>
-      <div className="mb-3 flex bg-white p-4 rounded-md  justify-between ">
-        <div>
-          <h1 className="font-semibold">Welcome Back, Arnold</h1>
-          <p>{new Date().toDateString()}</p>
+    <main>
+      <div className="shadow bg-white p-4 rounded-md">
+        <h2 className="mx-auto text-lg font-medium text-left">Users</h2>
+        <Divider className="my-2" />
+        <div className="flex gap-2">
+          <Input placeholder="User Id" className="w-60" />
+          <Input placeholder="Mobile number" className="w-60" />
+          <button className="text-white text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
+            Search
+          </button>
+          <div className="grow"></div>
+          <Select
+            placeholder="User Filter"
+            className="w-40"
+            onChange={(value: string) => {}}
+            options={[
+              { value: "all", label: "All Users" },
+              { value: "block", label: "Blocked User" },
+              { value: "minus", label: "Minus Wallet" },
+            ]}
+          />
         </div>
-        <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />
       </div>
-      <div className="w-full flex-1  rounded-lg mt-3">
-        <Table aria-label="Example table with custom cells">
-          <TableHeader columns={columns}>
-            {(column) => (
-              <TableColumn
-                key={column.uid}
-                align={column.uid === "actions" ? "center" : "start"}
-              >
-                {column.name}
-              </TableColumn>
-            )}
+      <div className="shadow bg-white p-4 rounded-md mt-4">
+        <Table className="border mt-2">
+          <TableHeader>
+            <TableRow className="bg-gray-100">
+              <TableHead className="border text-center">Id</TableHead>
+              <TableHead className="border text-center">Name</TableHead>
+              <TableHead className="border text-center">Phone Number</TableHead>
+              <TableHead className="border text-center">
+                Wallet Amount (&#x20b9;)
+              </TableHead>
+              <TableHead className="w-28 border text-center">Actions</TableHead>
+            </TableRow>
           </TableHeader>
-          <TableBody items={users}>
-            {(item) => (
-              <TableRow key={item.id}>
-                {(columnKey) => (
-                  <TableCell>{renderCell(item, columnKey)}</TableCell>
-                )}
-              </TableRow>
-            )}
+          <TableBody>
+            <TableRow>
+              <TableCell className="p-2 border text-center">1</TableCell>
+              <TableCell className="p-2 border text-center">
+                Ekichi San
+              </TableCell>
+              <TableCell className="p-2 border text-center">
+                9876875385
+              </TableCell>
+              <TableCell className="p-2 border text-center">15,000</TableCell>
+
+              <TableCell className="p-2 border text-center">
+                <Popover
+                  content={
+                    <div className="flex flex-col gap-2">
+                      <button
+                        onClick={() => {
+                          setOpen(false);
+                          setAmountBox(true);
+                        }}
+                        className="text-sm bg-white border hover:border-rose-500 hover:text-rose-500 text-[#172e57] py-1 px-4"
+                      >
+                        Cash Deduction
+                      </button>
+                      <button
+                        className="text-sm bg-white border hover:border-blue-500 hover:text-blue-500 text-[#172e57] py-1 px-4"
+                        onClick={() => {
+                          setOpen(false);
+                          setPasswordBox(true);
+                        }}
+                      >
+                        Set Password
+                      </button>
+                      <button className="text-sm bg-white border hover:border-blue-500 hover:text-blue-500 text-[#172e57] py-1 px-4">
+                        View Profile
+                      </button>
+                    </div>
+                  }
+                  title="Actions"
+                  trigger="click"
+                  open={open}
+                  onOpenChange={handleOpenChange}
+                >
+                  <button className="text-sm bg-white border hover:border-blue-500 hover:text-blue-500 text-[#172e57] py-1 px-4">
+                    Actions
+                  </button>
+                </Popover>
+              </TableCell>
+            </TableRow>
           </TableBody>
         </Table>
+        <div className="mt-2">
+          <Pagination
+            total={85}
+            showSizeChanger
+            showQuickJumper
+            showTotal={(total) => `Total ${total} items`}
+          />
+        </div>
       </div>
-    </>
+      <Modal
+        title="Change Password"
+        open={passwordBox}
+        onOk={() => setPasswordBox(false)}
+        onCancel={() => setPasswordBox(false)}
+      >
+        <Input placeholder="Enter New Password" />
+      </Modal>
+      <Modal
+        title="Cash Deduction"
+        open={amountBox}
+        onOk={() => setAmountBox(false)}
+        onCancel={() => setAmountBox(false)}
+      >
+        <Input className="Enter Amount" />
+      </Modal>
+    </main>
   );
 }
 
-/* Table Data */
-const statusColorMap = {
-  active: "success",
-  inactive: "danger",
+export const columns: ColumnDef<Transaction>[] = [
+  {
+    accessorKey: "number",
+    header: "No.",
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+  },
+  {
+    accessorKey: "amount",
+    header: "Amount",
+    cell: ({ row }) => {
+      const amount = parseFloat(row.getValue("amount"));
+      return (
+        <div className="flex flex-col gap-1">
+          <p>{amount}</p>
+          <p>
+            <HoverCard>
+              <HoverCardTrigger className="text-blue-700 cursor-pointer">
+                View Details
+              </HoverCardTrigger>
+              <HoverCardContent>
+                <p>Game: Moday dhamaka</p>
+                <p>Bet number: 2, 34</p>
+                <p>Winning Number: 99</p>
+                <p>Bet amount: 2334</p>
+              </HoverCardContent>
+            </HoverCard>
+          </p>
+          <p>closing balance: {Math.ceil(amount * 2 - 5 / 3)}</p>
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "transactionId",
+    header: "Transaction Id",
+  },
+];
+
+type Transaction = {
+  number: number;
+  status:
+    | "Add money successful"
+    | "withdraw successul"
+    | "withdraw processing"
+    | "withdraw failed";
+  amount: number;
+  transactionId: string;
 };
-
-const columns = [
-  { name: "NAME", uid: "name" },
-  { name: "WALLET", uid: "wallet" },
-  { name: "STATUS", uid: "status" },
-  { name: "ACTIONS", uid: "actions" },
-];
-
-const users = [
-  {
-    id: 1,
-    name: "Tony Reichert",
-    role: "CEO",
-    team: "Management",
-    status: "active",
-    age: "29",
-    avatar: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
-    email: "tony.reichert@example.com",
-    wallet: 123123,
-    betCompleted: 5,
-  },
-  {
-    id: 2,
-    name: "Zoey Lang",
-    role: "Technical Lead",
-    team: "Development",
-    status: "paused",
-    age: "25",
-    avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704d",
-    email: "zoey.lang@example.com",
-    wallet: 123123,
-    betCompleted: 5,
-  },
-  {
-    id: 3,
-    name: "Jane Fisher",
-    role: "Senior Developer",
-    team: "Development",
-    status: "active",
-    age: "22",
-    avatar: "https://i.pravatar.cc/150?u=a04258114e29026702d",
-    email: "jane.fisher@example.com",
-    wallet: 123123,
-    betCompleted: 5,
-  },
-  {
-    id: 4,
-    name: "William Howard",
-    role: "Community Manager",
-    team: "Marketing",
-    status: "inactive",
-    age: "28",
-    avatar: "https://i.pravatar.cc/150?u=a048581f4e29026701d",
-    email: "william.howard@example.com",
-    wallet: 123123,
-    betCompleted: 5,
-  },
-  {
-    id: 5,
-    name: "Kristen Copper",
-    role: "Sales Manager",
-    team: "Sales",
-    status: "active",
-    age: "24",
-    avatar: "https://i.pravatar.cc/150?u=a092581d4ef9026700d",
-    email: "kristen.cooper@example.com",
-    wallet: 123123,
-    betCompleted: 5,
-  },
-];

@@ -20,6 +20,7 @@ import {
   TableRow,
   User,
 } from "@nextui-org/react";
+import Link from "next/link";
 import { useCallback } from "react";
 
 export default function Home() {
@@ -165,6 +166,9 @@ export default function Home() {
           </Table>
           <Button className="text-left w-full mt-2 bg-[#3f2632] text-white">
             View All
+          </Button>
+          <Button className="text-left w-full mt-2 bg-blue-800 text-white">
+            <Link href="/dashboard/home/add-withdraw">Add/Withdraw Money</Link>
           </Button>
         </div>
       </div>

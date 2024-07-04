@@ -4,6 +4,7 @@ import Image from "next/image";
 import { SetStateAction, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { createWorker } from "tesseract.js";
+import ImageProcess from "@/actions/imageprocess";
 
 const OCRView = () => {
   const [img, setImg] = useState<File | null>(null);
@@ -16,22 +17,22 @@ const OCRView = () => {
     value: React.ChangeEvent<HTMLInputElement>,
     setFun: (value: SetStateAction<File | null>) => void
   ) => {
-    let file_size = parseInt(
-      (value!.target.files![0].size / 1024 / 1024).toString()
-    );
-    if (file_size < 1) {
-      if (value!.target.files![0].type.startsWith("image/")) {
-        // convert image to grayscale
-        const image = value!.target.files![0];
+    if (value!.target.files?.length == 0) return;
+    // let file_size = parseInt(
+    //   (value!.target.files![0].size / 1024 / 1024).toString()
+    // );
+    // if (file_size < 1) {
+    if (value!.target.files![0].type.startsWith("image/")) {
+      // convert image to grayscale
+      const image = value!.target.files![0];
 
-        // setFun((val) => value!.target.files![0]);
-        setFun((val) => image);
-      } else {
-        toast.error("Please select an image file.", { theme: "light" });
-      }
+      setFun((val) => image);
     } else {
-      toast.error("Image file size must be less then 1 mb", { theme: "light" });
+      toast.error("Please select an image file.", { theme: "light" });
     }
+    // } else {
+    //   toast.error("Image file size must be less then 1 mb", { theme: "light" });
+    // }
   };
 
   const startOCR = async () => {
@@ -42,21 +43,36 @@ const OCRView = () => {
       return;
     }
 
+    // send to server
+    // const fromdata = new FormData();
+    // fromdata.append("file", img);
+
+    // const response = await ImageProcess(fromdata);
+    // if (response.status == false || response.data == null) {
+    //   setIsLoading(false);
+    //   return toast.error("Something want wrong");
+    // }
+    // const image = new File([response.data], "grayscale.jpg", {
+    //   type: "image/jpeg",
+    // });
+
+    // parse transaction id
     const worker = await createWorker();
     const {
       data: { text },
     } = await worker.recognize(img);
+    await worker.terminate();
     const transactionId = parseTransactionId(text);
+    console.log(text);
     if (!transactionId) {
       setIsLoading(false);
-      return toast.error("Something want wrong");
+      return toast.error("unable to parse transaction ID");
     }
 
     setIsOcr(true);
     setId(transactionId);
 
-    // toast.info(transactionId);
-    await worker.terminate();
+    toast.info(transactionId);
     setIsLoading(false);
   };
 
