@@ -4,7 +4,6 @@ import Image from "next/image";
 import { SetStateAction, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { createWorker } from "tesseract.js";
-import ImageProcess from "@/actions/imageprocess";
 
 const OCRView = () => {
   const [img, setImg] = useState<File | null>(null);

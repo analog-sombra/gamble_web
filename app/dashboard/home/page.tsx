@@ -29,7 +29,7 @@ export default function Home() {
   return (
     <div>
       {/* Dashboard data */}
-      <div className={`flex flex-col lg:flex-row justify-between gap-3`}>
+      {/* <div className={`flex flex-col lg:flex-row justify-between gap-3`}>
         <div className="flex-1">
           <div className="bg-white p-3 rounded-md flex flex-wrap gap-6 justify-between ">
             {cardData.map((item) => (
@@ -37,10 +37,10 @@ export default function Home() {
                 {item.icon}
               </SimpleCard>
             ))}
-          </div>
+          </div> */}
 
-          {/* User */}
-          <div className="relative mt-3 bg-white p-3">
+      {/* User */}
+      {/* <div className="relative mt-3 bg-white p-3">
             <h3 className="text-xl p-3">Users</h3>
             <Table>
               <TableHeader>
@@ -76,9 +76,9 @@ export default function Home() {
               </TableFooter>
             </Table>
           </div>
-        </div>
-        {/* mathc */}
-        <div className="bg-white p-3 rounded-t-small">
+        </div> */}
+      {/* mathc */}
+      {/* <div className="bg-white p-3 rounded-t-small">
           <h3 className="text-xl p-3">Live Match Data</h3>
           <Table>
             <TableHeader>
@@ -111,30 +111,29 @@ export default function Home() {
               </TableRow>
             </TableFooter>
           </Table>
-        </div>
+        </div> 
       </div>
+      */}
       <div>
         <div className=" bg-white p-4 rounded-md w-full justify-center gap-3 items-center mt-4">
-          {/* <div className="border">
-            <div className="flex gap-5">
-              <div className="flex items-center space-x-2">
-                <Label htmlFor="toggle-add">Add</Label>
-                <Switch id="toggle-add" checked />
-              </div>
-              <div className="flex items-center space-x-2">
-                <Label htmlFor="toggle-withdraw">Withdraw</Label>
-                <Switch id="toggle-withdraw" />
-              </div>
+          <div className="flex gap-5">
+            <div className="flex items-center space-x-2">
+              <Label htmlFor="toggle-add">Add</Label>
+              <Switch id="toggle-add" />
             </div>
-            <Divider />
+            <div className="flex items-center space-x-2">
+              <Label htmlFor="toggle-withdraw">Withdraw</Label>
+              <Switch id="toggle-withdraw" />
+            </div>
+            <div className="grow"></div>
             <div className="p-2 text-center">
               {currentTab == "add" ? (
-                <div>Add limit: 3423</div>
+                <div>Withdraw limit: 3423</div>
               ) : (
                 <div>withdraw Limit: 234</div>
               )}
             </div>
-          </div> */}
+          </div>
           <Table className="border mt-2">
             <TableHeader>
               <TableRow className="bg-gray-100">
@@ -150,10 +149,10 @@ export default function Home() {
             <TableBody>
               <TableRow>
                 <TableCell className="p-2 border text-center">
-                  <Switch id="toggle-add" checked />
+                  <Switch id="toggle-add" />
                 </TableCell>
                 <TableCell className="p-2 border text-center">
-                  <Switch id="toggle-add" checked />
+                  <Switch id="toggle-add" />
                 </TableCell>
                 <TableCell className="p-2 border text-center">
                   <Switch id="toggle-add" />
@@ -162,7 +161,7 @@ export default function Home() {
                   <Switch id="toggle-add" />
                 </TableCell>
                 <TableCell className="p-2 border text-center">
-                  <Switch id="toggle-add" checked />
+                  <Switch id="toggle-add" />
                 </TableCell>
               </TableRow>
             </TableBody>

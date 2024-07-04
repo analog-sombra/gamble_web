@@ -60,7 +60,7 @@ export default function Users() {
   );
 }
 
-export const columns: ColumnDef<Transaction>[] = [
+const columns: ColumnDef<Transaction>[] = [
   {
     accessorKey: "number",
     header: "No.",

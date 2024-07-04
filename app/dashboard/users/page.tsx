@@ -62,7 +62,12 @@ export default function Users() {
               <TableHead className="border text-center">
                 Wallet Amount (&#x20b9;)
               </TableHead>
-              <TableHead className="w-28 border text-center">Actions</TableHead>
+              <TableHead className="w-28 border text-center">
+                Cash deducation
+              </TableHead>
+              <TableHead className="w-28 border text-center">
+                Set Password
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -75,8 +80,20 @@ export default function Users() {
                 9876875385
               </TableCell>
               <TableCell className="p-2 border text-center">15,000</TableCell>
-
               <TableCell className="p-2 border text-center">
+                <Input className="Enter Amount" />
+                <button className="w-full md:w-32 mt-1 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
+                  Submit
+                </button>
+              </TableCell>
+              <TableCell className="p-2 border text-center">
+                <Input className="Enter new passwordS" />
+                <button className="w-full md:w-32 mt-1 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
+                  Submit
+                </button>
+              </TableCell>
+
+              {/* <TableCell className="p-2 border text-center">
                 <Popover
                   content={
                     <div className="flex flex-col gap-2">
@@ -98,12 +115,7 @@ export default function Users() {
                       >
                         Set Password
                       </button>
-                      <button
-                        onClick={() => {
-                          route.push("/dashboard/users/profile");
-                        }}
-                        className="text-sm bg-white border hover:border-blue-500 hover:text-blue-500 text-[#172e57] py-1 px-4"
-                      >
+                      <button className="text-sm bg-white border hover:border-blue-500 hover:text-blue-500 text-[#172e57] py-1 px-4">
                         View Profile
                       </button>
                     </div>
@@ -117,20 +129,28 @@ export default function Users() {
                     Actions
                   </button>
                 </Popover>
-              </TableCell>
+              </TableCell> */}
             </TableRow>
           </TableBody>
         </Table>
-        <div className="mt-2">
+        <button
+          onClick={() => {
+            route.push("/dashboard/users/profile");
+          }}
+          className="w-full mt-2 md:w-32 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md"
+        >
+          Statement option
+        </button>
+        {/* <div className="mt-2">
           <Pagination
             total={85}
             showSizeChanger
             showQuickJumper
             showTotal={(total) => `${total} items`}
           />
-        </div>
+        </div> */}
       </div>
-      <Modal
+      {/* <Modal
         title="Change Password"
         open={passwordBox}
         onOk={() => setPasswordBox(false)}
@@ -145,59 +165,7 @@ export default function Users() {
         onCancel={() => setAmountBox(false)}
       >
         <Input className="Enter Amount" />
-      </Modal>
+      </Modal> */}
     </main>
   );
 }
-
-export const columns: ColumnDef<Transaction>[] = [
-  {
-    accessorKey: "number",
-    header: "No.",
-  },
-  {
-    accessorKey: "status",
-    header: "Status",
-  },
-  {
-    accessorKey: "amount",
-    header: "Amount",
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
-      return (
-        <div className="flex flex-col gap-1">
-          <p>{amount}</p>
-          <p>
-            <HoverCard>
-              <HoverCardTrigger className="text-blue-700 cursor-pointer">
-                View Details
-              </HoverCardTrigger>
-              <HoverCardContent>
-                <p>Game: Moday dhamaka</p>
-                <p>Bet number: 2, 34</p>
-                <p>Winning Number: 99</p>
-                <p>Bet amount: 2334</p>
-              </HoverCardContent>
-            </HoverCard>
-          </p>
-          <p>closing balance: {Math.ceil(amount * 2 - 5 / 3)}</p>
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "transactionId",
-    header: "Transaction Id",
-  },
-];
-
-type Transaction = {
-  number: number;
-  status:
-    | "Add money successful"
-    | "withdraw successul"
-    | "withdraw processing"
-    | "withdraw failed";
-  amount: number;
-  transactionId: string;
-};
