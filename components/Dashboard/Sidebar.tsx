@@ -189,15 +189,16 @@ export default function Sidebar({ isSidebarOpen, setSidebar }: SidebarProps) {
         placement="left"
       >
         <div className="flex flex-col gap-2">
-          {navLinks.map((links) => {
+          {navLinks.map((links: any, index: number) => {
             const route = links.url;
             const isActive = pathname === route;
 
             return (
               <div
+                key={index}
                 className={`${
-                  isActive ? "bg-slate-100 pl-12" : ""
-                } flex p-2 rounded-md gap-2`}
+                  isActive ? "bg-slate-100 border-l-4 border-blue-500" : ""
+                } flex p-2 rounded gap-2`}
               >
                 <span
                   className={`${

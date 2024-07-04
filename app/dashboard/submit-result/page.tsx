@@ -2,22 +2,7 @@
 
 import SimpleCard from "@/components/Dashboard/SimpleCard";
 import { MaterialSymbolsPerson } from "@/components/Icon";
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { Input } from "@/components/ui/input";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 import {
   Table,
   TableBody,
@@ -28,6 +13,7 @@ import {
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { Divider } from "@nextui-org/react";
+import { DatePicker, DatePickerProps, Input, Select } from "antd";
 import { format } from "date-fns";
 
 import { Calendar as CalendarIcon } from "lucide-react";
@@ -74,6 +60,13 @@ export default function SubmitResult() {
     setTotalWinner(23);
     setTotalWinningAmount(9284923);
   };
+  const onChange: DatePickerProps["onChange"] = (date, dateString) => {
+    console.log(date, dateString);
+  };
+
+  const handleChange = (value: string) => {
+    console.log(`selected ${value}`);
+  };
 
   return (
     <>
@@ -81,65 +74,37 @@ export default function SubmitResult() {
         <div className="lg:w-96 bg-white p-3 rounded-md flex flex-col gap-2 w-full">
           <h2>Submit Result</h2>
           <Divider />
-          <div className="flex  gap-3 items-center ">
-            <p className="text-sm font-normal w-20">Update number: </p>
-            <Popover>
-              <PopoverTrigger asChild className="w-full">
-                <Button
-                  variant={"outline"}
-                  className={cn(
-                    "justify-start text-left font-normal",
-                    !date && "text-muted-foreground"
-                  )}
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {date ? format(date, "PPP") : <span>Pick a date</span>}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0">
-                <Calendar
-                  mode="single"
-                  selected={date}
-                  onSelect={setDate}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
+          <div className="">
+            <p className="text-sm font-normal">Update number: </p>
+            <DatePicker onChange={onChange} className="w-full" />
           </div>
 
-          <div className="flex  gap-3 items-center">
-            <p className="text-sm font-normal w-20">Win number: </p>
-            <Select>
-              <SelectTrigger className="">
-                <SelectValue placeholder="Select Game" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="0">Monday Mania</SelectItem>
-                  <SelectItem value="1">Blazing buster</SelectItem>
-                  <SelectItem value="2">Tuesday thunder</SelectItem>
-                  <SelectItem value="3">pine plate</SelectItem>
-                  <SelectItem value="4">gold selectiion</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="flex  gap-3 items-center">
-            <p className="text-sm font-normal w-20">Win number: </p>
-            <Input
-              type="text"
-              placeholder="enter Number"
-              className="max-w-sm"
+          <div className="">
+            <p className="text-sm font-normal">Select Game: </p>
+            <Select
+              placeholder="Select a game"
+              className="w-full"
+              onChange={handleChange}
+              options={[
+                { value: "0", label: "Monday Mania" },
+                { value: "1", label: "Blazing buster" },
+                { value: "2", label: "Tuesday thunder" },
+                { value: "3", label: "gold selectiion" },
+              ]}
             />
           </div>
 
-          <Button
-            className="bg-blue-600 hover:bg-blue-700"
+          <div className="">
+            <p className="text-sm font-normal">Win number: </p>
+            <Input type="text" placeholder="enter Number" className="w-full" />
+          </div>
+
+          <button
+            className="bg-blue-600 hover:bg-blue-700 px-4 py-1 rounded text-white text-sm"
             onClick={showWinners}
           >
             Show Winner
-          </Button>
+          </button>
         </div>
 
         <div className="bg-white p-3 rounded-md flex flex-wrap gap-6 justify-between flex-1">

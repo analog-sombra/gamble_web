@@ -15,9 +15,11 @@ import {
 } from "@/components/ui/table";
 import { ColumnDef } from "@tanstack/react-table";
 import { Divider, Input, Modal, Pagination, Popover, Select } from "antd";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Users() {
+  const route = useRouter();
   const [open, setOpen] = useState(false);
 
   const [passwordBox, setPasswordBox] = useState(false);
@@ -31,16 +33,16 @@ export default function Users() {
       <div className="shadow bg-white p-4 rounded-md">
         <h2 className="mx-auto text-lg font-medium text-left">Users</h2>
         <Divider className="my-2" />
-        <div className="flex gap-2 lg:flex-row flex-col">
-          <Input placeholder="User Id" className="w-60" />
-          <Input placeholder="Mobile number" className="w-60" />
-          <button className="w-60 text-white text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
+        <div className="flex gap-2 md:flex-row flex-col">
+          <Input placeholder="User Id" className="w-full md:w-60" />
+          <Input placeholder="Mobile number" className="w-full md:w-60" />
+          <button className="w-full md:w-32 text-white text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
             Search
           </button>
           <div className="grow"></div>
           <Select
             placeholder="User Filter"
-            className="w-40"
+            className="w-full md:w-40"
             onChange={(value: string) => {}}
             options={[
               { value: "all", label: "All Users" },
@@ -96,7 +98,12 @@ export default function Users() {
                       >
                         Set Password
                       </button>
-                      <button className="text-sm bg-white border hover:border-blue-500 hover:text-blue-500 text-[#172e57] py-1 px-4">
+                      <button
+                        onClick={() => {
+                          route.push("/dashboard/users/profile");
+                        }}
+                        className="text-sm bg-white border hover:border-blue-500 hover:text-blue-500 text-[#172e57] py-1 px-4"
+                      >
                         View Profile
                       </button>
                     </div>

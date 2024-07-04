@@ -1,49 +1,72 @@
 "use client";
-import { Avatar } from "antd";
+import { FluentSend16Regular } from "@/components/Icon";
+import { formateDate } from "@/lib/utils";
+import { Avatar, Divider, Input } from "antd";
 import { useState } from "react";
 
 export default function CustomerCareChat() {
   const [selectedUser, setUser] = useState(1);
   return (
-    <div className="w-full p-3 rounded-md bg-white">
-      <div className="flex">
-        {users.map((user) => (
-          <Avatar
-            key={user.id}
-            alt={user.name}
-            src={user.avatar}
-            size="large"
-            onClick={() => setUser(user.id)}
-            className="cursor-pointer"
-          ></Avatar>
-        ))}
+    <main className="relative">
+      <div className="w-full p-3 rounded-md bg-white">
+        <h1>Customers</h1>
+        <Divider className="my-1" />
+        <div className="flex overflow-x-scroll">
+          {users.map((user) => (
+            <Avatar
+              key={user.id}
+              alt={user.name}
+              src={user.avatar}
+              size="large"
+              onClick={() => setUser(user.id)}
+              className="cursor-pointer shrink-0"
+            ></Avatar>
+          ))}
+        </div>
       </div>
-      <div className="flex flex-col w-full gap-3">
-        {users[selectedUser - 1].message.map((msg) => {
-          return (
-            <div key={msg.id}>
-              {msg.type == "sent" ? (
-                <div className="flex justify-end">
-                  <div className="bg-amber-200 m-2 rounded-md text-end p-2 w-fit max-w-96">
+      <div className="w-full p-3 mt-2 rounded-t-md bg-white">
+        <div className="flex gap-2 items-center">
+          <h1>Mohan Shahu</h1>
+          <div className="grow"></div>
+          <p className="text-gray-600 text-xs">Last Message: 12/04/2014</p>
+        </div>
+        <Divider className="my-1" />
+      </div>
+      <div className="w-full p-3 rounded-b-md bg-white overflow-y-scroll h-[calc(54vh)]">
+        <div className="flex flex-col w-full gap-3">
+          {users[selectedUser - 1].message.map((msg) => {
+            return (
+              <div key={msg.id}>
+                {msg.type == "sent" ? (
+                  <div className="flex justify-end">
+                    <div className="bg-blue-500 m-2 rounded-md text-end p-2 w-fit max-w-96">
+                      <p className="text-white">{msg.text}</p>
+                      <p className="text-xs text-gray-100">
+                        {formateDate(msg.date)}
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="bg-gray-100 m-2 rounded-md text-end p-2 w-fit max-w-96">
                     <p>{msg.text}</p>
                     <p className="text-xs text-gray-600">
-                      {msg.date.toUTCString()}
+                      {formateDate(msg.date)}
                     </p>
                   </div>
-                </div>
-              ) : (
-                <div className="bg-red-300 m-2 rounded-md text-end p-2 w-fit max-w-96">
-                  <p>{msg.text}</p>
-                  <p className="text-xs text-gray-600">
-                    {msg.date.toUTCString()}
-                  </p>
-                </div>
-              )}
-            </div>
-          );
-        })}
+                )}
+              </div>
+            );
+          })}
+        </div>
       </div>
-    </div>
+      <div className="w-full p-2 rounded-md shadow flex gap-2 items-center bg-white mt-2">
+        <Input placeholder="Type your message here..." />
+        <div className="bg-blue-500 rounded-md py-1 px-4 h-8 items-center flex gap-2">
+          <FluentSend16Regular className="text-white text-lg" />
+          <p className="text-sm text-white">Send</p>
+        </div>
+      </div>
+    </main>
   );
 }
 

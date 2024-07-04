@@ -1,5 +1,7 @@
 "use client";
-
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import SimpleCard from "@/components/Dashboard/SimpleCard";
 import {
   MaterialSymbolsAttachMoney,
@@ -18,9 +20,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Tag } from "antd";
+import { Divider, Tag } from "antd";
+import { useState } from "react";
 
 export default function Home() {
+  const [currentTab, setTab] = useState("add");
+
   return (
     <div>
       {/* Dashboard data */}
@@ -106,6 +111,98 @@ export default function Home() {
               </TableRow>
             </TableFooter>
           </Table>
+        </div>
+      </div>
+      <div>
+        <div className=" bg-white p-4 rounded-md w-full justify-center gap-3 items-center mt-4">
+          {/* <div className="border">
+            <div className="flex gap-5">
+              <div className="flex items-center space-x-2">
+                <Label htmlFor="toggle-add">Add</Label>
+                <Switch id="toggle-add" checked />
+              </div>
+              <div className="flex items-center space-x-2">
+                <Label htmlFor="toggle-withdraw">Withdraw</Label>
+                <Switch id="toggle-withdraw" />
+              </div>
+            </div>
+            <Divider />
+            <div className="p-2 text-center">
+              {currentTab == "add" ? (
+                <div>Add limit: 3423</div>
+              ) : (
+                <div>withdraw Limit: 234</div>
+              )}
+            </div>
+          </div> */}
+          <Table className="border mt-2">
+            <TableHeader>
+              <TableRow className="bg-gray-100">
+                <TableHead className="border text-center">GPay</TableHead>
+                <TableHead className="border text-center">Phone Pay</TableHead>
+                <TableHead className="border text-center">Paytm</TableHead>
+                <TableHead className="border text-center">PayPal QR</TableHead>
+                <TableHead className="w-28 border text-center">
+                  GPay QR
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <TableRow>
+                <TableCell className="p-2 border text-center">
+                  <Switch id="toggle-add" checked />
+                </TableCell>
+                <TableCell className="p-2 border text-center">
+                  <Switch id="toggle-add" checked />
+                </TableCell>
+                <TableCell className="p-2 border text-center">
+                  <Switch id="toggle-add" />
+                </TableCell>
+                <TableCell className="p-2 border text-center">
+                  <Switch id="toggle-add" />
+                </TableCell>
+                <TableCell className="p-2 border text-center">
+                  <Switch id="toggle-add" checked />
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+
+          <div className="flex gap-2 items-center mt-2 flex-col md:flex-row">
+            <button className="w-full md:w-32 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
+              Refresh
+            </button>
+            {currentTab == "add" ? (
+              <button className="w-full md:w-32 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
+                Upload
+              </button>
+            ) : (
+              ""
+            )}
+            <div className="grow"></div>
+            <Tabs defaultValue="add">
+              <TabsList className="w-full">
+                <TabsTrigger value="add" onClick={() => setTab("add")}>
+                  Add Money
+                </TabsTrigger>
+                <TabsTrigger
+                  value="withdraw"
+                  onClick={() => setTab("withdraw")}
+                >
+                  Withdraw Money
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
+          </div>
+
+          <div className="flex gap-2 flex-wrap mt-2">
+            <p>Pending</p>
+            <p>processed</p>
+            <p>approved</p>
+            <p>rejected</p>
+            <p>refunded excel</p>
+            <p>pending excel</p>
+          </div>
         </div>
       </div>
     </div>
