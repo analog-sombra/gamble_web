@@ -18,23 +18,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { cn } from "@/lib/utils";
 import {
-  Avatar,
-  Chip,
-  Divider,
   Table,
   TableBody,
   TableCell,
-  TableColumn,
+  TableHead,
   TableHeader,
   TableRow,
-  User,
-} from "@nextui-org/react";
+} from "@/components/ui/table";
+import { cn } from "@/lib/utils";
+import { Divider } from "@nextui-org/react";
 import { format } from "date-fns";
 
 import { Calendar as CalendarIcon } from "lucide-react";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 
 export default function SubmitResult() {
   const [date, setDate] = useState<Date>();
@@ -78,58 +75,10 @@ export default function SubmitResult() {
     setTotalWinningAmount(9284923);
   };
 
-  const renderCell = useCallback((user: any, columnKey: any) => {
-    const cellValue = user[columnKey];
-
-    switch (columnKey) {
-      case "name":
-        return (
-          <User
-            avatarProps={{ radius: "lg", src: user.avatar }}
-            description={user.email}
-            name={cellValue}
-          >
-            {user.email}
-          </User>
-        );
-      case "role":
-        return (
-          <div className="flex flex-col">
-            <p className="text-bold text-sm capitalize">{cellValue}</p>
-            <p className="text-bold text-sm capitalize text-default-400">
-              {user.team}
-            </p>
-          </div>
-        );
-      case "status":
-        return (
-          <Chip
-            className="capitalize"
-            color={user.status == "active" ? "success" : "danger"}
-            size="sm"
-            variant="flat"
-          >
-            {cellValue}
-          </Chip>
-        );
-
-      default:
-        return cellValue;
-    }
-  }, []);
-
   return (
     <>
-      <div className="mb-3 flex bg-white p-4 rounded-md  justify-between ">
-        <div>
-          <h1 className="font-semibold">Welcome Back, Arnold</h1>
-          <p>{new Date().toDateString()}</p>
-        </div>
-        <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />
-      </div>
-
-      <section className="flex gap-3 ">
-        <div className="w-96 bg-white p-3 rounded-md flex flex-col gap-2">
+      <section className="flex gap-3 flex-col-reverse lg:flex-row ">
+        <div className="lg:w-96 bg-white p-3 rounded-md flex flex-col gap-2 w-full">
           <h2>Submit Result</h2>
           <Divider />
           <div className="flex  gap-3 items-center ">
@@ -193,7 +142,7 @@ export default function SubmitResult() {
           </Button>
         </div>
 
-        <div className="bg-white p-3 rounded-md flex flex-wrap gap-6 justify-between  flex-1">
+        <div className="bg-white p-3 rounded-md flex flex-wrap gap-6 justify-between flex-1">
           {cardData.map((item) => (
             <SimpleCard
               count={item.count.toString()}
@@ -207,37 +156,28 @@ export default function SubmitResult() {
       </section>
 
       <section className="bg-white p-3 mt-3">
-        <Table aria-label="Example table with custom cells" removeWrapper>
-          <TableHeader columns={columns}>
-            {(column) => (
-              <TableColumn
-                key={column.uid}
-                align={column.uid === "actions" ? "center" : "start"}
-              >
-                {column.name}
-              </TableColumn>
-            )}
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>User Id</TableHead>
+              <TableHead>Bid Amount</TableHead>
+              <TableHead>Win Number</TableHead>
+            </TableRow>
           </TableHeader>
-          <TableBody items={users}>
-            {(item) => (
-              <TableRow key={item.userId}>
-                {(columnKey) => (
-                  <TableCell>{renderCell(item, columnKey)}</TableCell>
-                )}
+          <TableBody>
+            {users.map((user) => (
+              <TableRow key={user.userId}>
+                <TableCell>{user.userId}</TableCell>
+                <TableCell>{user.bidAmount}</TableCell>
+                <TableCell>{user.winAmount}</TableCell>
               </TableRow>
-            )}
+            ))}
           </TableBody>
         </Table>
       </section>
     </>
   );
 }
-
-const columns = [
-  { name: "User Id", uid: "userId" },
-  { name: "Bid Amount", uid: "bidAmount" },
-  { name: "Win Amount", uid: "winAmount" },
-];
 
 const users = [
   {

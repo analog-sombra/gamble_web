@@ -7,8 +7,17 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { Avatar, Divider } from "@nextui-org/react";
+import { Divider } from "@nextui-org/react";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { useState } from "react";
@@ -26,25 +35,18 @@ export default function TotalWinner() {
 
   return (
     <>
-      <div className="mb-3 flex bg-white p-4 rounded-md  justify-between ">
-        <div>
-          <h1 className="font-semibold">Welcome Back, Arnold</h1>
-          <p>{new Date().toDateString()}</p>
-        </div>
-        <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />
-      </div>
       <div className="bg-white w-full rounded-md p-3 ">
         <h1>Winners Record</h1>
         <Divider />
 
         <div className="relative w-full flex items-center gap-3 my-3">
-          <p>Select Date: </p>
+          <p className="w-24">Select Date: </p>
           <Popover>
             <PopoverTrigger asChild>
               <Button
                 variant={"outline"}
                 className={cn(
-                  "w-[280px] justify-start text-left font-normal",
+                  "w-full lg:max-w-sm justify-start text-left font-normal",
                   !date && "text-muted-foreground"
                 )}
               >
@@ -64,23 +66,22 @@ export default function TotalWinner() {
         </div>
 
         <div className="flex gap-3 items-center">
-          <p>Select Game: </p>
-          <select
-            name="games"
-            id="games"
-            className="border border-gray-200 rounded-md py-1 px-2 bg-white"
-            defaultValue=""
-            onChange={(e) => setGame(e.target.value)}
-          >
-            <option value="" disabled>
-              Choose Game
-            </option>
-            {gamesData.map((game: GameType) => (
-              <option key={game.key} value={game.key}>
-                {game.name}
-              </option>
-            ))}
-          </select>
+          <p className="w-24">Select Game: </p>
+          <Select>
+            <SelectTrigger className="w-full lg:max-w-sm">
+              <SelectValue placeholder="Select a Game" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Games</SelectLabel>
+                {gamesData.map((game) => (
+                  <SelectItem value={game.key} key={game.key}>
+                    {game.name}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
         </div>
 
         <div className="flex items-center justify-end">
@@ -102,7 +103,7 @@ export default function TotalWinner() {
         )}
 
         {submit && (
-          <div className="flex flex-wrap gap-3 mt-6">
+          <div className="flex flex-wrap gap-3 mt-6 items-center justify-center">
             {userData.map((user: UserGameType) => (
               <div
                 key={user.userId}

@@ -7,6 +7,7 @@ import {
   MaterialSymbolsBubbleChartOutlineRounded,
   MaterialSymbolsDashboard,
   MaterialSymbolsHeadsetMicOutlineRounded,
+  MaterialSymbolsLightCloseSmallOutlineRounded,
   MaterialSymbolsLightFeatureSearchOutline,
   MaterialSymbolsManageHistory,
   SystemUiconsBell,
@@ -15,7 +16,8 @@ import {
   SystemUiconsUserMale,
 } from "../Icon";
 
-import { Image } from "@nextui-org/react";
+import { Drawer, Image } from "antd";
+import { Dispatch, SetStateAction } from "react";
 
 const navLinks = [
   {
@@ -151,22 +153,85 @@ const navLinks = [
   },
 ];
 
-export default function Sidebar() {
+type SidebarProps = {
+  isSidebarOpen: boolean;
+  setSidebar: Dispatch<SetStateAction<boolean>>;
+};
+
+export default function Sidebar({ isSidebarOpen, setSidebar }: SidebarProps) {
   const pathname = usePathname();
 
   return (
-    <>
-      {/* Navigation */}
-      <div className=" flex-col flex min-w-64">
-        <h1 className="ml-5 my-4 text-center flex w-full justify-center">
-          <Image
-            height={50}
-            width={50}
-            alt="NextUI hero Image"
-            src="https://static.vecteezy.com/system/resources/thumbnails/031/768/202/small/bird-feathers-logo-template-image-free-png.png"
-          />
-        </h1>
+    <div>
+      {/* Mobile navigation */}
+      <Drawer
+        closeIcon={false}
+        title={
+          <div className="flex items-center gap-1 justify-between w-full">
+            <div className="flex items-center gap-2">
+              <Image
+                preview={false}
+                height={30}
+                width={30}
+                alt="NextUI hero Image"
+                src="https://images.vexels.com/content/142789/preview/multicolor-swirls-circle-logo-41322f.png"
+              />
+              Gamble Zone
+            </div>
+            <MaterialSymbolsLightCloseSmallOutlineRounded
+              className="text-3xl cursor-pointer"
+              onClick={() => setSidebar(false)}
+            />
+          </div>
+        }
+        onClose={() => setSidebar(false)}
+        open={isSidebarOpen}
+        placement="left"
+      >
+        <div className="flex flex-col gap-2">
+          {navLinks.map((links) => {
+            const route = links.url;
+            const isActive = pathname === route;
 
+            return (
+              <div
+                className={`${
+                  isActive ? "bg-slate-100 pl-12" : ""
+                } flex p-2 rounded-md gap-2`}
+              >
+                <span
+                  className={`${
+                    isActive ? "text-[#3f2632]" : "text-black"
+                  } text-xl`}
+                >
+                  {links.icon}
+                </span>
+                <Link href={links.url} className={`${isActive ? "" : ""}`}>
+                  {links.name}
+                </Link>
+              </div>
+            );
+          })}
+          <div className="mx-2">
+            <button className="text-white bg-red-500 w-full mb-4 rounded py-2">
+              Logout
+            </button>
+          </div>
+        </div>
+      </Drawer>
+
+      {/* Desktop navigation */}
+      <div className="hidden flex-col lg:flex min-w-64">
+        <div className="flex items-center p-4 gap-2 justify-center">
+          <Image
+            preview={false}
+            height={30}
+            width={30}
+            alt="NextUI hero Image"
+            src="https://images.vexels.com/content/142789/preview/multicolor-swirls-circle-logo-41322f.png"
+          />
+          Gamble Zone
+        </div>
         {navLinks.map((item, index) => {
           const route = item.url;
           const isActive = pathname === route;
@@ -180,7 +245,6 @@ export default function Sidebar() {
                   : "text-gray-500  hover:text-black "
               }`}
             >
-              {/*  */}
               <span
                 className={`${
                   isActive ? "text-[#3f2632]" : "text-black"
@@ -201,6 +265,20 @@ export default function Sidebar() {
           </button>
         </div>
       </div>
-    </>
+    </div>
+  );
+}
+
+function SidebarLogo() {
+  return (
+    <h1 className="flex text-center items-center justify-center">
+      <Image
+        preview={false}
+        height={50}
+        width={50}
+        alt="NextUI hero Image"
+        src="https://static.vecteezy.com/system/resources/thumbnails/031/768/202/small/bird-feathers-logo-template-image-free-png.png"
+      />
+    </h1>
   );
 }

@@ -8,7 +8,7 @@ export default function DirectAdd() {
         Direct Add Cash
       </h2>
       <Divider />
-      <div className="flex items-center gap-3">
+      <div className="flex lg:items-center gap-3 lg:flex-row flex-col">
         <div className="flex-1">
           <p className="text-sm font-normal">User Id: </p>
           <Input type="text" placeholder="Enter User Id" />
@@ -19,7 +19,7 @@ export default function DirectAdd() {
         </div>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex lg:items-center lg:flex-row flex-col gap-3">
         <div className="flex-1">
           <p className="text-sm font-normal">Gateway: </p>
           <Input type="text" placeholder="Enter gateway" />

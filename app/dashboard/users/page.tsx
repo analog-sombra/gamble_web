@@ -1,12 +1,10 @@
 "use client";
 
-import { ColumnDef } from "@tanstack/react-table";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
-import { Divider, Input, Modal, Pagination, Popover, Select } from "antd";
 import {
   Table,
   TableBody,
@@ -15,6 +13,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { ColumnDef } from "@tanstack/react-table";
+import { Divider, Input, Modal, Pagination, Popover, Select } from "antd";
 import { useState } from "react";
 
 export default function Users() {
@@ -31,10 +31,10 @@ export default function Users() {
       <div className="shadow bg-white p-4 rounded-md">
         <h2 className="mx-auto text-lg font-medium text-left">Users</h2>
         <Divider className="my-2" />
-        <div className="flex gap-2">
+        <div className="flex gap-2 lg:flex-row flex-col">
           <Input placeholder="User Id" className="w-60" />
           <Input placeholder="Mobile number" className="w-60" />
-          <button className="text-white text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
+          <button className="w-60 text-white text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
             Search
           </button>
           <div className="grow"></div>
@@ -119,7 +119,7 @@ export default function Users() {
             total={85}
             showSizeChanger
             showQuickJumper
-            showTotal={(total) => `Total ${total} items`}
+            showTotal={(total) => `${total} items`}
           />
         </div>
       </div>

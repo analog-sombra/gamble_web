@@ -17,7 +17,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { Avatar } from "@nextui-org/react";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { useState } from "react";
@@ -31,15 +30,7 @@ export default function TotalBidAmount() {
 
   return (
     <>
-      <div className="mb-3 flex bg-white p-4 rounded-md  justify-between ">
-        <div>
-          <h1 className="font-semibold">Welcome Back, Arnold</h1>
-          <p>{new Date().toDateString()}</p>
-        </div>
-        <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />
-      </div>
-
-      <div className="flex bg-white p-3 rounded-md items-end flex-row gap-3 ">
+      <div className="flex bg-white p-3 rounded-md lg:items-end flex-col lg:flex-row gap-3 ">
         <div className="relative  flex flex-col items-start gap-3 ">
           <p>Select Date: </p>
           <Popover>
@@ -47,7 +38,7 @@ export default function TotalBidAmount() {
               <Button
                 variant={"outline"}
                 className={cn(
-                  "w-[280px] justify-start text-left font-normal",
+                  "lg:w-[280px] w-full justify-start text-left font-normal",
                   !date && "text-muted-foreground"
                 )}
               >
@@ -69,7 +60,7 @@ export default function TotalBidAmount() {
         <div className="flex gap-3 flex-col items-start">
           <p>Select Game: </p>
           <Select>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-full lg:w-[180px]">
               <SelectValue placeholder="Select a Game" />
             </SelectTrigger>
             <SelectContent>

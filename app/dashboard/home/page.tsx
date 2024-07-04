@@ -8,102 +8,23 @@ import {
   MaterialSymbolsPersonRaisedHand,
   MaterialSymbolsWifiRounded,
 } from "@/components/Icon";
+import { Button } from "@/components/ui/button";
 import {
-  Avatar,
-  Button,
-  Chip,
   Table,
   TableBody,
   TableCell,
-  TableColumn,
+  TableFooter,
+  TableHead,
   TableHeader,
   TableRow,
-  User,
-} from "@nextui-org/react";
-import Link from "next/link";
-import { useCallback } from "react";
+} from "@/components/ui/table";
+import { Tag } from "antd";
 
 export default function Home() {
-  // for user
-  const renderUserCell = useCallback((user: any, columnKey: any) => {
-    const cellValue = user[columnKey];
-
-    switch (columnKey) {
-      case "name":
-        return (
-          <User
-            avatarProps={{ radius: "lg", src: user.avatar }}
-            description={user.email}
-            name={cellValue}
-          >
-            {user.email}
-          </User>
-        );
-      case "role":
-        return (
-          <div className="flex flex-col">
-            <p className="text-bold text-sm capitalize">{cellValue}</p>
-            <p className="text-bold text-sm capitalize text-default-400">
-              {user.team}
-            </p>
-          </div>
-        );
-      case "status":
-        return (
-          <Chip
-            className="capitalize"
-            color={user.status == "active" ? "success" : "danger"}
-            size="sm"
-            variant="flat"
-          >
-            {cellValue}
-          </Chip>
-        );
-      default:
-        return cellValue;
-    }
-  }, []);
-
-  // for Match
-  const renderMatchCell = useCallback((match: any, columnKey: any) => {
-    const cellValue = match[columnKey];
-
-    switch (columnKey) {
-      case "name":
-        return (
-          <>
-            <div className="font-semibold">{match.name}</div>
-            <p className="text-xs text-gray-600">{match.key}</p>
-          </>
-        );
-      case "status":
-        return (
-          <Chip
-            className="capitalize"
-            color={match.status == "active" ? "success" : "warning"}
-            size="sm"
-            variant="flat"
-          >
-            {cellValue}
-          </Chip>
-        );
-      default:
-        return cellValue;
-    }
-  }, []);
-
   return (
     <div>
-      <div className="mb-3 flex bg-white p-4 rounded-md  justify-between ">
-        <div>
-          <h1 className="font-semibold">Welcome Back, Arnold</h1>
-          <p>{new Date().toDateString()}</p>
-        </div>
-        <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />
-      </div>
-
       {/* Dashboard data */}
-      <div className="flex flex-row justify-between gap-3">
+      <div className={`flex flex-col lg:flex-row justify-between gap-3`}>
         <div className="flex-1">
           <div className="bg-white p-3 rounded-md flex flex-wrap gap-6 justify-between ">
             {cardData.map((item) => (
@@ -115,61 +36,76 @@ export default function Home() {
 
           {/* User */}
           <div className="relative mt-3 bg-white p-3">
-            <Table aria-label="Example table with custom cells" removeWrapper>
-              <TableHeader columns={userColumns}>
-                {(column) => (
-                  <TableColumn
-                    key={column.uid}
-                    align={column.uid === "actions" ? "center" : "start"}
-                  >
-                    {column.name}
-                  </TableColumn>
-                )}
+            <h3 className="text-xl p-3">Users</h3>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Bet</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Wallet</TableHead>
+                </TableRow>
               </TableHeader>
-              <TableBody items={users}>
-                {(item) => (
-                  <TableRow key={item.id}>
-                    {(columnKey) => (
-                      <TableCell>{renderUserCell(item, columnKey)}</TableCell>
-                    )}
+              <TableBody>
+                {users.map((user) => (
+                  <TableRow key={user.id}>
+                    <TableCell className="font-medium">{user.name}</TableCell>
+                    <TableCell>{user.betCompleted}</TableCell>
+                    <TableCell>
+                      {user.status == "active" ? (
+                        <Tag color="green">{user.status}</Tag>
+                      ) : (
+                        <Tag color="red">{user.status}</Tag>
+                      )}
+                    </TableCell>
+                    <TableCell>{user.wallet}</TableCell>
                   </TableRow>
-                )}
+                ))}
               </TableBody>
+              <TableFooter>
+                <TableRow>
+                  <TableCell colSpan={4}>
+                    <Button className="w-full">View All</Button>
+                  </TableCell>
+                </TableRow>
+              </TableFooter>
             </Table>
-            <Button className="text-left w-full mt-2 bg-[#3f2632] text-white">
-              View All
-            </Button>
           </div>
         </div>
         {/* mathc */}
         <div className="bg-white p-3 rounded-t-small">
-          <Table aria-label="Example table with custom cells" removeWrapper>
-            <TableHeader columns={matchColumns}>
-              {(column) => (
-                <TableColumn
-                  key={column.uid}
-                  align={column.uid === "actions" ? "center" : "start"}
-                >
-                  {column.name}
-                </TableColumn>
-              )}
+          <h3 className="text-xl p-3">Live Match Data</h3>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Title</TableHead>
+                <TableHead>Bet</TableHead>
+                <TableHead>Status</TableHead>
+              </TableRow>
             </TableHeader>
-            <TableBody items={liveMatchData}>
-              {(item) => (
-                <TableRow key={item.id}>
-                  {(columnKey) => (
-                    <TableCell>{renderMatchCell(item, columnKey)}</TableCell>
-                  )}
+            <TableBody>
+              {liveMatchData.map((match) => (
+                <TableRow key={match.id}>
+                  <TableCell className="font-medium">{match.name}</TableCell>
+                  <TableCell>{match.totalBet}</TableCell>
+                  <TableCell>
+                    {match.status == "active" ? (
+                      <Tag color="green">{match.status}</Tag>
+                    ) : (
+                      <Tag color="red">{match.status}</Tag>
+                    )}
+                  </TableCell>
                 </TableRow>
-              )}
+              ))}
             </TableBody>
+            <TableFooter>
+              <TableRow>
+                <TableCell colSpan={4}>
+                  <Button className="w-full">View All</Button>
+                </TableCell>
+              </TableRow>
+            </TableFooter>
           </Table>
-          <Button className="text-left w-full mt-2 bg-[#3f2632] text-white">
-            View All
-          </Button>
-          <Button className="text-left w-full mt-2 bg-blue-800 text-white">
-            <Link href="/dashboard/home/add-withdraw">Add/Withdraw Money</Link>
-          </Button>
         </div>
       </div>
     </div>
@@ -222,14 +158,6 @@ const cardData = [
       </span>
     ),
   },
-];
-
-/* Table Data */
-const userColumns = [
-  { name: "NAME", uid: "name" },
-  { name: "BET", uid: "betCompleted" },
-  { name: "STATUS", uid: "status" },
-  { name: "WALLET", uid: "wallet" },
 ];
 
 const users = [
@@ -294,13 +222,6 @@ const users = [
     betCompleted: 5,
   },
 ];
-
-const matchColumns = [
-  { name: "TITLE", uid: "name" },
-  { name: "BET", uid: "totalBet" },
-  { name: "STATUS", uid: "status" },
-];
-
 type LiveMatchType = {
   id: number;
   key: string;

@@ -1,78 +1,56 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import {
-  Avatar,
-  Chip,
   Table,
   TableBody,
   TableCell,
-  TableColumn,
+  TableFooter,
+  TableHead,
   TableHeader,
   TableRow,
-} from "@nextui-org/react";
-import { useCallback } from "react";
+} from "@/components/ui/table";
+import { Tag } from "antd";
 
 export default function AdminPanel() {
-  const renderCell = useCallback((user: any, columnKey: any) => {
-    const cellValue = user[columnKey];
-
-    switch (columnKey) {
-      case "status":
-        return (
-          <Chip
-            className="capitalize"
-            color={user.status == "open" ? "success" : "danger"}
-            size="sm"
-            variant="flat"
-          >
-            {cellValue}
-          </Chip>
-        );
-
-      default:
-        return cellValue;
-    }
-  }, []);
-
   return (
     <>
-      <div className="mb-3 flex bg-white p-4 rounded-md  justify-between ">
-        <div>
-          <h1 className="font-semibold">Welcome Back, Arnold</h1>
-          <p>{new Date().toDateString()}</p>
-        </div>
-        <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />
-      </div>
       <div className="w-full h-full bg-white rounded-md">
         <div className="w-full flex-1 rounded-lg p-3">
-          <Table
-            aria-label="Example table with custom cells"
-            className="border-none shadow-none"
-            removeWrapper
-            isStriped
-          >
-            <TableHeader columns={columns}>
-              {(column) => (
-                <TableColumn
-                  key={column.uid}
-                  align={column.uid === "actions" ? "center" : "start"}
-                >
-                  {column.name}
-                </TableColumn>
-              )}
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>NO</TableHead>
+                <TableHead>Gamer Name</TableHead>
+                <TableHead>Open Time</TableHead>
+                <TableHead>Close Time</TableHead>
+                <TableHead>Status</TableHead>
+              </TableRow>
             </TableHeader>
-            <TableBody items={game}>
-              {(item) => (
-                <TableRow
-                  key={item.no}
-                  className="hover:bg-[#eee] rounded-md w-full"
-                >
-                  {(columnKey) => (
-                    <TableCell>{renderCell(item, columnKey)}</TableCell>
-                  )}
+            <TableBody>
+              {games.map((game) => (
+                <TableRow key={game.no}>
+                  <TableCell>{game.no}</TableCell>
+                  <TableCell className="font-medium">{game.gameName}</TableCell>
+                  <TableCell>{game.openTime}</TableCell>
+                  <TableCell>{game.closeTime}</TableCell>
+                  <TableCell>
+                    {game.status == "opem" ? (
+                      <Tag color="green">{game.status}</Tag>
+                    ) : (
+                      <Tag color="red">{game.status}</Tag>
+                    )}
+                  </TableCell>
                 </TableRow>
-              )}
+              ))}
             </TableBody>
+            <TableFooter>
+              <TableRow>
+                <TableCell colSpan={5}>
+                  <Button className="w-full">View All</Button>
+                </TableCell>
+              </TableRow>
+            </TableFooter>
           </Table>
         </div>
       </div>
@@ -88,7 +66,7 @@ const columns = [
   { name: "Status", uid: "status" },
 ];
 
-const game = [
+const games = [
   {
     no: 1,
     gameName: "Monday Mania",
