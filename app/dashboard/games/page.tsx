@@ -15,7 +15,8 @@ import { Tag } from "antd";
 export default function AdminPanel() {
   return (
     <>
-      <div className="w-full h-full bg-white rounded-md">
+      <div className="flex flex-col items-center w-full h-full bg-white rounded-md">
+        <h1 className="m-auto font-bold text-xl my-3">All Games</h1>
         <div className="w-full flex-1 rounded-lg p-3">
           <Table>
             <TableHeader>
@@ -69,51 +70,37 @@ const columns = [
 const games = [
   {
     no: 1,
-    gameName: "Monday Mania",
-    openTime: "01:00 am",
-    closeTime: "02:00 pm",
+    gameName: "Desawar",
+    openTime: "05:30am",
+    closeTime: "03:30am",
     status: "open",
   },
   {
     no: 2,
-    gameName: "Monday Mania",
-    openTime: "01:00 am",
-    closeTime: "02:00 pm",
+    gameName: "Silver guru",
+    openTime: "05:30 am",
+    closeTime: "03:50pm",
     status: "open",
   },
   {
     no: 3,
-    gameName: "Monday Mania",
-    openTime: "01:00 am",
-    closeTime: "02:00 pm",
+    gameName: "Faridabad",
+    openTime: "05:30 am",
+    closeTime: "05:30 pm",
     status: "close",
   },
   {
     no: 4,
-    gameName: "Monday Mania",
-    openTime: "01:00 am",
-    closeTime: "02:00 pm",
+    gameName: "Gaziabad",
+    openTime: "5:30 am",
+    closeTime: "8:00 pm",
     status: "open",
   },
   {
     no: 5,
-    gameName: "Monday Mania",
-    openTime: "01:00 am",
-    closeTime: "02:00 pm",
-    status: "close",
-  },
-  {
-    no: 6,
-    gameName: "Monday Mania",
-    openTime: "01:00 am",
-    closeTime: "02:00 pm",
-    status: "open",
-  },
-  {
-    no: 7,
-    gameName: "Monday Mania",
-    openTime: "01:00 am",
-    closeTime: "02:00 pm",
+    gameName: "Gali",
+    openTime: "5:30 am",
+    closeTime: "11:10 pm",
     status: "close",
   },
 ];

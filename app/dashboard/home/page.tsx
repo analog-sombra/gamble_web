@@ -1,4 +1,17 @@
 "use client";
+import { IoMdClose } from "react-icons/io";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { TbReload } from "react-icons/tb";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
@@ -20,14 +33,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Divider, Tag } from "antd";
+// import { Divider, Tag } from "antd";
+import { Divider } from "@nextui-org/react";
+
 import { useState } from "react";
+import AddMoney from "./add-money";
+import WithdrawMoney from "./withdraw-money";
 
 export default function Home() {
   const [currentTab, setTab] = useState("add");
 
   return (
-    <div>
+    <div className="">
       {/* Dashboard data */}
       {/* <div className={`flex flex-col lg:flex-row justify-between gap-3`}>
         <div className="flex-1">
@@ -115,93 +132,138 @@ export default function Home() {
       </div>
       */}
       <div>
-        <div className=" bg-white p-4 rounded-md w-full justify-center gap-3 items-center mt-4">
-          <div className="flex gap-5">
-            <div className="flex items-center space-x-2">
-              <Label htmlFor="toggle-add">Add</Label>
-              <Switch id="toggle-add" />
-            </div>
-            <div className="flex items-center space-x-2">
-              <Label htmlFor="toggle-withdraw">Withdraw</Label>
-              <Switch id="toggle-withdraw" />
-            </div>
-            <div className="grow"></div>
-            <div className="p-2 text-center">
-              {currentTab == "add" ? (
-                <div>Withdraw limit: 3423</div>
-              ) : (
-                <div>withdraw Limit: 234</div>
-              )}
-            </div>
-          </div>
-          <Table className="border mt-2">
-            <TableHeader>
-              <TableRow className="bg-gray-100">
-                <TableHead className="border text-center">GPay</TableHead>
-                <TableHead className="border text-center">Phone Pay</TableHead>
-                <TableHead className="border text-center">Paytm</TableHead>
-                <TableHead className="border text-center">PayPal QR</TableHead>
-                <TableHead className="w-28 border text-center">
-                  GPay QR
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              <TableRow>
-                <TableCell className="p-2 border text-center">
-                  <Switch id="toggle-add" />
-                </TableCell>
-                <TableCell className="p-2 border text-center">
-                  <Switch id="toggle-add" />
-                </TableCell>
-                <TableCell className="p-2 border text-center">
-                  <Switch id="toggle-add" />
-                </TableCell>
-                <TableCell className="p-2 border text-center">
-                  <Switch id="toggle-add" />
-                </TableCell>
-                <TableCell className="p-2 border text-center">
-                  <Switch id="toggle-add" />
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-
-          <div className="flex gap-2 items-center mt-2 flex-col md:flex-row">
-            <button className="w-full md:w-32 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
-              Refresh
+        <div className="flex gap-2 items-center my-5 flex-row justify-between md:flex-row">
+          <button className="mr-4 text-white text-sm bg-blue-500 hover:bg-blue-600 h-8 py-1 px-2 rounded-md">
+            <TbReload className="text-lg" />
+          </button>
+          {
+            currentTab === "add" &&
+            <button className="w-full md:w-32  mr-2 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
+              Upload file
             </button>
-            {currentTab == "add" ? (
-              <button className="w-full md:w-32 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
-                Upload
-              </button>
-            ) : (
-              ""
-            )}
-            <div className="grow"></div>
-            <Tabs defaultValue="add">
-              <TabsList className="w-full">
-                <TabsTrigger value="add" onClick={() => setTab("add")}>
-                  Add Money
-                </TabsTrigger>
-                <TabsTrigger
-                  value="withdraw"
-                  onClick={() => setTab("withdraw")}
-                >
-                  Withdraw Money
-                </TabsTrigger>
-              </TabsList>
-            </Tabs>
-          </div>
+          }
+        </div>
+        <div className=" bg-white px-4 rounded-md w-full justify-center gap-3 items-center">
 
-          <div className="flex gap-2 flex-wrap mt-2">
-            <p>Pending</p>
-            <p>processed</p>
-            <p>approved</p>
-            <p>rejected</p>
-            <p>refunded excel</p>
-            <p>pending excel</p>
-          </div>
+
+          {/* <TableHead className="border text-center">GPay</TableHead>
+                  <TableHead className="border text-center">Phone Pay</TableHead>
+                  <TableHead className="border text-center">Paytm</TableHead>
+                  <TableHead className="border text-center">PayPal QR</TableHead> */}
+          {/* <Switch id="toggle-add" /> */}
+
+          {
+            currentTab == 'add' &&
+            <div className="flex gap-6 overflow-scroll " style={{scrollbarWidth: "none"}}>
+              {/* Gpay switch button */}
+              <div className="flex flex-col gap-3 items-center">
+                <Switch></Switch>
+                <AlertDialog>
+                  <AlertDialogTrigger>
+                    <div className="border text-center flex flex-col py-1 px-3 h-34 rounded-md w-20">
+                      <img className="w-13 " src="https://cdn-icons-png.flaticon.com/128/6124/6124998.png" alt="" />
+                      <div className="h-[0.5px] bg-black"></div>
+                      <span className="text-center">UPI id</span>
+                    </div>
+                  </AlertDialogTrigger>
+
+                  {/* Gpay upi options  */}
+                  <AlertDialogContent>
+                    <div className="flex flex-col m-0 p-0">
+
+                      <div className="flex justify-start items-center">
+                        <span className="font-medium pr-6">Payment gateway details (GPay)</span>
+                        {/* <img className="w-10 h-10" src="https://cdn-icons-png.flaticon.com/128/6124/6124998.png" alt="" /> */}
+                        <div className="grow"></div>
+
+                        <button className="rounded-md py-1 px-4 bg-red-500 mr-4 text-white">Clear</button>
+                        <AlertDialogCancel>
+                          <IoMdClose />
+                        </AlertDialogCancel>
+                      </div>
+
+                      <div className="flex justify-start my-7 border border-x-white">
+                        <span className=" pr-12">No.</span>
+                        <div className="grow">UPI I'd</div>
+                        <div className="grow"></div>
+                        <div>Status</div>
+                      </div>
+
+                      <div className="flex mb- justify-start border-x-white">
+                        <span className=" pr-12"> 1.</span>
+                        <div className="grow">paytm@okici</div>
+                        <div className="grow"></div>
+                        <div>Active</div>
+                      </div>
+                    </div>
+                  </AlertDialogContent>
+
+                </AlertDialog>
+
+
+              </div>
+
+              {/* Paytem switch button */}
+              <div className="flex flex-col gap-3 items-center">
+                <Switch></Switch>
+                <div className="border text-center flex flex-col py-1 px-3 h-34 rounded-md w-20">
+                  <img className="w-13 " src="https://cdn.iconscout.com/icon/free/png-256/free-paytm-226448.png?f=webp&w=256" alt="" />
+                  <div className="h-[0.5px] bg-black"></div>
+                  <span className="text-center">UPI id</span>
+                </div>
+              </div>
+
+              {/* Phonpe switch button */}
+              <div className="flex flex-col gap-3 items-center justify-center">
+                <Switch></Switch>
+                <div className="border flex flex-col py-1 px-3 h-34 rounded-md justify-center item-center w-20">
+                  <img className="w-11 " src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTo4x8kSTmPUq4PFzl4HNT0gObFuEhivHOFYg&s" alt="" />
+                  <div className="h-[1.5px] my-1 bg-black"></div>
+                  <span className="text-center">UPI id</span>
+                </div>
+              </div>
+
+              {/* UPI switch button */}
+              <div className="flex flex-col gap-3 items-center justify-center">
+                <Switch></Switch>
+                <div className="border flex flex-col py-3 px-3 h-34 rounded-md justify-center item-center w-20">
+                  <img className="w-11 my-1" src="https://cdn.icon-icons.com/icons2/2699/PNG/512/upi_logo_icon_169316.png" alt="" />
+                  <div className="h-[1.5px] my-1 bg-black"></div>
+                  <span className="text-center">UPI id</span>
+                </div>
+              </div>
+
+
+              {/* Bank detail switch button */}
+              <div className="flex flex-col gap-3 items-center justify-center">
+                <Switch></Switch>
+                <div className="border flex flex-col py-1 px-3 h-34 rounded-md justify-center item-center w-20">
+                  <img className="w-11 my-2" src="https://www.clipartkey.com/mpngs/m/84-841013_bank-png-blue-bank-icon.png" alt="" />
+                  <div className="h-[1.5px] my-1 bg-black"></div>
+                  <span className="text-center text-xs">AC detail</span>
+                </div>
+              </div>
+            </div>
+          }
+
+
+          {/* withdraw and add money tabs */}
+
+          <Tabs defaultValue="add" className="w-full flex flex-col mt-2 ">
+            <TabsList className=" m-auto mb-0  ">
+              <TabsTrigger className=" text-lg" value="add" onClick={() => setTab("add")}>Add Money</TabsTrigger>
+              <TabsTrigger className=" text-lg" value="withdraw" onClick={() => setTab("withdraw")}>Withdraw Money</TabsTrigger>
+            </TabsList>
+
+            <TabsContent className="m-0 p-0" value="add">
+              <AddMoney />
+            </TabsContent>
+
+            <TabsContent value="withdraw">
+              <WithdrawMoney />
+            </TabsContent>
+          </Tabs>
+
         </div>
       </div>
     </div>

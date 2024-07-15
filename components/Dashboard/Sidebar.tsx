@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { FaMoneyBillTrendUp } from "react-icons/fa6"
+
 import {
   FluentWalletCreditCard16Regular,
   MaterialSymbolsBubbleChartOutlineRounded,
@@ -14,10 +16,12 @@ import {
   SystemUiconsBook,
   SystemUiconsUserAdd,
   SystemUiconsUserMale,
+
 } from "../Icon";
 
 import { Drawer, Image } from "antd";
 import { Dispatch, SetStateAction } from "react";
+import { BiMoneyWithdraw } from "react-icons/bi";
 
 const navLinks = [
   {
@@ -84,12 +88,12 @@ const navLinks = [
   {
     name: "All money Request",
     url: "/dashboard/all-money-request",
-    icon: <MaterialSymbolsManageHistory />,
+    icon: <FaMoneyBillTrendUp className="text-sm" />,
   },
   {
     name: "All withdraw Request",
     url: "/dashboard/all-withdraw-request",
-    icon: <MaterialSymbolsManageHistory />,
+    icon: <BiMoneyWithdraw className="text-xl mr-3" />,
   },
   {
     name: "Admin panel",
@@ -188,7 +192,8 @@ export default function Sidebar({ isSidebarOpen, setSidebar }: SidebarProps) {
         open={isSidebarOpen}
         placement="left"
       >
-        <div className="flex flex-col gap-2">
+        {/* Nav links */}
+        <div className="flex flex-col gap-2 ">
           {navLinks.map((links: any, index: number) => {
             const route = links.url;
             const isActive = pathname === route;
@@ -196,14 +201,12 @@ export default function Sidebar({ isSidebarOpen, setSidebar }: SidebarProps) {
             return (
               <div
                 key={index}
-                className={`${
-                  isActive ? "bg-slate-100 border-l-4 border-blue-500" : ""
-                } flex p-2 rounded gap-2`}
+                className={`${isActive ? "bg-slate-100  border-l-4 border-blue-500" : ""
+                  } flex p-2 rounded gap-2`}
               >
                 <span
-                  className={`${
-                    isActive ? "text-[#3f2632]" : "text-black"
-                  } text-xl`}
+                  className={`${isActive ? "text-[#3f2632]" : "text-black"
+                    } text-xl`}
                 >
                   {links.icon}
                 </span>
@@ -233,39 +236,41 @@ export default function Sidebar({ isSidebarOpen, setSidebar }: SidebarProps) {
           />
           Gamble Zone
         </div>
-        {navLinks.map((item, index) => {
-          const route = item.url;
-          const isActive = pathname === route;
+        <div className=" h-[90vh] overflow-scroll" style={{ scrollbarWidth: "none" }} >
+          {navLinks.map((item, index) => {
+            const route = item.url;
+            const isActive = pathname === route;
 
-          return (
-            <div
-              key={index}
-              className={`flex gap-2 items-center justify-start cursor-pointer py-2 pr-2 pl-4 rounded-r-md ${
-                isActive
+            return (
+              <div
+                key={index}
+                className={`flex gap-2 items-center justify-start cursor-pointer py-2 pr-2 pl-4 rounded-r-md ${isActive
                   ? "text-black bg-white border-blue-500 border-l-4"
                   : "text-gray-500  hover:text-black "
-              }`}
-            >
-              <span
-                className={`${
-                  isActive ? "text-[#3f2632]" : "text-black"
-                } text-xl`}
+                  }`}
               >
-                {item.icon}
-              </span>
-              <Link className="text-md" href={item.url}>
-                {item.name}
-              </Link>
-            </div>
-          );
-        })}
-        <div className="flex-1 py-8"></div>
-        <div className="mx-2">
-          <button className="text-white bg-red-500 w-full mb-4 rounded py-2">
-            Logout
-          </button>
+                <span
+                  className={`${isActive ? "text-blue-400" : "text-blue-600"
+                    } text-xl`}
+                >
+                  {item.icon}
+                </span>
+                <Link className="text-md" href={item.url}>
+                  {item.name}
+                </Link>
+              </div>
+            );
+          })}
+
+          <div className="flex-1 py-4"></div>
+          <div className="mx-2 ">
+            <button className="text-white bg-red-500 w-full mb-4 rounded py-2">
+              Logout
+            </button>
+          </div>
         </div>
       </div>
+
     </div>
   );
 }

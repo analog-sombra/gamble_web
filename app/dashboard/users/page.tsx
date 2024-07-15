@@ -5,6 +5,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -13,8 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ColumnDef } from "@tanstack/react-table";
-import { Divider, Input, Modal, Pagination, Popover, Select } from "antd";
+import { Divider, Select } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -40,25 +40,26 @@ export default function Users() {
             Search
           </button>
           <div className="grow"></div>
-          <Select
+          {/* <Select
             placeholder="User Filter"
             className="w-full md:w-40"
-            onChange={(value: string) => {}}
-            options={[
-              { value: "all", label: "All Users" },
-              { value: "block", label: "Blocked User" },
-              { value: "minus", label: "Minus Wallet" },
-            ]}
-          />
+            onChange={(val) => {}}
+            children={
+              <></>
+            }
+            // options={[
+            //   { value: "all", label: "All Users" },
+            //   { value: "block", label: "Blocked User" },
+            //   { value: "minus", label: "Minus Wallet" },
+            // ]}
+          /> */}
         </div>
       </div>
       <div className="shadow bg-white p-4 rounded-md mt-4">
         <Table className="border mt-2">
           <TableHeader>
             <TableRow className="bg-gray-100">
-              <TableHead className="border text-center">Id</TableHead>
-              <TableHead className="border text-center">Name</TableHead>
-              <TableHead className="border text-center">Phone Number</TableHead>
+              <TableHead className="border text-center">Mobile</TableHead>
               <TableHead className="border text-center">
                 Wallet Amount (&#x20b9;)
               </TableHead>
@@ -72,12 +73,9 @@ export default function Users() {
           </TableHeader>
           <TableBody>
             <TableRow>
-              <TableCell className="p-2 border text-center">1</TableCell>
               <TableCell className="p-2 border text-center">
-                Ekichi San
-              </TableCell>
-              <TableCell className="p-2 border text-center">
-                9876875385
+                <div className="pb-1">+91 943882391</div>
+                <span className="font-bold">{"UserID: \n12377"}</span>
               </TableCell>
               <TableCell className="p-2 border text-center">15,000</TableCell>
               <TableCell className="p-2 border text-center">
@@ -133,14 +131,20 @@ export default function Users() {
             </TableRow>
           </TableBody>
         </Table>
-        <button
-          onClick={() => {
-            route.push("/dashboard/users/profile");
-          }}
-          className="w-full mt-2 md:w-32 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md"
-        >
-          Statement option
-        </button>
+
+        <div className="w-full flex justify-start items-center">
+          <button
+            onClick={() => {
+              route.push("/dashboard/users/profile");
+            }}
+            className="w-full mt-2 md:w-32 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md"
+          >
+            Statement option
+          </button>
+          <div className="grow"></div>
+          <div className="flex flex-col font-semibold mr-4 gap-2 ">Status:</div>
+          <div className="bg-green-500 py-1 min-h-1 px-3 rounded-md text-white">Active</div>
+        </div>
         {/* <div className="mt-2">
           <Pagination
             total={85}

@@ -36,7 +36,7 @@ export default function Users() {
             total={85}
             showSizeChanger
             showQuickJumper
-            showTotal={(total) => `${total} items`}
+            showTotal={(total: any) => `${total} items`}
           />
         </div>
       </div>
@@ -115,13 +115,13 @@ type Transaction = {
 const users: Transaction[] = [
   {
     amount: 23,
-    number: 1234567890,
+    number: 1,
     status: "Add money successful",
     transactionId: "12345678901234",
   },
   {
     amount: 23,
-    number: 1234567890,
+    number: 2,
     status: "Add money successful",
     transactionId: "12345678901234",
   },
