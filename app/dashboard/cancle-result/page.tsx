@@ -20,7 +20,7 @@ import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { useState } from "react";
 
-export default function SubmitResult() {
+export default function cancelResult() {
   const [date, setDate] = useState<Date>();
   const [winningNumber, setWinningNumber] = useState(0);
   const [totalWinner, setTotalWinner] = useState(0);
@@ -41,8 +41,8 @@ export default function SubmitResult() {
     },
     {
       userId: 2,
-      bidAmount: 4234,
-      winAmount: 123,
+      bidAmount: 231,
+      winAmount: 34234,
     },
     {
       userId: 3,

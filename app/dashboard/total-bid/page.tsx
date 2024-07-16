@@ -24,7 +24,7 @@ import { useState } from "react";
 export default function TotalBidAmount() {
   const [date, setDate] = useState<Date>();
   const [sumbit, setSumbit] = useState(false);
-  let counter = 1;
+  let counter = 0;
 
   const array = [...Array(10)];
 
@@ -65,7 +65,6 @@ export default function TotalBidAmount() {
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectLabel>Games</SelectLabel>
                 {gamesData.map((game) => (
                   <SelectItem value={game.key} key={game.key}>
                     {game.name}
@@ -85,21 +84,54 @@ export default function TotalBidAmount() {
       </div>
 
       {sumbit && (
-        <div className="bg-white p-3 rounded-md mt-3 flex items-center justify-center">
+        <div className="bg-white p-3 rounded-md mt-3 flex flex-col overflow-auto items-center justify-center">
+          {/* ......... Main game ....... */}
           <table className="border">
             {array.map((value, index) => (
               <tr key={index}>
                 {array.map((value, index) => (
-                  <td key={index} className="border w-24 text-center">
+                  <td key={index} className="text-center sm:m-[3px] m-0 md:w-28 sm:w-16 w-12 py-2">
                     <div>
-                      <p className="bg-indigo-600 text-white">{counter++}</p>
-                      <p>{Math.round(Math.random() * 2342342)}</p>
+                      <p className="bg-indigo-600 text-white">{++counter == 100 ? "00" : counter}</p>
+                      <p className="text-xs text-ellipsis">{Math.round(Math.random() * 1022220)}</p>
                     </div>
                   </td>
                 ))}
               </tr>
             ))}
           </table>
+
+          {/* ......... Ander ....... */}
+          <h1 className="flex w-full text-lg justify-center mt-6 font-bold">Ander / A</h1>
+          <table className="borde flex">
+            {array.map((value, index) => (
+              <tr key={index}>
+                <td key={index} className="text-center sm:m-[3px]  m-0 md:w-28 sm:w-16 w-12 ">
+                  <div>
+                    <p className="bg-indigo-600 text-white">{++index == 10 ? "0" : index}</p>
+                    <p className="text-xs text-ellipsis ">{Math.round(Math.random() * 1222)}</p>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </table>
+
+          {/* ......... Baher ....... */}
+          <h1 className="flex w-full text-lg justify-center mt-6 font-bold">Baher / B</h1>
+          <table className="borde flex">
+            {array.map((value, index) => (
+              <tr key={index}>
+                <td key={index} className="text-center sm:m-[3px]  m-0 md:w-28 sm:w-16 w-12 ">
+                  <div>
+                    <p className="bg-indigo-600 text-white">{++index == 10 ? "0" : index}</p>
+                    <p className="text-xs text-ellipsis ">{Math.round(Math.random() * 1222)}</p>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </table>
+
+
         </div>
       )}
     </>
@@ -117,49 +149,35 @@ type GameType = {
 const gamesData: GameType[] = [
   {
     key: "1",
-    name: "Monday Mania",
+    name: "Desawar",
     participant: 50,
     totalBet: 23843,
     winners: 4,
   },
   {
     key: "2",
-    name: "Monday Mania",
+    name: "Silver guru",
     participant: 50,
     totalBet: 23843,
     winners: 4,
   },
   {
     key: "3",
-    name: "Monday Mania",
+    name: "Faridabad",
     participant: 50,
     totalBet: 23843,
     winners: 4,
   },
   {
     key: "4",
-    name: "Monday Mania",
+    name: "Gaziabad",
     participant: 50,
     totalBet: 23843,
     winners: 4,
   },
   {
     key: "5",
-    name: "Monday Mania",
-    participant: 50,
-    totalBet: 23843,
-    winners: 4,
-  },
-  {
-    key: "6",
-    name: "Monday Mania",
-    participant: 50,
-    totalBet: 23843,
-    winners: 4,
-  },
-  {
-    key: "7",
-    name: "Monday Mania",
+    name: "Gali",
     participant: 50,
     totalBet: 23843,
     winners: 4,

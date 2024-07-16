@@ -95,7 +95,7 @@ export default function TotalWinner() {
         </div>
 
         {submit && (
-          <div className="border border-indigo-600 rounded-md p-3 my-3 hover:bg-indigo-600 hover:text-white ">
+          <div className="border border-indigo-600 rounded-md p-3 my-3 bg-indigo-600 mb-6 text-white ">
             <p>Winning Number: 5</p>
             <p>Total Winner: 1</p>
             <p>Total Winning amount: 23423423</p>
@@ -103,22 +103,58 @@ export default function TotalWinner() {
         )}
 
         {submit && (
-          <div className="flex flex-wrap gap-3 mt-6 items-center justify-center">
-            {userData.map((user: UserGameType) => (
-              <div
-                key={user.userId}
-                className="bg-indigo-600 text-white rounded-md p-3"
-              >
-                <p>User Id: {user.userId}</p>
-                <p>Win Amount: {user.winAmount}</p>
-              </div>
-            ))}
+          <div className="flex flex-wrap justify-start gap-5 items-center">
+            {
+              players.map((user: Players) => {
+                return <div className="flex bg-gray-50 shadow-md flex-col justify-start items-center min-w-20 py-4 px-4 rounded-lg">
+                  <img className="w-14 rounded-full" src="https://cdn-icons-png.flaticon.com/128/3177/3177440.png" alt="" />
+                  <div className="flex items-center my-2 text-base font-semibold gap-1">
+                    <p className="">User Id: </p>
+                    <div>{user.userId}</div>
+                  </div>
+
+                  <div className="flex flex-wrap justify-center my-1 text-gray-400 text-xs gap-1">
+                    <div className="  font-bold">Bidding Amt:</div>
+                    <span className="font-semibold">{user.bidAmount}</span>
+                  </div>
+
+                  <div className="flex flex-wrap justify-center text-gray-400 text-xs gap-1">
+                    <div className="  font-bold">Credit Amt:</div>
+                    <span className="font-semibold">{user.winAmount}</span>
+                  </div>
+                </div>
+              })
+            }
           </div>
         )}
       </div>
     </>
   );
 }
+
+
+const players = [
+  {
+    userId: 0,
+    bidAmount: 231,
+    winAmount: 34234,
+  },
+  {
+    userId: 2,
+    bidAmount: 231,
+    winAmount: 34234,
+  },
+  {
+    userId: 3,
+    bidAmount: 231,
+    winAmount: 34234,
+  },
+  {
+    userId: 4,
+    bidAmount: 231,
+    winAmount: 34234,
+  },
+];
 
 type GameType = {
   key: string;
@@ -127,6 +163,12 @@ type GameType = {
   totalBet: number;
   winners: number;
 };
+
+type Players = {
+  userId: number,
+  bidAmount: number,
+  winAmount: number,
+}
 
 const gamesData: GameType[] = [
   {

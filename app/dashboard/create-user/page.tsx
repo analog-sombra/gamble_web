@@ -21,12 +21,12 @@ export default function CreateUser() {
 
   return (
     <>
-      <div className="p-3 bg-white rounded-md w-full flex flex-col gap-3">
+      <div className="p-3 bg-white rounded-md w-full flex flex-col items-center gap-3">
         <h1 className="text-xl text-center font-semibold">Create User</h1>
         <div className="flex  gap-3 items-center">
           <p className="text-sm font-normal w-20">Name: </p>
           <Input
-            type="text"
+            type="Enter text"
             placeholder="Name"
             className="w-full lg:max-w-sm"
           />
@@ -34,7 +34,7 @@ export default function CreateUser() {
         <div className="flex  gap-3 items-center">
           <p className="text-sm font-normal w-20">Emali: </p>
           <Input
-            type="email"
+            type="Enter email"
             placeholder="Email"
             className="w-full lg:max-w-sm"
           />
@@ -42,7 +42,7 @@ export default function CreateUser() {
         <div className="flex  gap-3 items-center">
           <p className="text-sm font-normal w-20">Number: </p>
           <Input
-            type="tel"
+            type="Enter tel"
             placeholder="Number"
             className="w-full lg:max-w-sm"
           />
@@ -50,20 +50,19 @@ export default function CreateUser() {
         <div className="flex  gap-3 items-center">
           <p className="text-sm font-normal w-20">Password: </p>
           <Input
-            type="password"
+            type="Enter password"
             placeholder="Password"
             className="w-full lg:max-w-sm"
           />
         </div>
-        <div className="flex  gap-3 items-center">
+        <div className="flex  gap-3 items-center justify-center w-72">
           <p className="text-sm font-normal w-20">User Type: </p>
           <Select>
             <SelectTrigger className="w-full lg:max-w-sm">
-              <SelectValue placeholder="Select a Game" />
+              <SelectValue placeholder="Type" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="">
               <SelectGroup>
-                <SelectLabel>Games</SelectLabel>
                 {userType.map((user) => (
                   <SelectItem value={user.id} key={user.id}>
                     {user.name}
@@ -73,7 +72,7 @@ export default function CreateUser() {
             </SelectContent>
           </Select>
         </div>
-        <Button className="w-full" color="primary">
+        <Button className="w-1/3 mt-4" color="primary">
           Create
         </Button>
       </div>

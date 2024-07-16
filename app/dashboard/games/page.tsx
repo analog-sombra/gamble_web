@@ -28,15 +28,15 @@ export default function AdminPanel() {
                 <TableHead>Status</TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody>
+            <TableBody className="">
               {games.map((game) => (
-                <TableRow key={game.no}>
-                  <TableCell>{game.no}</TableCell>
-                  <TableCell className="font-medium">{game.gameName}</TableCell>
-                  <TableCell>{game.openTime}</TableCell>
-                  <TableCell>{game.closeTime}</TableCell>
-                  <TableCell>
-                    {game.status == "opem" ? (
+                <TableRow className="" key={game.no}>
+                  <TableCell className="min-w-15">{game.no}</TableCell>
+                  <TableCell className="  font-medium">{game.gameName}</TableCell>
+                  <TableCell className=" min-w-28">{game.openTime}</TableCell>
+                  <TableCell className="min-w-28">{game.closeTime}</TableCell>
+                  <TableCell className="min-w-28">
+                    {game.status == "open" ? (
                       <Tag color="green">{game.status}</Tag>
                     ) : (
                       <Tag color="red">{game.status}</Tag>
@@ -45,14 +45,10 @@ export default function AdminPanel() {
                 </TableRow>
               ))}
             </TableBody>
-            <TableFooter>
-              <TableRow>
-                <TableCell colSpan={5}>
-                  <Button className="w-full">View All</Button>
-                </TableCell>
-              </TableRow>
-            </TableFooter>
+
           </Table>
+
+          <Button className="w-full mt-4">View All</Button>
         </div>
       </div>
     </>

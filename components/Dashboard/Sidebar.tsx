@@ -87,13 +87,13 @@ const navLinks = [
   },
   {
     name: "All money Request",
-    url: "/dashboard/all-money-request",
+    url: "/dashboard/all-money-request/add",
     icon: <FaMoneyBillTrendUp className="text-sm" />,
   },
   {
     name: "All withdraw Request",
-    url: "/dashboard/all-withdraw-request",
-    icon: <BiMoneyWithdraw className="text-xl mr-3" />,
+    url: "/dashboard/all-money-request/withdraw",
+    icon: <BiMoneyWithdraw className="text-xl p-0 m-0" />,
   },
   {
     name: "Admin panel",
@@ -201,13 +201,8 @@ export default function Sidebar({ isSidebarOpen, setSidebar }: SidebarProps) {
             return (
               <div
                 key={index}
-                className={`${isActive ? "bg-slate-100  border-l-4 border-blue-500" : ""
-                  } flex p-2 rounded gap-2`}
-              >
-                <span
-                  className={`${isActive ? "text-[#3f2632]" : "text-black"
-                    } text-xl`}
-                >
+                className={`${isActive ? "bg-slate-100  border-l-4 border-blue-500" : ""} flex p-2 rounded gap-2`}>
+                <span className={`${isActive ? "text-[#3f2632]" : "text-black"} text-xl`}>
                   {links.icon}
                 </span>
                 <Link href={links.url} className={`${isActive ? "" : ""}`}>

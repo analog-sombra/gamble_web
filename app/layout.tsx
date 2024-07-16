@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { TabProvider } from "@/state/tabState";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,8 +18,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <NextUIProvider>{children}</NextUIProvider>
-        <ToastContainer />
+        <TabProvider>
+          <NextUIProvider>{children}</NextUIProvider>
+          <ToastContainer />
+        </TabProvider>
+
       </body>
     </html>
   );

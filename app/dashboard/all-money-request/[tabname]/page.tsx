@@ -39,11 +39,14 @@ import {
 import { Divider } from "@nextui-org/react";
 
 import { useState } from "react";
-import AddMoney from './add-money';
-import WithdrawMoney from './withdraw-mony';
+import AddMoney from '../add-money';
+import WithdrawMoney from '../withdraw-mony';
 import { FaMoneyBillTrendUp } from 'react-icons/fa6';
+import { useRouter } from "next/navigation";
 
-const AllAddMoney = () => {
+const AllAddMoney = ({ params }: { params: { tabname: string } }) => {
+    const route = useRouter()
+
     return (
         <div>
             <div className="flex gap-2 items-center my-5 flex-row justify-between md:flex-row">
@@ -70,13 +73,13 @@ const AllAddMoney = () => {
 
                 {/* withdraw and add money tabs */}
 
-                <Tabs defaultValue="add" className="w-full flex flex-col mt-2 ">
+                <Tabs defaultValue={params.tabname} className="w-full flex flex-col mt-2 ">
                     <TabsList className=" m-auto mb-0  ">
-                        <TabsTrigger className=" text-lg" value="add" onClick={() => { }}>
+                        <TabsTrigger className=" text-lg" value="add" onClick={e => route.replace('/dashboard/all-money-request/add')}>
                             <FaMoneyBillTrendUp className="text-green-500 mr-3" />
                             <span>All add Money</span>
                         </TabsTrigger>
-                        <TabsTrigger className=" text-lg" value="withdraw" onClick={() => { }}>
+                        <TabsTrigger className=" text-lg" value="withdraw" onClick={e => route.replace('/dashboard/all-money-request/withdraw')}>
                             <BiMoneyWithdraw className="text-yellow-500 text-xl mr-3" />
                             <span>All withdraw Money</span>
                         </TabsTrigger>

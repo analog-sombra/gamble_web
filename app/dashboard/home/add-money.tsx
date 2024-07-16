@@ -43,10 +43,9 @@ export default function AddMoney() {
             </div>
 
 
-            <Tabs defaultValue="pending" className="w-full flex flex-col mt-6 ">
+            <Tabs defaultValue="pending" className="w-full flex flex-col mt-0 ">
                 {/* ---- navigation buttons ---- */}
-                <TabsList className=" m-auto bg-transparent sm:mb-0 mb-12 flex flex-wrap">
-
+                <TabsList className=" mx-auto bg-transparent sm:mb-0 mb-12 flex flex-wrap">
                     <TabsTrigger value="pending" className="bg-gray-100 px-5  mx-0 py-2 rounded-sm text-orange-700 font-semibold text-sm shadow-sm ">
                         Pending
                     </TabsTrigger>
@@ -80,7 +79,7 @@ export default function AddMoney() {
 
                 {/* ---- approved content ---- */}
                 <TabsContent value="approved" className="flex flex-col w-full m-0 justify-center items-center">
-                    <div className="w-[250px] sm:w-[400px] flex flex-col gap-2 mt-10 items-center">
+                    <div className="w-[250px] sm:w-[400px] flex flex-col gap-2 m-2 sm:mt-10 items-center">
 
                         <div className="flex h-10 w-full mb-1 max-w-sm items-center">
                             <Input className="h-full  rounded-none rounded-l-md placeholder:font-semibold" type="text" placeholder="Enter UTR" />
