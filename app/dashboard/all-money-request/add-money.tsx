@@ -188,7 +188,9 @@ export default function AddMoney() {
                             <Button className="h-full bg-blue-500  rounded-none rounded-r-md w-40" type="submit">Search</Button>
                         </div>
                         <div className="flex h-10 w-full mb-1 max-w-sm items-center">
-                            <Input className="h-full  rounded-none rounded-l-md placeholder:font-semibold" type="text" placeholder="User I'd" />
+                            <Input className="h-full  rounded-none rounded-l-md placeholder:font-semibold"
+                                type="text"
+                                placeholder="User I'd" />
                             <Button className="h-full bg-blue-500  rounded-none rounded-r-md w-40" type="submit">Search</Button>
                         </div>
                     </div>

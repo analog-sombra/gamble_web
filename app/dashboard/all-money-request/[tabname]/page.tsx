@@ -49,6 +49,7 @@ const AllAddMoney = ({ params }: { params: { tabname: string } }) => {
 
     return (
         <div>
+
             <div className="flex gap-2 items-center my-5 flex-row justify-between md:flex-row">
                 <button className="mr-4 text-white text-sm bg-blue-500 hover:bg-blue-600 h-8 py-1 px-2 rounded-md">
                     <TbReload className="text-lg" />
@@ -61,15 +62,11 @@ const AllAddMoney = ({ params }: { params: { tabname: string } }) => {
             </div>
             <div className=" bg-white px-4 rounded-md w-full justify-center gap-3 items-center">
 
-
                 {/* <TableHead className="border text-center">GPay</TableHead>
                   <TableHead className="border text-center">Phone Pay</TableHead>
                   <TableHead className="border text-center">Paytm</TableHead>
                   <TableHead className="border text-center">PayPal QR</TableHead> */}
                 {/* <Switch id="toggle-add" /> */}
-
-
-
 
                 {/* withdraw and add money tabs */}
 

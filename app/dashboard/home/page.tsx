@@ -2,20 +2,14 @@
 import { IoMdClose } from "react-icons/io";
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { TbReload } from "react-icons/tb";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import SimpleCard from "@/components/Dashboard/SimpleCard";
+import LoadingBar from "react-top-loading-bar";
 import {
   MaterialSymbolsAttachMoney,
   MaterialSymbolsDone,
@@ -23,20 +17,6 @@ import {
   MaterialSymbolsPersonRaisedHand,
   MaterialSymbolsWifiRounded,
 } from "@/components/Icon";
-import { Button } from "@/components/ui/button";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-// import { Divider, Tag } from "antd";
-import { Divider } from "@nextui-org/react";
-
-import { useState } from "react";
 import AddMoney from "./add-money";
 import WithdrawMoney from "./withdraw-money";
 import { useTab } from "@/state/tabState";
@@ -46,6 +26,7 @@ export default function Home() {
 
   return (
     <div className="">
+      <LoadingBar progress={50} className="text-blue-600"/>
       {/* Dashboard data */}
       {/* <div className={`flex flex-col lg:flex-row justify-between gap-3`}>
         <div className="flex-1">

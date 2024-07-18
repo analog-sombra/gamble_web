@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
+import LoadingPageIndicator from "@/components/LoadingPageIndicator";
 
 
 export default function DashboardLayout({
@@ -24,7 +25,7 @@ export default function DashboardLayout({
 }>) {
   const [isSidebarOpen, setSidebar] = useState(false);
   const pathname = usePathname();
-  const {currentTab, setCurrentTab} = useTab()
+  const { currentTab, setCurrentTab } = useTab()
 
 
   console.log(currentTab);
@@ -34,6 +35,7 @@ export default function DashboardLayout({
       <Sidebar isSidebarOpen={isSidebarOpen} setSidebar={setSidebar} />
       <div className="w-full p-5 py-0 flex flex-col h-full overflow-auto bg-white m-0">
 
+        <LoadingPageIndicator />
         <div className=" bg-white sticky top-0 z-50 py-4 pb-1 ">
           <div className=" mb-3 flex flex-col bg-[#341c8c] xp-4 px-6 py-3 rounded-md">
             <div className="flex mb-4 justify-between">
@@ -52,21 +54,24 @@ export default function DashboardLayout({
 
             <div className="w-full mb-3 bg-white h-[0.5px]"></div>
             <div className="flex justify-between items-center ">
-              <button className="bg-transparent px-2 rounded-md hover:bg-[#4b30b0]" onClick={e=>setSidebar(!isSidebarOpen)}><IoMenu className=" text-3xl text-white" /></button>
+              <button className="bg-transparent px-2 rounded-md hover:bg-[#4b30b0]" onClick={e => setSidebar(!isSidebarOpen)}><IoMenu className=" text-3xl text-white" /></button>
 
               <div className="px-2 text-center">
-                {currentTab !== "add"  
-                 ? <div className=" text-lg font-semibold sm:text-medium text-white"> Add limit: 234</div>
-                 : <div className=" text-lg font-semibold sm:text-medium text-white"> WD limit: 234</div>
+                {
+                  currentTab !== "add"
+                    ? <div className=" text-lg font-semibold sm:text-medium text-white"> WD limit: 234</div>
+                    : <div className=" text-lg font-semibold sm:text-medium text-white"> Add limit: 234</div>
                 }
               </div>
               <div className="flex justify-between gap-3 items-center ">
-                {/* <div>
-                <h1 className="text-end font-semibold text-sm">
-                  Welcome Back, Ronak
-                </h1>
-                <p className="text-xs text-end">{new Date().toDateString()}</p>
-              </div> */}
+                {
+                  /* <div>
+                  <h1 className="text-end font-semibold text-sm">
+                    Welcome Back, Ronak
+                  </h1>
+                  <p className="text-xs text-end">{new Date().toDateString()}</p>
+                </div> */
+                }
                 <button className="w-full md:w-32 mr-2 text-black font-semibold h-8 text-sm bg-white hover:bg-zinc-100 py-1 px-2 rounded-md">
                   Log out
                 </button>
@@ -76,7 +81,6 @@ export default function DashboardLayout({
 
           </div>
         </div>
-
         <div className="">{children}</div>
       </div>
 

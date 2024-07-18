@@ -22,6 +22,11 @@ import {
 import { Drawer, Image } from "antd";
 import { Dispatch, SetStateAction } from "react";
 import { BiMoneyWithdraw } from "react-icons/bi";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible"
 
 const navLinks = [
   {
@@ -242,17 +247,29 @@ export default function Sidebar({ isSidebarOpen, setSidebar }: SidebarProps) {
                 className={`flex gap-2 items-center justify-start cursor-pointer py-2 pr-2 pl-4 rounded-r-md ${isActive
                   ? "text-black bg-white border-blue-500 border-l-4"
                   : "text-gray-500  hover:text-black "
-                  }`}
-              >
+                  }`}>
                 <span
-                  className={`${isActive ? "text-blue-400" : "text-blue-600"
-                    } text-xl`}
-                >
+                  className={`${isActive ? "text-blue-400" : "text-blue-600"} text-xl`}>
                   {item.icon}
                 </span>
-                <Link className="text-md" href={item.url}>
-                  {item.name}
-                </Link>
+
+                {
+                  item.url === "/dashboard/admin-panel"
+                    ? <Collapsible>
+                      <CollapsibleTrigger>{item.name}</CollapsibleTrigger>
+                      <CollapsibleContent className=" flex flex-col ">
+                        <Link className="text-md my-3" href={`/dashboard/sub-admin`}>Subadmin</Link>
+                        <Link className="text-md" href={"/dashboard/blocked"}>
+                          Blocked
+                        </Link>
+                      </CollapsibleContent>
+                    </Collapsible>
+
+                    :
+                    <Link className="text-md" href={item.url}>
+                      {item.name}
+                    </Link>
+                }
               </div>
             );
           })}
