@@ -6,6 +6,14 @@ import { toast } from "react-toastify";
 import { createWorker } from "tesseract.js";
 import Papa from "papaparse";
 import * as XLSX from "xlsx";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 const OCRView = () => {
   const [img, setImg] = useState<File | null>(null);
@@ -273,35 +281,76 @@ const OCRView = () => {
             />
           </div>
           <div className="mt-4"></div>
-        </div>
-      </div>
 
-      {/* csv section */}
-      <div className="h-[1px] bg-slate-600 w-full"></div>
-      <div>
-        <button
-          onClick={() => csvRef.current?.click()}
-          className="bg-emerald-500 px-4 py-1 rounded-md text-white text-sm"
-        >
-          {csv ? "Change CSV" : "Upload CSV"}
-        </button>
-        {csv && (
-          <button
-            className="bg-blue-500 px-4 py-1 rounded-md text-white text-sm"
-            onClick={startCSV}
-          >
-            Start CSV
-          </button>
-        )}
-        <div className="hidden">
-          <input
-            type="file"
-            ref={csvRef}
-            accept="application/vnd.ms-excel, text/csv"
-            onChange={(val) => handleCSVChange(val, setCsv)}
-          />
+          {/* csv section */}
+          <div className="h-[1px] bg-slate-600 w-full"></div>
+          <h1 className="my-4">Upload payment sheet here</h1>
+          <div>
+            <div className="flex gap-4 items-center">
+              <button
+                onClick={() => csvRef.current?.click()}
+                className="bg-emerald-500 px-4 py-1 rounded-md text-white text-sm"
+              >
+                {csv ? "Change Sheet" : "Upload Sheet"}
+              </button>
+              {csv && (
+                <>
+                  <button
+                    className="bg-blue-500 px-4 py-1 rounded-md text-white text-sm"
+                    onClick={startCSV}
+                  >
+                    Scan CSV
+                  </button>
+                  <button
+                    className="bg-red-500 px-4 py-1 rounded-md text-white text-sm"
+                    onClick={() => {
+                      setCsv(null);
+                      setPaymentData([]);
+                    }}
+                  >
+                    RESET
+                  </button>
+                </>
+              )}
+              <div className="grow"></div>
+              {csv && <h1 className="my-4">Record : {paymentdata.length}</h1>}
+            </div>
+
+            <div className="hidden">
+              <input
+                type="file"
+                ref={csvRef}
+                accept="application/vnd.ms-excel, text/csv"
+                onChange={(val) => handleCSVChange(val, setCsv)}
+              />
+            </div>
+            <div className="mt-4"></div>
+          </div>
+          {paymentdata.length > 0 && (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[100px]">Id</TableHead>
+                  <TableHead>UID</TableHead>
+                  <TableHead className="text-right">Amount</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {paymentdata.map((val: PaymentData, index: number) => {
+                  return (
+                    <TableRow key={index}>
+                      <TableCell className="font-medium">{index + 1}</TableCell>
+                      <TableCell>{val.uid}</TableCell>
+                      <TableCell className="text-right">{val.amount}</TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          )}
+
+          {/* csv section end here */}
         </div>
-        <div className="mt-4"></div>
       </div>
     </>
   );
