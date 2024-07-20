@@ -100,7 +100,6 @@ const OCRView = () => {
     } = await worker.recognize(img);
     await worker.terminate();
     const transactionId = parseTransactionId(text);
-    console.log(text);
     if (!transactionId) {
       setIsLoading(false);
       return toast.error("unable to parse transaction ID");
@@ -127,7 +126,6 @@ const OCRView = () => {
       return;
     }
 
-    console.log(csv);
     let csvFile: File = csv;
 
     if (csvFile.type.endsWith("/csv")) {
@@ -154,14 +152,12 @@ const OCRView = () => {
             setIsLoading(false);
           },
           error: (error: any) => {
-            console.error(error.message);
             toast.error("Error parsing CSV file");
             setIsLoading(false);
           },
         });
       };
       reader.onerror = (error: any) => {
-        console.error(error.message);
         toast.error("Error reading CSV file");
         setIsLoading(false);
       };
@@ -191,7 +187,6 @@ const OCRView = () => {
                 return undefined;
               })
               .filter((item): item is PaymentData => item !== undefined);
-            console.log(recatoredata);
 
             setPaymentData(recatoredata);
             // Do something with jsonData
@@ -200,7 +195,6 @@ const OCRView = () => {
         };
         reader.readAsBinaryString(csvFile);
       } catch (error) {
-        console.error("Error reading file:", error);
         toast.error("Error reading file");
         setIsLoading(false);
       }

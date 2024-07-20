@@ -104,10 +104,17 @@ export default function TotalWinner() {
 
         {submit && (
           <div className="flex flex-wrap justify-start gap-5 items-center">
-            {
-              players.map((user: Players) => {
-                return <div className="flex bg-gray-50 shadow-md flex-col justify-start items-center min-w-20 py-4 px-4 rounded-lg">
-                  <img className="w-14 rounded-full" src="https://cdn-icons-png.flaticon.com/128/3177/3177440.png" alt="" />
+            {players.map((user: Players, index: number) => {
+              return (
+                <div
+                  key={index}
+                  className="flex bg-gray-50 shadow-md flex-col justify-start items-center min-w-20 py-4 px-4 rounded-lg"
+                >
+                  <img
+                    className="w-14 rounded-full"
+                    src="https://cdn-icons-png.flaticon.com/128/3177/3177440.png"
+                    alt=""
+                  />
                   <div className="flex items-center my-2 text-base font-semibold gap-1">
                     <p className="">User Id: </p>
                     <div>{user.userId}</div>
@@ -123,15 +130,14 @@ export default function TotalWinner() {
                     <span className="font-semibold">{user.winAmount}</span>
                   </div>
                 </div>
-              })
-            }
+              );
+            })}
           </div>
         )}
       </div>
     </>
   );
 }
-
 
 const players = [
   {
@@ -165,10 +171,10 @@ type GameType = {
 };
 
 type Players = {
-  userId: number,
-  bidAmount: number,
-  winAmount: number,
-}
+  userId: number;
+  bidAmount: number;
+  winAmount: number;
+};
 
 const gamesData: GameType[] = [
   {

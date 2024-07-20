@@ -20,18 +20,18 @@ import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { useState } from "react";
 
-export default function cancelResult() {
+export default function CancelResult() {
   const [date, setDate] = useState<Date>();
   const [winningNumber, setWinningNumber] = useState(0);
   const [totalWinner, setTotalWinner] = useState(0);
   const [totalWinningAmount, setTotalWinningAmount] = useState(0);
-  const route = useRouter()
+  const route = useRouter();
 
   type Players = {
-    userId: number,
-    bidAmount: number,
-    winAmount: number,
-  }
+    userId: number;
+    bidAmount: number;
+    winAmount: number;
+  };
 
   const players = [
     {
@@ -91,13 +91,9 @@ export default function cancelResult() {
     setTotalWinner(23);
     setTotalWinningAmount(9284923);
   };
-  const onChange: DatePickerProps["onChange"] = (date, dateString) => {
-    console.log(date, dateString);
-  };
+  const onChange: DatePickerProps["onChange"] = (date, dateString) => {};
 
-  const handleChange = (value: string) => {
-    console.log(`selected ${value}`);
-  };
+  const handleChange = (value: string) => {};
 
   return (
     <>
@@ -153,33 +149,43 @@ export default function cancelResult() {
       </section>
 
       <section className="bg-white p-3 pt-0 mt-0 sm:mt-8">
-
         <div className=" md:gap-8 gap-1 flex flex-col md:flex-row justify-start items-start mb-5 border-none">
           <div className="flex items-end text-sm">
-            <span className=" font-semibold " >Total Winning Amount: </span>
+            <span className=" font-semibold ">Total Winning Amount: </span>
             <div className="mx-2">234,123,5</div>
           </div>
           <div className="flex items-end text-sm">
-            <span className=" font-semibold" >Winning Number: </span>
+            <span className=" font-semibold">Winning Number: </span>
             <div className="mx-2">55</div>
           </div>
           <div className="flex items-end text-sm">
-            <span className=" font-semibold " >Total Amonut: </span>
+            <span className=" font-semibold ">Total Amonut: </span>
             <div className="mx-2">234,23</div>
           </div>
         </div>
 
         <div className="flex flex-wrap sm:justify-start justify-evenly gap-5 items-center">
-          {
-            players.map((user: Players) => {
-              return <div className="flex bg-gray-50 shadow-md flex-col justify-start items-center w-36 py-4 px-1 rounded-lg">
-                <img className="w-14 rounded-full" src="https://cdn-icons-png.flaticon.com/128/3177/3177440.png" alt="" />
+          {players.map((user: Players, index: number) => {
+            return (
+              <div
+                key={index}
+                className="flex bg-gray-50 shadow-md flex-col justify-start items-center w-36 py-4 px-1 rounded-lg"
+              >
+                <img
+                  className="w-14 rounded-full"
+                  src="https://cdn-icons-png.flaticon.com/128/3177/3177440.png"
+                  alt=""
+                />
                 <div className="flex items-center my-2 text-base font-semibold gap-1">
                   <p className="">User Id: </p>
                   <div>{user.userId}</div>
                 </div>
 
-                <div className={`${user.bidAmount.toString().length >= 9 ? "mb-2" : "mb-0"} flex flex-wrap justify-center my-1 text-gray-400 text-xs gap-1`}>
+                <div
+                  className={`${
+                    user.bidAmount.toString().length >= 9 ? "mb-2" : "mb-0"
+                  } flex flex-wrap justify-center my-1 text-gray-400 text-xs gap-1`}
+                >
                   <div className="  font-bold">Bidding Amt:</div>
                   <span className="font-semibold">{user.bidAmount}</span>
                 </div>
@@ -189,11 +195,14 @@ export default function cancelResult() {
                   <span className="font-semibold">{user.winAmount}</span>
                 </div>
               </div>
-            })
-          }
+            );
+          })}
         </div>
 
-        <Button onClick={() => route.push("/dashboard/result-securite-page")} className="my-8 w-full md:w-3 bg-blue-700 px-12">
+        <Button
+          onClick={() => route.push("/dashboard/result-securite-page")}
+          className="my-8 w-full md:w-3 bg-blue-700 px-12"
+        >
           Next
         </Button>
 
@@ -219,4 +228,3 @@ export default function cancelResult() {
     </>
   );
 }
-

@@ -43,7 +43,6 @@ export default function MatchHistory({
   const renderCell = useCallback(
     (user: ParticipantDetailsType, columnKey: Key) => {
       const cellValue = user[columnKey as keyof ParticipantDetailsType];
-      console.log(columnKey);
 
       switch (columnKey) {
         case "name":
