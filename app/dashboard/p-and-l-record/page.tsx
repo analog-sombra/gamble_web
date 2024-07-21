@@ -53,24 +53,24 @@ const ProfitAndLoss = () => {
             </div>
 
 
-            <Table className="">
+            <Table className="border-2  w-[70vw] m-auto mb-14">
                 <TableHeader>
                     <TableRow className=" bg-zinc-100">
-                        <TableHead className="font-bold text-base text-center">No.</TableHead>
-                        <TableHead className="font-bold text-base text-center">Games</TableHead>
-                        <TableHead className="font-bold text-base text-center">Bidding amount</TableHead>
-                        <TableHead className="font-bold text-base text-left">Winning amonut</TableHead>
-                        <TableHead className="font-bold text-base text-left">P&L</TableHead>
+                        <TableHead className="bordr-0 border-r-2 font-bold text-base text-center">No.</TableHead>
+                        <TableHead className="bordr-0 border-r-2 font-bold text-base text-center">Games</TableHead>
+                        <TableHead className="bordr-0 border-r-2 font-bold text-base text-center">Bidding amount</TableHead>
+                        <TableHead className="bordr-0 border-r-2 font-bold text-base text-center">Winning amonut</TableHead>
+                        <TableHead className="bordr-0 border-r-2 font-bold text-base text-center">P&L</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {invoices.map((invoice) => (
                         <TableRow className="">
-                            <TableCell className="text-center">{invoice.no}</TableCell>
-                            <TableCell className="text-center">{invoice.gameName}</TableCell>
-                            <TableCell className="text-center">{invoice.biddingAmount}</TableCell>
-                            <TableCell className="text-left pl-12">{invoice.winningAmount}</TableCell>
-                            <TableCell className="text-left">{invoice.pAndL}</TableCell>
+                            <TableCell className="bordr-0 border-r-2 text-center">{invoice.no}</TableCell>
+                            <TableCell className="bordr-0 border-r-2 text-center">{invoice.gameName}</TableCell>
+                            <TableCell className="bordr-0 border-r-2 text-center">{invoice.biddingAmount}</TableCell>
+                            <TableCell className="bordr-0 border-r-2 text-center">{invoice.winningAmount}</TableCell>
+                            <TableCell className="bordr-0 border-r-2 text-center">{invoice.pAndL}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

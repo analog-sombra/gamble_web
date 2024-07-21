@@ -15,6 +15,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Divider, Select } from "@nextui-org/react";
+import { Tag } from "antd";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -134,16 +135,14 @@ export default function Users() {
 
         <div className="w-full flex justify-start items-center">
           <button
-            onClick={() => {
-              route.push("/dashboard/users/profile");
-            }}
-            className="w-full mt-2 md:w-32 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md"
-          >
+            onClick={() => {route.push("/dashboard/users/profile");}}
+            className="w-full mt-2 md:w-32 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
             Statement option
           </button>
           <div className="grow"></div>
           <div className="flex flex-col font-semibold mr-4 gap-2 ">Status:</div>
-          <div className="bg-green-500 py-1 min-h-1 px-3 rounded-md text-white">Active</div>
+          <Tag className='w-20 flex justify-center' color="green">Active</Tag>
+          {/* <div className="bg-green-500 py-1 min-h-1 px-3 rounded-md text-white">Active</div> */}
         </div>
         {/* <div className="mt-2">
           <Pagination

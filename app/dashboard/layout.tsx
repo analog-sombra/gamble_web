@@ -15,7 +15,6 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
-import LoadingPageIndicator from "@/components/LoadingPageIndicator";
 
 
 export default function DashboardLayout({
@@ -35,7 +34,6 @@ export default function DashboardLayout({
       <Sidebar isSidebarOpen={isSidebarOpen} setSidebar={setSidebar} />
       <div className="w-full p-5 py-0 flex flex-col h-full overflow-auto bg-white m-0">
 
-        <LoadingPageIndicator />
         <div className=" bg-white sticky top-0 z-50 py-4 pb-1 ">
           <div className=" mb-3 flex flex-col bg-[#341c8c] xp-4 px-6 py-3 rounded-md">
             <div className="flex mb-4 justify-between">
