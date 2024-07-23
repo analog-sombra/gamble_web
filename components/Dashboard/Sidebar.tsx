@@ -55,7 +55,7 @@ const navLinks = [
     icon: <MaterialSymbolsManageHistory />,
   },
   {
-    name: "Excel Record",
+    name: "X Excel Record",
     url: "/dashboard/excel-record",
     icon: <MaterialSymbolsManageHistory />,
   },
@@ -75,7 +75,7 @@ const navLinks = [
     icon: <SystemUiconsUserAdd />,
   },
   {
-    name: "Customer care direct chat",
+    name: "X Customer care direct chat",
     url: "/dashboard/customer-care-chat",
     icon: <MaterialSymbolsHeadsetMicOutlineRounded />,
   },
@@ -111,7 +111,7 @@ const navLinks = [
     icon: <MaterialSymbolsManageHistory />,
   },
   {
-    name: "Automatic approval",
+    name: "X Automatic approval",
     url: "/dashboard/automatic-approval",
     icon: <MaterialSymbolsManageHistory />,
   },
@@ -141,17 +141,17 @@ const navLinks = [
     icon: <MaterialSymbolsManageHistory />,
   },
   {
-    name: "Create Game",
+    name: "X Create Game",
     url: "/dashboard/create-game",
     icon: <MaterialSymbolsManageHistory />,
   },
   {
-    name: "Approve gateway",
+    name: "X Approve gateway",
     url: "/dashboard/approve-gateway",
     icon: <MaterialSymbolsManageHistory />,
   },
   {
-    name: "Daily in record bonus",
+    name: "X Daily in record bonus",
     url: "/dashboard/daily-in-record-bonus",
     icon: <MaterialSymbolsManageHistory />,
   },

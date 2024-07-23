@@ -26,6 +26,8 @@ export default function DashboardLayout({
   const pathname = usePathname();
   const { currentTab, setCurrentTab } = useTab();
 
+  console.log(pathname)
+
   return (
     <div className="w-full flex bg-[#efefef] h-screen">
       <Sidebar isSidebarOpen={isSidebarOpen} setSidebar={setSidebar} />
@@ -60,7 +62,7 @@ export default function DashboardLayout({
               </button>
 
               <div className="px-2 text-center">
-                {currentTab !== "add" ? (
+                {currentTab !== "add" || pathname !== '/dashboard/home'  ? (
                   <div className=" text-lg font-semibold sm:text-medium text-white">
                     {" "}
                     WD limit: 234

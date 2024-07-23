@@ -21,13 +21,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <TabProvider>
-          <NextUIProvider>
-            <LoadingPageIndicator />
+        <NextUIProvider>
+          <LoadingPageIndicator />
+          <TabProvider>
             {children}
-          </NextUIProvider>
-          <ToastContainer />
-        </TabProvider>
+          </TabProvider>
+        </NextUIProvider>
+        <ToastContainer />
 
       </body>
     </html>

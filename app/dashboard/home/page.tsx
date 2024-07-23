@@ -26,103 +26,19 @@ export default function Home() {
 
   return (
     <div className="">
-      <LoadingBar progress={50} className="text-blue-600" />
-      {/* Dashboard data */}
-      {/* <div className={`flex flex-col lg:flex-row justify-between gap-3`}>
-        <div className="flex-1">
-          <div className="bg-white p-3 rounded-md flex flex-wrap gap-6 justify-between ">
-            {cardData.map((item) => (
-              <SimpleCard count={item.count} title={item.name} key={item.name}>
-                {item.icon}
-              </SimpleCard>
-            ))}
-          </div> */}
-
-      {/* User */}
-      {/* <div className="relative mt-3 bg-white p-3">
-            <h3 className="text-xl p-3">Users</h3>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Bet</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Wallet</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {users.map((user) => (
-                  <TableRow key={user.id}>
-                    <TableCell className="font-medium">{user.name}</TableCell>
-                    <TableCell>{user.betCompleted}</TableCell>
-                    <TableCell>
-                      {user.status == "active" ? (
-                        <Tag color="green">{user.status}</Tag>
-                      ) : (
-                        <Tag color="red">{user.status}</Tag>
-                      )}
-                    </TableCell>
-                    <TableCell>{user.wallet}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-              <TableFooter>
-                <TableRow>
-                  <TableCell colSpan={4}>
-                    <Button className="w-full">View All</Button>
-                  </TableCell>
-                </TableRow>
-              </TableFooter>
-            </Table>
-          </div>
-        </div> */}
-      {/* mathc */}
-      {/* <div className="bg-white p-3 rounded-t-small">
-          <h3 className="text-xl p-3">Live Match Data</h3>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Title</TableHead>
-                <TableHead>Bet</TableHead>
-                <TableHead>Status</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {liveMatchData.map((match) => (
-                <TableRow key={match.id}>
-                  <TableCell className="font-medium">{match.name}</TableCell>
-                  <TableCell>{match.totalBet}</TableCell>
-                  <TableCell>
-                    {match.status == "active" ? (
-                      <Tag color="green">{match.status}</Tag>
-                    ) : (
-                      <Tag color="red">{match.status}</Tag>
-                    )}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-            <TableFooter>
-              <TableRow>
-                <TableCell colSpan={4}>
-                  <Button className="w-full">View All</Button>
-                </TableCell>
-              </TableRow>
-            </TableFooter>
-          </Table>
-        </div> 
-      </div>
-      */}
+      {/* <LoadingBar progress={50} className="text-blue-600" /> */}
       <div className="">
         <div className="flex gap-2 items-center my-5 flex-row justify-between md:flex-row ">
           <button className="mr-4 text-white text-sm bg-blue-500 hover:bg-blue-600 h-8 py-1 px-2 rounded-md">
             <TbReload className="text-lg" />
           </button>
-          {currentTab === "add" && (
-            <button className="w-full md:w-32  mr-2 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
-              Upload file
-            </button>
-          )}
+          {
+            currentTab === "add" && (
+              <button className="w-full md:w-32  mr-2 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
+                Upload file
+              </button>
+            )
+          }
         </div>
         <div className=" bg-white px-4 rounded-md w-full justify-center gap-3 items-center">
           {/* <TableHead className="border text-center">GPay</TableHead>
@@ -333,10 +249,9 @@ export default function Home() {
             </div>
           )}
 
-          {/* withdraw and add money tabs */}
-
+          {/* ************************** withdraw and add money tabs ************************** */}
           <Tabs
-            defaultValue="add"
+            defaultValue={currentTab}
             className="w-full flex flex-col mt-7 sm:mt-14 mb-0 sm:mb-12"
           >
             <TabsList className=" m-auto mb-0  ">
