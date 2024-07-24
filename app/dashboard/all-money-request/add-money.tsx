@@ -1,3 +1,15 @@
+"use client"
+
+import { MdEmail } from "react-icons/md";
+import { FaSearch } from "react-icons/fa";
+import { Checkbox } from "@/components/ui/checkbox"
+import { IoPersonSharp } from "react-icons/io5";
+import { BiSolidUser } from "react-icons/bi";
+import { CiCreditCard2 } from "react-icons/ci";
+import { FiSmartphone } from "react-icons/fi";
+import { FaRegCalendar } from "react-icons/fa6";
+import { MdSmartphone } from "react-icons/md";
+
 import {
     Select,
     SelectContent,
@@ -7,14 +19,14 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import { Drawer, Image } from "antd";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-
 import { Switch } from "@/components/ui/switch";
 import React, { useState } from 'react'
 import { Label } from "@/components/ui/label";
 import { TbReload } from "react-icons/tb"; ''
-import { Input } from "antd";
+import { Input, Tag } from "antd";
 import {
     Table,
     TableBody,
@@ -24,6 +36,17 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import { SwitchThumb } from "@radix-ui/react-switch";
+import { FaMoneyBill } from "react-icons/fa6";
+import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { IoMdClose } from "react-icons/io";
+import PendingResult from "./all-add-money-tabs/pendingResultTab";
+import ProcessingResult from "./all-add-money-tabs/processingResultTab";
+import ApproveResult from "./all-add-money-tabs/approveResultTab";
+import RejectResult from "./all-add-money-tabs/rejectResultTab";
+import EnteriesResult from "./all-add-money-tabs/enteriesResultTab";
+import PendingEnteriesResult from "./all-add-money-tabs/pendingEntriesResultTab";
+import HighToLowResult from "./all-add-money-tabs/highToLowResultTab";
 
 export default function AddMoney() {
     const [currentTab, setTab] = useState("add");
@@ -39,14 +62,10 @@ export default function AddMoney() {
                 {/* <div className="p-2 text-center">
                     <div className=" text-[12px]  sm:text-medium"> Add limit: 234</div>
                 </div> */}
-
             </div>
 
-
-            <Tabs defaultValue="pending" className="w-full flex flex-col mt-6 ">
-                {/* ---- navigation buttons ---- */}
-                <TabsList className=" m-auto bg-transparent sm:mb-0 mb-12 flex flex-wrap">
-
+            <Tabs defaultValue="pending" className="w-full  flex flex-col sm:mt-2">
+                <TabsList className=" mx-auto sm:mb-0 mb-24 bg-transparent w-full flex flex-wrap">
                     <TabsTrigger value="pending" className="bg-gray-100 px-5  mx-0 py-2 rounded-sm text-orange-700 font-semibold text-sm shadow-sm ">
                         Pending
                     </TabsTrigger>
@@ -72,133 +91,41 @@ export default function AddMoney() {
 
                 {/* ---- pending content ---- */}
                 <TabsContent value="pending" className="flex flex-col w-full justify-center items-center">
-                    <div className="w-[250px] sm:w-[350px] flex flex-col gap-2 mt-10 items-center">
-                        <div className="flex h-10 w-full mb-1 max-w-sm items-center">
-                            <Input className="h-full  rounded-none rounded-l-md placeholder:font-semibold" type="text" placeholder="All" />
-                            <Button className="h-full bg-blue-500  rounded-none rounded-r-md w-40" type="submit">Search</Button>
-                        </div>
-                        <div className="flex h-10 w-full mb-1 max-w-sm items-center">
-                            <Input className="h-full  rounded-none rounded-l-md placeholder:font-semibold" type="text" placeholder="User I'd" />
-                            <Button className="h-full bg-blue-500  rounded-none rounded-r-md w-40" type="submit">Search</Button>
-                        </div>
-                    </div>
+                    <PendingResult />
                 </TabsContent>
 
                 {/* ---- Processing content ---- */}
                 <TabsContent value="processing" className="flex flex-col w-full justify-center items-center">
-                    <div className="w-[250px] sm:w-[350px] flex flex-col gap-2 mt-10 items-center">
-                        <div className="flex h-10 w-full mb-1 max-w-sm items-center">
-                            <Input className="h-full  rounded-none rounded-l-md placeholder:font-semibold" type="text" placeholder="All" />
-                            <Button className="h-full bg-blue-500  rounded-none rounded-r-md w-40" type="submit">Search</Button>
-                        </div>
-                        <div className="flex h-10 w-full mb-1 max-w-sm items-center">
-                            <Input className="h-full  rounded-none rounded-l-md placeholder:font-semibold" type="text" placeholder="User I'd" />
-                            <Button className="h-full bg-blue-500  rounded-none rounded-r-md w-40" type="submit">Search</Button>
-                        </div>
-
-                    </div>
+                    <ProcessingResult />
                 </TabsContent>
 
                 {/* ---- approved content ---- */}
                 <TabsContent value="approved" className="flex flex-col w-full m-0 justify-center items-center">
-                    <div className="w-[250px] sm:w-[400px] flex flex-col gap-2 mt-10 items-center">
-                        <div className="flex h-10 w-full mb-1 max-w-sm items-center">
-                            <Input className="h-full  rounded-none rounded-l-md placeholder:font-semibold" type="text" placeholder="All" />
-                            <Button className="h-full bg-blue-500  rounded-none rounded-r-md w-40" type="submit">Search</Button>
-                        </div>
-
-                        <div className="flex h-10 w-full mb-1 max-w-sm items-center">
-                            <Input className="h-full  rounded-none rounded-l-md placeholder:font-semibold" type="text" placeholder="Enter UTR" />
-                            <Button className="h-full bg-blue-500  rounded-none rounded-r-md w-40" type="submit">Search</Button>
-                        </div>
-                        <div className="flex h-10 w-full mb-1 max-w-sm items-center">
-                            <Select>
-                                <SelectTrigger className="w-[180px] rounded-none rounded-l-md focus:out">
-                                    <SelectValue placeholder="Time" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {/* <SelectLabel>Date</SelectLabel> */}
-                                    <SelectItem value="apple">Today</SelectItem>
-                                    <SelectItem value="banana">Yesterday</SelectItem>
-                                    <SelectItem value="blueberry">Last 7 days</SelectItem>
-                                    <SelectItem value="blueberry">Last 30 days</SelectItem>
-                                    <SelectItem value="blueberry">This month</SelectItem>
-                                    <SelectItem value="blueberry">Last month</SelectItem>
-                                    <SelectItem value="blueberry">Custom range</SelectItem>
-                                </SelectContent>
-                            </Select>
-                            <Input className="h-full  rounded-none placeholder:font-semibold" type="date" />
-                            <Button className="h-full bg-blue-500  rounded-none rounded-r-md w-56" type="submit">Filter</Button>
-                        </div>
-                        <div className="flex h-10 w-full mb-1 max-w-sm items-center">
-                            <Input className="h-full  rounded-none rounded-l-md placeholder:font-semibold" type="text" placeholder="User I'd" />
-                            <Button className="h-full bg-blue-500  rounded-none rounded-r-md w-40" type="submit">Search</Button>
-                        </div>
-
-                    </div>
+                    <ApproveResult />
                 </TabsContent>
 
                 {/* ---- entries content ---- */}
                 <TabsContent value="entries" className="flex flex-col w-full justify-center items-center">
-                    <div className="w-[250px] sm:w-[350px] flex flex-col gap-2 mt-10 items-center">
-                        <div className="flex h-10 w-full mb-1 max-w-sm items-center">
-                            <Input className="h-full  rounded-none rounded-l-md placeholder:font-semibold" type="text" placeholder="All" />
-                            <Button className="h-full bg-blue-500  rounded-none rounded-r-md w-40" type="submit">Search</Button>
-                        </div>
-                        <div className="flex h-10 w-full mb-1 max-w-sm items-center">
-                            <Input className="h-full  rounded-none rounded-l-md placeholder:font-semibold" type="text" placeholder="User I'd" />
-                            <Button className="h-full bg-blue-500  rounded-none rounded-r-md w-40" type="submit">Search</Button>
-                        </div>
-                    </div>
+                    <EnteriesResult />
                 </TabsContent>
 
                 {/* ---- pending entries content ---- */}
                 <TabsContent value="pending entries" className="flex flex-col w-full justify-center items-center">
-                    <div className="w-[250px] sm:w-[350px] flex flex-col gap-2 mt-10 items-center">
-                        <div className="flex h-10 w-full mb-1 max-w-sm items-center">
-                            <Input className="h-full  rounded-none rounded-l-md placeholder:font-semibold" type="text" placeholder="All" />
-                            <Button className="h-full bg-blue-500  rounded-none rounded-r-md w-40" type="submit">Search</Button>
-                        </div>
-                        <div className="flex h-10 w-full mb-1 max-w-sm items-center">
-                            <Input className="h-full  rounded-none rounded-l-md placeholder:font-semibold" type="text" placeholder="User I'd" />
-                            <Button className="h-full bg-blue-500  rounded-none rounded-r-md w-40" type="submit">Search</Button>
-                        </div>
-                    </div>
+                    <PendingEnteriesResult />
                 </TabsContent>
 
                 {/* ---- rejected content ---- */}
                 <TabsContent value="rejected" className="flex flex-col w-full justify-center items-center">
-                    <div className="w-[250px] sm:w-[350px] flex flex-col gap-2 mt-10 items-center">
-                        <div className="flex h-10 w-full mb-1 max-w-sm items-center">
-                            <Input className="h-full  rounded-none rounded-l-md placeholder:font-semibold" type="text" placeholder="All" />
-                            <Button className="h-full bg-blue-500  rounded-none rounded-r-md w-40" type="submit">Search</Button>
-                        </div>
-                        <div className="flex h-10 w-full mb-1 max-w-sm items-center">
-                            <Input className="h-full  rounded-none rounded-l-md placeholder:font-semibold" type="text" placeholder="User I'd" />
-                            <Button className="h-full bg-blue-500  rounded-none rounded-r-md w-40" type="submit">Search</Button>
-                        </div>
-                    </div>
+                    <RejectResult />
                 </TabsContent>
 
                 {/* ---- hight to low content ---- */}
                 <TabsContent value="hight to low" className="flex flex-col w-full justify-center items-center">
-                    <div className="w-[250px] sm:w-[350px] flex flex-col gap-2 mt-10 items-center">
-                        <div className="flex h-10 w-full mb-1 max-w-sm items-center">
-                            <Input className="h-full  rounded-none rounded-l-md placeholder:font-semibold" type="text" placeholder="All" />
-                            <Button className="h-full bg-blue-500  rounded-none rounded-r-md w-40" type="submit">Search</Button>
-                        </div>
-                        <div className="flex h-10 w-full mb-1 max-w-sm items-center">
-                            <Input className="h-full  rounded-none rounded-l-md placeholder:font-semibold"
-                                type="text"
-                                placeholder="User I'd" />
-                            <Button className="h-full bg-blue-500  rounded-none rounded-r-md w-40" type="submit">Search</Button>
-                        </div>
-                    </div>
+                    <HighToLowResult />
                 </TabsContent>
             </Tabs>
 
         </div>
     )
 }
-
 

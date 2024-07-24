@@ -26,11 +26,12 @@ export default function DashboardLayout({
   const pathname = usePathname();
   const { currentTab, setCurrentTab } = useTab();
 
+  console.log(pathname)
+
   return (
     <div className="w-full flex bg-[#efefef] h-screen">
       <Sidebar isSidebarOpen={isSidebarOpen} setSidebar={setSidebar} />
       <div className="w-full p-5 py-0 flex flex-col h-full overflow-auto bg-white m-0">
-        <LoadingPageIndicator />
         <div className=" bg-white sticky top-0 z-50 py-4 pb-1 ">
           <div className=" mb-3 flex flex-col bg-[#341c8c] xp-4 px-6 py-3 rounded-md">
             <div className="flex mb-4 justify-between">
@@ -61,7 +62,7 @@ export default function DashboardLayout({
               </button>
 
               <div className="px-2 text-center">
-                {currentTab !== "add" ? (
+                {currentTab !== "add" || pathname !== '/dashboard/home'  ? (
                   <div className=" text-lg font-semibold sm:text-medium text-white">
                     {" "}
                     WD limit: 234

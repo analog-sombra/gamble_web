@@ -30,7 +30,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "antd";
 import React from "react";
-import CreateAccount from "./create_account";
+import CreateAccount from "./dialougeBox/create_account";
 
 const ManageAccount = () => {
   return (
@@ -48,10 +48,12 @@ const ManageAccount = () => {
             <Button className="bg-blue-600">Create account</Button>
           </AlertDialogTrigger>
 
-          <AlertDialogContent>
+          <AlertDialogContent className=" overflow-auto h-[500px] sm:h-auto">
             <CreateAccount />
           </AlertDialogContent>
+
         </AlertDialog>
+
       </div>
 
       <div className="flex w-full my-3 justify-between">
@@ -61,16 +63,14 @@ const ManageAccount = () => {
             <SelectValue placeholder="All" />
           </SelectTrigger>
           <SelectContent>
-            <SelectGroup>
-              <SelectItem value="apple">Paytm</SelectItem>
-              <SelectItem value="banana">Phone pe</SelectItem>
-              <SelectItem value="blueberry">Google pay</SelectItem>
-              <SelectItem value="blueberry">UPI</SelectItem>
-              <SelectItem value="blueberry">Bank AC</SelectItem>
-              <SelectItem value="blueberry">Paytm QR</SelectItem>
-              <SelectItem value="blueberry">Phone pe QR</SelectItem>
-              <SelectItem value="blueberry">Google pay QR</SelectItem>
-            </SelectGroup>
+            <SelectItem value="paytm">Paytm</SelectItem>
+            <SelectItem value="phone pe">Phone pe</SelectItem>
+            <SelectItem value="google pay">Google pay</SelectItem>
+            <SelectItem value="upi">UPI</SelectItem>
+            <SelectItem value="bank ac">Bank AC</SelectItem>
+            <SelectItem value="paytm qr">Paytm QR</SelectItem>
+            <SelectItem value="phone pe qr">Phone pe QR</SelectItem>
+            <SelectItem value="google pay qr">Google pay QR</SelectItem>
           </SelectContent>
         </Select>
 
@@ -89,35 +89,35 @@ const ManageAccount = () => {
         </div>
       </div>
 
-      <Table className="">
+      <Table className="border-2">
         <TableHeader>
           <TableRow className=" bg-zinc-100">
-            <TableHead className="font-bold text-base text-left">No.</TableHead>
-            <TableHead className="font-bold text-base text-center">
+            <TableHead className="font-bold text-base text-left border-r-2">No.</TableHead>
+            <TableHead className="font-bold text-base text-center border-r-2">
               Id details/Status
             </TableHead>
-            <TableHead className="font-bold text-base text-center">
+            <TableHead className="font-bold text-base text-center border-r-2">
               Account holder
             </TableHead>
-            <TableHead className="font-bold text-base text-left">
+            <TableHead className="font-bold text-base text-left border-r-2">
               Account number
             </TableHead>
-            <TableHead className="font-bold text-base text-left">
+            <TableHead className="font-bold text-base text-left border-r-2">
               Mobile
             </TableHead>
-            <TableHead className="font-bold text-base text-left">
+            <TableHead className="font-bold text-base text-left border-r-2">
               Gateway
             </TableHead>
-            <TableHead className="font-bold text-base text-left">
+            <TableHead className="font-bold text-base text-left border-r-2">
               Bank details
             </TableHead>
-            <TableHead className="font-bold text-base text-left">
+            <TableHead className="font-bold text-base text-left border-r-2">
               UPI details
             </TableHead>
-            <TableHead className="font-bold text-base text-left">
+            <TableHead className="font-bold text-base text-left border-r-2">
               QR code
             </TableHead>
-            <TableHead className="font-bold text-base text-left">
+            <TableHead className="font-bold text-base text-left border-r-2">
               Action
             </TableHead>
           </TableRow>
@@ -125,8 +125,8 @@ const ManageAccount = () => {
         <TableBody>
           {tableValues.map((value, index) => (
             <TableRow className="" key={index}>
-              <TableCell className="text-left">{++index}.</TableCell>
-              <TableCell className="flex gap-2 items-center flex-col">
+              <TableCell className="border-r-2 text-left">{++index}.</TableCell>
+              <TableCell className="flex gap-2 border-r-2 items-center flex-col">
                 <div>{value.idOrStatus?.email}</div>
                 <div>{value.idOrStatus?.number}</div>
                 <div className="font-semibold text-sm">
@@ -142,13 +142,13 @@ const ManageAccount = () => {
                   </Tag>
                 )}
               </TableCell>
-              <TableCell className="items-right">{value.name}</TableCell>
-              <TableCell className=" pl-12">{value.accountNumber}</TableCell>
-              <TableCell>{value.mobile}</TableCell>
-              <TableCell className="">
+              <TableCell className="text-center border-r-2">{value.name}</TableCell>
+              <TableCell className=" pl-12 border-r-2">{value.accountNumber}</TableCell>
+              <TableCell className="border-r-2">{value.mobile}</TableCell>
+              <TableCell className="border-r-2">
                 <div>{value.gateway}</div>
               </TableCell>
-              <TableCell>
+              <TableCell className="border-r-2">
                 {value.bankDetails.show ? (
                   <>
                     <div className="text-sm font-semibold">
@@ -168,9 +168,9 @@ const ManageAccount = () => {
                   <></>
                 )}
               </TableCell>
-              <TableCell>{value.upiDetails}</TableCell>
-              <TableCell>{value.qr}</TableCell>
-              <TableCell>
+              <TableCell className="border-r-2">{value.upiDetails}</TableCell>
+              <TableCell className="border-r-2">{value.qr}</TableCell>
+              <TableCell className="border-r-2">
                 <Button
                   onClick={value.action}
                   className="bg-green-500 hover:bg-green-900 py-1 px-2 text-xs"
@@ -208,9 +208,9 @@ const tableValues = [
       ifce: "AD5234C",
       accountHolderName: "anmol",
     },
-    upiDetails: "",
+    upiDetails: "name@okicici",
     qr: "",
-    action: function () {},
+    action: function () { },
   },
   {
     no: 1,
@@ -231,7 +231,6 @@ const tableValues = [
       ifce: "AD5234C",
       accountHolderName: "anmol",
     },
-    upiDetails: "name@okicici",
     qr: (
       <img
         className="w-10"
@@ -239,7 +238,7 @@ const tableValues = [
         alt=""
       />
     ),
-    action: function () {},
+    action: function () { },
   },
   {
     no: 1,
@@ -262,6 +261,6 @@ const tableValues = [
     },
     upiDetails: "",
     qr: <img className="w-10" src="" alt="" />,
-    action: function () {},
+    action: function () { },
   },
 ];

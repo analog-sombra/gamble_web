@@ -12,6 +12,7 @@
     "@internationalized/date": "^3.5.4",
     "@nextui-org/react": "^2.3.6",
     "@radix-ui/react-alert-dialog": "^1.1.1",
+    "@radix-ui/react-checkbox": "^1.1.1",
     "@radix-ui/react-collapsible": "^1.1.0",
     "@radix-ui/react-hover-card": "^1.1.1",
     "@radix-ui/react-label": "^2.1.0",
@@ -24,8 +25,12 @@
     "@tanstack/react-query-devtools": "4",
     "@tanstack/react-table": "^8.19.2",
     "@types/react": "^18.3.3",
+<<<<<<< HEAD
     "antd": "^5.19.0",
     "axios": "^1.7.2",
+=======
+    "antd": "^5.19.3",
+>>>>>>> 998b4e2fec87d801a0ce334fbd93961668e5b0e5
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
