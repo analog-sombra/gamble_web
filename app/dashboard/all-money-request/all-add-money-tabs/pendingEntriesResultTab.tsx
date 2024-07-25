@@ -10,7 +10,6 @@ import { Switch } from "@/components/ui/switch";
 import React, { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { TbReload } from "react-icons/tb";
-("");
 import { Input, Tag } from "antd";
 import {
   Table,
