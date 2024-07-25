@@ -1,25 +1,10 @@
 import { MdEmail } from "react-icons/md";
-import { FaSearch } from "react-icons/fa";
-import { Checkbox } from "@/components/ui/checkbox";
-import { IoPersonSharp } from "react-icons/io5";
 import { BiSolidUser } from "react-icons/bi";
 import { CiCreditCard2 } from "react-icons/ci";
 import { FiSmartphone } from "react-icons/fi";
 import { FaRegCalendar } from "react-icons/fa6";
 import { MdSmartphone } from "react-icons/md";
 import TransferDailouge from "../DialogeBoxes/transfer";
-
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Drawer, Image } from "antd";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import React, { useState } from "react";
