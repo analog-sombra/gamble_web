@@ -49,12 +49,12 @@ export default function Home() {
 
           {currentTab == "add" && (
             <div
-              className="flex gap-6  justify-center overflow-auto "
+              className="flex gap-6 sm:justify-center overflow-auto "
               style={{ scrollbarWidth: "none" }}
             >
               {/* . . . . . . . . . . . UPI I'D options . . . . . . . . . . .  */}
               {/* Gpay switch button */}
-              <div className="flex flex-col gap-3 items-center">
+              <div className="flex flex-col  gap-3 items-center">
                 <Switch></Switch>
                 <AlertDialog>
                   <AlertDialogTrigger>

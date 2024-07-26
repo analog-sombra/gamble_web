@@ -12,9 +12,15 @@ import {
 } from "@/components/ui/table";
 import { Button } from '@/components/ui/button';
 import { Input, Tag } from 'antd';
+import { AlertDialog, AlertDialogContent, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import { useRouter } from 'next/navigation';
 
 
 const SubAdminPage = () => {
+
+    const route = useRouter()
+
+    
     return (
         <>
             <div className="flex flex-col items-center w-full h-full bg-white rounded-md">
@@ -37,18 +43,18 @@ const SubAdminPage = () => {
                 <div className="w-full flex-1 rounded-lg p-3">
                     <Table className='border-2' >
                         <TableHeader className='bg-zinc-100'>
-                                <TableHead className='border-0 border-r-2 text-center'>No</TableHead>
-                                <TableHead className='border-0 border-r-2 text-center'>Online/Offline</TableHead>
-                                <TableHead className='border-0 border-r-2 text-center'>Name</TableHead>
-                                <TableHead className='border-0 border-r-2 text-center'>Email</TableHead>
-                                <TableHead className='border-0 border-r-2 text-center'>Level</TableHead>
-                                <TableHead className='border-0 border-r-2 text-center'>Status</TableHead>
-                                <TableHead className='border-0 border-r-2 text-center'>Direct add money</TableHead>
-                                <TableHead className='border-0 border-r-2 text-center'>Withdrawal limit (₹)</TableHead>
-                                <TableHead className='border-0 border-r-2 text-center'>Add money limit (₹)</TableHead>
-                                <TableHead className='border-0 border-r-2 text-center'>Assign gateways</TableHead>
-                                <TableHead className='border-0 border-r-2 text-center'>gateways detail</TableHead>
-                                <TableHead className='text-center'>Assign QR</TableHead>
+                            <TableHead className='border-0 border-r-2 text-center'>No</TableHead>
+                            <TableHead className='border-0 border-r-2 text-center'>Online/Offline</TableHead>
+                            <TableHead className='border-0 border-r-2 text-center'>Name</TableHead>
+                            <TableHead className='border-0 border-r-2 text-center'>Email</TableHead>
+                            <TableHead className='border-0 border-r-2 text-center'>Level</TableHead>
+                            <TableHead className='border-0 border-r-2 text-center'>Status</TableHead>
+                            <TableHead className='border-0 border-r-2 text-center'>Direct add money</TableHead>
+                            <TableHead className='border-0 border-r-2 text-center'>Withdrawal limit (₹)</TableHead>
+                            <TableHead className='border-0 border-r-2 text-center'>Add money limit (₹)</TableHead>
+                            <TableHead className='border-0 border-r-2 text-center'>Assign gateways</TableHead>
+                            <TableHead className='border-0 border-r-2 text-center'>gateways detail</TableHead>
+                            <TableHead className='text-center'>Assign QR</TableHead>
                         </TableHeader>
                         <TableBody className="">
                             {games.map((game) => (
@@ -87,7 +93,7 @@ const SubAdminPage = () => {
                                     </TableCell>
 
                                     <TableCell className='border-0 border-r-2 min-w-[120px] text-center'>
-                                        <Button className='bg-blue-500 hover:bg-blue-900 py-1 px-2 text-xs'>Assign gateway</Button>
+                                        <Button onClick={e=>route.push("/dashboard/sub-admin/assign-gateway")} className='bg-blue-500 hover:bg-blue-900 py-1 px-2 text-xs'>Assign gateway</Button>
                                     </TableCell>
 
                                     <TableCell className='border-0 border-r-2 min-w-[120px] text-center'>

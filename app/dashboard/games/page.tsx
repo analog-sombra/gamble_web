@@ -18,24 +18,24 @@ export default function AdminPanel() {
       <div className="flex flex-col items-center w-full h-full bg-white rounded-md">
         <h1 className="m-auto font-bold text-xl my-3">All Games</h1>
         <div className="w-full flex-1 rounded-lg p-3">
-          <Table>
+          <Table className="border">
             <TableHeader>
-              <TableRow>
-                <TableHead>NO</TableHead>
-                <TableHead>Gamer Name</TableHead>
-                <TableHead>Open Time</TableHead>
-                <TableHead>Close Time</TableHead>
-                <TableHead>Status</TableHead>
+              <TableRow className="bg-zinc-100">
+                <TableHead className="text-center">No</TableHead>
+                <TableHead className="text-center">Gamer Name</TableHead>
+                <TableHead className="text-center">Open Time</TableHead>
+                <TableHead className="text-center">Close Time</TableHead>
+                <TableHead className="text-center">Status</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody className="">
               {games.map((game) => (
                 <TableRow className="" key={game.no}>
-                  <TableCell className="min-w-15">{game.no}</TableCell>
-                  <TableCell className="  font-medium">{game.gameName}</TableCell>
-                  <TableCell className=" min-w-28">{game.openTime}</TableCell>
-                  <TableCell className="min-w-28">{game.closeTime}</TableCell>
-                  <TableCell className="min-w-28">
+                  <TableCell className="text-center min-w-15">{game.no}</TableCell>
+                  <TableCell className="text-center   font-medium">{game.gameName}</TableCell>
+                  <TableCell className="text-center  min-w-28">{game.openTime}</TableCell>
+                  <TableCell className="text-center min-w-28">{game.closeTime}</TableCell>
+                  <TableCell className="text-center min-w-28">
                     {game.status == "open" ? (
                       <Tag color="green">{game.status}</Tag>
                     ) : (
