@@ -1,118 +1,50 @@
-import { FaCopy } from "react-icons/fa6";
-import { BsBank } from "react-icons/bs";
-import { Button } from "@/components/ui/button";
-import { MdEmail } from "react-icons/md";
-import { FaSearch } from "react-icons/fa";
-import { Checkbox } from "@/components/ui/checkbox";
-import { IoPersonSharp } from "react-icons/io5";
-import { BiSolidUser } from "react-icons/bi";
-import { CiCreditCard2 } from "react-icons/ci";
-import { FiSmartphone } from "react-icons/fi";
-import { FaRegCalendar } from "react-icons/fa6";
-import { MdSmartphone } from "react-icons/md";
-import TransferDailouge from "../DialogeBoxes/transfer";
+"use client"
 
+import { Button } from '@/components/ui/button'
 import {
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Drawer, Image } from "antd";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
-import { TbReload } from "react-icons/tb";
-("");
-import { Tag } from "antd";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { SwitchThumb } from "@radix-ui/react-switch";
-import { FaMoneyBill } from "react-icons/fa6";
-import {
-  AlertDialog,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { IoMdClose } from "react-icons/io";
-import ApproveDailouge from "../DialogeBoxes/approve";
-import RejectDailouge from "../DialogeBoxes/reject";
-
-import { Input } from "antd";
+import { Input, Tag, Image } from "antd";
 import React from "react";
+import { BiSolidUser } from "react-icons/bi";
+import { BsBank } from "react-icons/bs";
+import { FaCopy } from "react-icons/fa6";
+import { MdEmail, MdSmartphone } from "react-icons/md";
+import ApproveDailouge from '../../all-money-request/DialogeBoxes/approve';
+import RejectDailouge from '../../all-money-request/DialogeBoxes/reject';
 
-type Players = {
-  userId: number;
-  bidAmount: number;
-  winAmount: number;
-};
-
-const players = [
-  {
-    userId: 0,
-    bidAmount: 231,
-    winAmount: 34234,
-  },
-  {
-    userId: 2,
-    bidAmount: 231,
-    winAmount: 34234,
-  },
-  {
-    userId: 3,
-    bidAmount: 231,
-    winAmount: 34234,
-  },
-  {
-    userId: 4,
-    bidAmount: 231,
-    winAmount: 34234,
-  },
-];
-
-const PendingResult = () => {
+const ApproveExcelReq = () => {
   return (
-    <>
-      <div>
-        <div className="w-[250px] sm:w-[350px] flex flex-col gap-2 mt-10 items-center">
-          <div className="flex h-10 w-full mb-1 max-w-sm items-center">
-            <Input
-              className="h-full  rounded-none rounded-l-md placeholder:font-semibold"
-              type="text"
-              placeholder="All"
-            />
-            <Button
-              className="h-full bg-blue-500  rounded-none rounded-r-md w-40"
-              type="submit"
-            >
-              Search
-            </Button>
-          </div>
-          <div className="flex h-10 w-full mb-1 max-w-sm items-center">
-            <Input
-              className="h-full  rounded-none rounded-l-md placeholder:font-semibold"
-              type="text"
-              placeholder="User I'd"
-            />
-            <Button
-              className="h-full bg-blue-500  rounded-none rounded-r-md w-40"
-              type="submit"
-            >
-              Search
-            </Button>
-          </div>
-        </div>
+    <div>
+      <div className="flex h-10 w-full mb-3 max-w-sm items-center">
+        <Select>
+          <SelectTrigger className="w-[180px] rounded-none rounded-l-md focus:out">
+            <SelectValue placeholder="ACC" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem value="apple">Account number</SelectItem>
+              <SelectItem value="banana">Account holder name</SelectItem>
+              <SelectItem value="blueberry">Amount</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+        <Input
+          className="h-full  rounded-none placeholder:font-semibold"
+          type="text"
+          placeholder="Enter"
+        />
+        <Button
+          className="h-full bg-blue-500  rounded-none rounded-r-md w-56"
+          type="submit"
+        >
+          Search
+        </Button>
       </div>
 
       <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
@@ -122,19 +54,22 @@ const PendingResult = () => {
               key={index}
               className="flex bg-gray-50 shadow-md flex-col w-full justify-start items-center sm:w-[360px] p-0 rounded-lg">
               <div className="min-h-7 bg-zinc-200 w-full flex items-center px-2 justify-start">
-                <span className="mx-1">Pending Request </span>
+                <span className="mx-1">Pending excel Request </span>
                 ( <BsBank className="mx-1" /> )<div className="grow"></div>
-                <TransferDailouge />
+                <Button className="bg-blue-600 hover:bg-blue-700 ">
+                  {"Excel"}
+                </Button>
               </div>
 
               {/* User profile and details */}
               <div className="flex flex-col justify-between rounded-md p-5 items-center px-4 py-2 w-full">
                 <Image
+                  alt="icon"
                   preview={false}
                   width={80}
                   height={80}
+                  className=""
                   src="https://cdn-icons-png.flaticon.com/128/3177/3177440.png"
-                  alt="icon"
                 />
                 <div className="flex flex-col gap-1 my-5 mb-2 w-full items-center">
                   <div className="flex gap-2 items-center">
@@ -257,20 +192,44 @@ const PendingResult = () => {
               {/* ... ... Action buttons ... ... */}
               <div className="flex justify-between pb-4 px-3 gap-0 mt-5 w-full">
                 <ApproveDailouge />
-                <Button
-                  className="bg-blue-500 py-2  hover:bg-blue-700 text-white w-full hover:text-white"
-                  variant={"outline"}
-                >
-                  processing
-                </Button>
                 <RejectDailouge />
               </div>
             </div>
           );
         })}
       </div>
-    </>
-  );
+
+    </div>
+  )
+}
+
+export default ApproveExcelReq
+
+type Players = {
+  userId: number;
+  bidAmount: number;
+  winAmount: number;
 };
 
-export default PendingResult;
+const players = [
+  {
+    userId: 0,
+    bidAmount: 231,
+    winAmount: 34234,
+  },
+  {
+    userId: 2,
+    bidAmount: 231,
+    winAmount: 34234,
+  },
+  {
+    userId: 3,
+    bidAmount: 231,
+    winAmount: 34234,
+  },
+  {
+    userId: 4,
+    bidAmount: 231,
+    winAmount: 34234,
+  },
+];

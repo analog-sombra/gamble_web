@@ -1,14 +1,19 @@
 import { Button } from "@/components/ui/button";
-import { Image } from "antd";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Input, Tag } from "antd";
 import React from "react";
 import { BiSolidUser } from "react-icons/bi";
-import { BsBank } from "react-icons/bs";
-import { FaCopy, FaMoneyBill, FaRegCalendar } from "react-icons/fa6";
+import { FaCopy } from "react-icons/fa6";
 import { MdSmartphone, MdEmail } from "react-icons/md";
-import ApproveDailouge from "../DialogeBoxes/approve";
-import RejectDailouge from "../DialogeBoxes/reject";
-import TransferDailouge from "../DialogeBoxes/transfer";
+import { Image } from "antd";
+import { FaMoneyBill, FaRegCalendar } from "react-icons/fa";
 
 type Players = {
   userId: number;
@@ -39,36 +44,51 @@ const players = [
   },
 ];
 
-const ProcessingResult = () => {
+const ApprovedResult = () => {
   return (
     <>
-      <div className="w-[250px] sm:w-[350px] flex flex-col gap-2 mt-10 items-center">
+      <div className="w-[250px] sm:w-[400px] flex flex-col gap-2 mt-10 items-center">
         <div className="flex h-10 w-full mb-1 max-w-sm items-center">
-          <Input
-            className="h-full  rounded-none rounded-l-md placeholder:font-semibold"
-            type="text"
-            placeholder="All"
-          />
-          <Button
-            className="h-full bg-blue-500  rounded-none rounded-r-md w-40"
-            type="submit"
-          >
-            Search
-          </Button>
+          <Select>
+            <SelectTrigger className="w-[180px] rounded-none rounded-l-md focus:out">
+              <SelectValue placeholder="Time" />
+            </SelectTrigger>
+            <SelectContent>
+              {/* <SelectLabel>Date</SelectLabel> */}
+              <SelectItem value="apple">Today</SelectItem>
+              <SelectItem value="banana">Yesterday</SelectItem>
+              <SelectItem value="blueberry">Last 7 days</SelectItem>
+              <SelectItem value="blueberry">Last 30 days</SelectItem>
+              <SelectItem value="blueberry">This month</SelectItem>
+              <SelectItem value="blueberry">Last month</SelectItem>
+              <SelectItem value="blueberry">Custom range</SelectItem>
+            </SelectContent>
+          </Select>
+          <Input className="h-full  rounded-none placeholder:font-semibold" type="date" />
+          <Button className="h-full bg-blue-500  rounded-none rounded-r-md w-56" type="submit">Filter</Button>
         </div>
+
         <div className="flex h-10 w-full mb-1 max-w-sm items-center">
-          <Input
-            className="h-full  rounded-none rounded-l-md placeholder:font-semibold"
-            type="text"
-            placeholder="User I'd"
-          />
-          <Button
-            className="h-full bg-blue-500  rounded-none rounded-r-md w-40"
-            type="submit"
-          >
-            Search
-          </Button>
+          <Input className="h-full  rounded-none rounded-l-md placeholder:font-semibold" type="text" placeholder="User I'd" />
+          <Button className="h-full bg-blue-500  rounded-none rounded-r-md w-40" type="submit">Search</Button>
         </div>
+        <div className="flex h-10 w-full mb-3 max-w-sm items-center">
+          <Select>
+            <SelectTrigger className="w-[180px] rounded-none rounded-l-md focus:out">
+              <SelectValue placeholder="ACC" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="apple">Account number</SelectItem>
+                <SelectItem value="banana">Account holder name</SelectItem>
+                <SelectItem value="blueberry">Amount</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          <Input className="h-full  rounded-none placeholder:font-semibold" type="text" placeholder="Enter" />
+          <Button className="h-full bg-blue-500  rounded-none rounded-r-md w-56" type="submit">Search</Button>
+        </div>
+
       </div>
 
       <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
@@ -79,7 +99,7 @@ const ProcessingResult = () => {
               className="flex bg-gray-50 shadow-md flex-col w-full justify-start items-center sm:w-[360px] p-0 rounded-lg">
 
               <div className="min-h-7 bg-zinc-200 w-full flex items-center px-2 justify-start">
-                <span className="mx-1">Processing request</span>
+                <span className="mx-1">Approved request</span>
                 (
                 <Image
                   preview={false}
@@ -162,64 +182,31 @@ const ProcessingResult = () => {
                 </div>
               </div>
 
-              {/* ... ... Seprator ... ... */}
-              <div className="h-[0.5px] w-[70%] bg-gray-300 my-5 "></div>
-
-              {/* ... ... Admin info ... ... */}
-
-              <div className="flex px-4 items-center mb-3 w-full justify-between">
-                <span className="font-semibold text-lg">Admin Info</span>
-                {/* <Tag className="px-4 py-[2px]" color="green">Online</Tag> */}
+              <div className="flex justify-end w-center">
+                <span className="text-start ml-[150px] justify-self-end text-green-500 font-bold ">
+                  Approved
+                </span>
               </div>
-
-              <div className="px-4 py-2 w-full justify-between items-center flex ">
-                <div className="flex flex-col justify-between items-start gap-2 ">
-                  <div className="flex items-center gap-2">
-                    <span className="font-semibold text-sm">
-                      <MdSmartphone />
-                    </span>
-                    <span>+91 **********</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="font-semibold text-sm">
-                      <MdEmail />
-                    </span>
-                    <span>exampl@gmail.com</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="font-semibold text-sm">
-                      <BiSolidUser />
-                    </span>
-                    <span>Name of admin</span>
-                  </div>
-                </div>
-
-                {/* <div className="flex flex-col my-2 gap-2 justify-between ">
-                                    <div className="flex flex-col">
-                                        <span className="font-semibold text-sm">Last approved:-</span>
-                                        <span> one minute ago </span>
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <span className="font-semibold text-sm">Last rejected:-</span>
-                                        <span> one minute ago </span>
-                                    </div>
-                                </div> */}
+              <div className="flex w-full px-5 mt-4 justify-start gap-4">
+                <Input
+                  className="rounded-3xl "
+                  id="picture"
+                  type="text"
+                  placeholder="Type refund"
+                />
+                <Button className="rounded-3xl text-xs flex justify-self-start bg-[#4ca091] px-3 ">
+                  Refund now
+                </Button>
               </div>
 
               {/* ... ... Action buttons ... ... */}
-              <div className="flex justify-between pb-4 px-3 gap-0 mt-5 w-full">
-                <Button
-                  className="bg-green-500 w-full  rounded-md hover:bg-green-700 text-white "
-                  variant={"default"}
+              <div className="min-h-7 mt-5  w-full flex items-center justify-end">
+                <Tag
+                  className="w-full text-center p-0 m-0 py-[2px]"
+                  color="green"
                 >
-                  Approve
-                </Button>
-                <Button
-                  className="bg-red-500 w-full  rounded-md hover:bg-red-700 text-white "
-                  variant={"default"}
-                >
-                  Rejected
-                </Button>
+                  Approved
+                </Tag>
               </div>
             </div>
           );
@@ -229,4 +216,4 @@ const ProcessingResult = () => {
   );
 };
 
-export default ProcessingResult;
+export default ApprovedResult;

@@ -114,7 +114,7 @@ const PendingResult = () => {
           return (
             <div
               key={index}
-              className="flex bg-gray-50 shadow-md flex-col justify-start items-center w-[360px] p-0 rounded-lg"
+              className="flex bg-gray-50 shadow-md flex-col justify-start w-full items-center sm:w-[360px] p-0 rounded-lg"
             >
               <div className="min-h-7 bg-zinc-200 w-full flex items-center px-2 justify-start">
                 <span className="mx-1">Pending Request </span>

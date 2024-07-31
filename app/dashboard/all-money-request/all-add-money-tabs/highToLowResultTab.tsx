@@ -109,12 +109,12 @@ const HighToLowResult = () => {
         </div>
       </div>
 
-      <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
+      <div className="flex flex-wrap justify-center gap-5 my-9 items-center">
         {players.map((user: Players, index: number) => {
           return (
             <div
               key={index}
-              className="flex bg-gray-50 shadow-md flex-col justify-start items-center w-[360px] p-0 rounded-lg"
+              className="flex bg-gray-50 shadow-md flex-col justify-start w-full items-center sm:w-[360px] p-0 rounded-lg"
             >
               <div className="min-h-7 bg-zinc-200 w-full flex items-center px-2 justify-start">
                 <span className="mx-1">Approved request</span>

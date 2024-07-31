@@ -1,14 +1,18 @@
 import { Button } from "@/components/ui/button";
-import { Image } from "antd";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Input, Tag } from "antd";
 import React from "react";
 import { BiSolidUser } from "react-icons/bi";
-import { BsBank } from "react-icons/bs";
-import { FaCopy, FaMoneyBill, FaRegCalendar } from "react-icons/fa6";
-import { MdSmartphone, MdEmail } from "react-icons/md";
-import ApproveDailouge from "../DialogeBoxes/approve";
-import RejectDailouge from "../DialogeBoxes/reject";
-import TransferDailouge from "../DialogeBoxes/transfer";
+import { FaMoneyBill, FaRegCalendar, FaCopy } from "react-icons/fa6";
+import { MdEmail, MdSmartphone } from "react-icons/md";
+import { Image } from "antd";
 
 type Players = {
   userId: number;
@@ -39,7 +43,7 @@ const players = [
   },
 ];
 
-const ProcessingResult = () => {
+const RejectedResult = () => {
   return (
     <>
       <div className="w-[250px] sm:w-[350px] flex flex-col gap-2 mt-10 items-center">
@@ -79,7 +83,7 @@ const ProcessingResult = () => {
               className="flex bg-gray-50 shadow-md flex-col w-full justify-start items-center sm:w-[360px] p-0 rounded-lg">
 
               <div className="min-h-7 bg-zinc-200 w-full flex items-center px-2 justify-start">
-                <span className="mx-1">Processing request</span>
+                <span className="mx-1">Reject request</span>
                 (
                 <Image
                   preview={false}
@@ -162,64 +166,25 @@ const ProcessingResult = () => {
                 </div>
               </div>
 
-              {/* ... ... Seprator ... ... */}
-              <div className="h-[0.5px] w-[70%] bg-gray-300 my-5 "></div>
-
-              {/* ... ... Admin info ... ... */}
-
-              <div className="flex px-4 items-center mb-3 w-full justify-between">
-                <span className="font-semibold text-lg">Admin Info</span>
-                {/* <Tag className="px-4 py-[2px]" color="green">Online</Tag> */}
+              <div className="flex item-start px-6 mb-2 mt-6 w-full justify-center gap-1 flex-col">
+                <span className="text-start  justify-self-end text-red-600 font-bold ">
+                  Rejected on 7/23/2024:-
+                </span>
+                <span className="text-red-500 font-semibold text-[13px]">
+                  Reason of being rejected here
+                </span>
               </div>
 
-              <div className="px-4 py-2 w-full justify-between items-center flex ">
-                <div className="flex flex-col justify-between items-start gap-2 ">
-                  <div className="flex items-center gap-2">
-                    <span className="font-semibold text-sm">
-                      <MdSmartphone />
-                    </span>
-                    <span>+91 **********</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="font-semibold text-sm">
-                      <MdEmail />
-                    </span>
-                    <span>exampl@gmail.com</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="font-semibold text-sm">
-                      <BiSolidUser />
-                    </span>
-                    <span>Name of admin</span>
-                  </div>
-                </div>
-
-                {/* <div className="flex flex-col my-2 gap-2 justify-between ">
-                                    <div className="flex flex-col">
-                                        <span className="font-semibold text-sm">Last approved:-</span>
-                                        <span> one minute ago </span>
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <span className="font-semibold text-sm">Last rejected:-</span>
-                                        <span> one minute ago </span>
-                                    </div>
-                                </div> */}
-              </div>
+             
 
               {/* ... ... Action buttons ... ... */}
-              <div className="flex justify-between pb-4 px-3 gap-0 mt-5 w-full">
-                <Button
-                  className="bg-green-500 w-full  rounded-md hover:bg-green-700 text-white "
-                  variant={"default"}
-                >
-                  Approve
-                </Button>
-                <Button
-                  className="bg-red-500 w-full  rounded-md hover:bg-red-700 text-white "
-                  variant={"default"}
+              <div className="min-h-7  w-full flex items-center justify-end">
+                <Tag
+                  className="w-full text-center p-0 m-0 py-[2px]"
+                  color="red"
                 >
                   Rejected
-                </Button>
+                </Tag>
               </div>
             </div>
           );
@@ -229,4 +194,4 @@ const ProcessingResult = () => {
   );
 };
 
-export default ProcessingResult;
+export default RejectedResult;

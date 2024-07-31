@@ -55,7 +55,7 @@ const navLinks = [
     icon: <MaterialSymbolsManageHistory />,
   },
   {
-    name: "X Excel Record",
+    name: "Excel Record",
     url: "/dashboard/excel-record",
     icon: <MaterialSymbolsManageHistory />,
   },
@@ -210,9 +210,23 @@ export default function Sidebar({ isSidebarOpen, setSidebar }: SidebarProps) {
                 <span className={`${isActive ? "text-[#3f2632]" : "text-black"} text-xl`}>
                   {links.icon}
                 </span>
-                <Link onClick={e => setSidebar(false)} href={links.url} className={`${isActive ? "" : ""}`}>
-                  {links.name}
-                </Link>
+                {
+                  links.url === "/dashboard/admin-panel"
+                    ? <Collapsible>
+                      <CollapsibleTrigger>{links.name}</CollapsibleTrigger>
+                      <CollapsibleContent className=" flex flex-col ">
+                        <Link onClick={e=>setSidebar(false)} className="text-md my-3" href={`/dashboard/sub-admin`}>Subadmin</Link>
+                        <Link onClick={e=>setSidebar(false)} className="text-md" href={"/dashboard/blocked"}>
+                          Blocked
+                        </Link>
+                      </CollapsibleContent>
+                    </Collapsible>
+
+                    :
+                    <Link onClick={e=>setSidebar(false)} className="text-md" href={links.url}>
+                      {links.name}
+                    </Link>
+                }
               </div>
             );
           })}

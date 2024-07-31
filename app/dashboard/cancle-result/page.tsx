@@ -91,9 +91,9 @@ export default function CancelResult() {
     setTotalWinner(23);
     setTotalWinningAmount(9284923);
   };
-  const onChange: DatePickerProps["onChange"] = (date, dateString) => {};
+  const onChange: DatePickerProps["onChange"] = (date, dateString) => { };
 
-  const handleChange = (value: string) => {};
+  const handleChange = (value: string) => { };
 
   return (
     <>
@@ -148,7 +148,7 @@ export default function CancelResult() {
         </div>
       </section>
 
-      <section className="bg-white p-3 pt-0 mt-0 sm:mt-8">
+      <section className="bg-white p-3 pt-0 mt-0 sm:mt-8 sm:mb-0 mb-5">
         <div className=" md:gap-8 gap-1 flex flex-col md:flex-row justify-start items-start mb-5 border-none">
           <div className="flex items-end text-sm">
             <span className=" font-semibold ">Total Winning Amount: </span>
@@ -182,9 +182,8 @@ export default function CancelResult() {
                 </div>
 
                 <div
-                  className={`${
-                    user.bidAmount.toString().length >= 9 ? "mb-2" : "mb-0"
-                  } flex flex-wrap justify-center my-1 text-gray-400 text-xs gap-1`}
+                  className={`${user.bidAmount.toString().length >= 9 ? "mb-2" : "mb-0"
+                    } flex flex-wrap justify-center my-1 text-gray-400 text-xs gap-1`}
                 >
                   <div className="  font-bold">Bidding Amt:</div>
                   <span className="font-semibold">{user.bidAmount}</span>
@@ -198,12 +197,11 @@ export default function CancelResult() {
             );
           })}
         </div>
-
+        
         <Button
           onClick={() => route.push("/dashboard/result-securite-page")}
-          className="my-8 w-full md:w-3 bg-blue-700 px-12"
-        >
-          Next
+          className="my-8 w-full md:w-3 bg-blue-700 px-12">
+            Next
         </Button>
 
         {/* <Table>

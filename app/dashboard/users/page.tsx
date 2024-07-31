@@ -41,19 +41,6 @@ export default function Users() {
             Search
           </button>
           <div className="grow"></div>
-          {/* <Select
-            placeholder="User Filter"
-            className="w-full md:w-40"
-            onChange={(val) => {}}
-            children={
-              <></>
-            }
-            // options={[
-            //   { value: "all", label: "All Users" },
-            //   { value: "block", label: "Blocked User" },
-            //   { value: "minus", label: "Minus Wallet" },
-            // ]}
-          /> */}
         </div>
       </div>
       <div className="shadow bg-white p-4 rounded-md mt-4">
@@ -135,40 +122,18 @@ export default function Users() {
 
         <div className="w-full flex justify-start items-center">
           <button
-            onClick={() => {route.push("/dashboard/users/profile");}}
-            className="w-full mt-2 md:w-32 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
+            onClick={() => { route.push("/dashboard/users/profile"); }}
+            className="sm:w-full mt-2 md:w-32 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
             Statement option
           </button>
           <div className="grow"></div>
-          <div className="flex flex-col font-semibold mr-4 gap-2 ">Status:</div>
+          <div className="flex flex-col font-semibold mr-1 sm:mr-4 gap-2 ">Status:</div>
           <Tag className='w-20 flex justify-center' color="green">Active</Tag>
           {/* <div className="bg-green-500 py-1 min-h-1 px-3 rounded-md text-white">Active</div> */}
         </div>
-        {/* <div className="mt-2">
-          <Pagination
-            total={85}
-            showSizeChanger
-            showQuickJumper
-            showTotal={(total) => `${total} items`}
-          />
-        </div> */}
+
       </div>
-      {/* <Modal
-        title="Change Password"
-        open={passwordBox}
-        onOk={() => setPasswordBox(false)}
-        onCancel={() => setPasswordBox(false)}
-      >
-        <Input placeholder="Enter New Password" />
-      </Modal>
-      <Modal
-        title="Cash Deduction"
-        open={amountBox}
-        onOk={() => setAmountBox(false)}
-        onCancel={() => setAmountBox(false)}
-      >
-        <Input className="Enter Amount" />
-      </Modal> */}
+
     </main>
   );
 }

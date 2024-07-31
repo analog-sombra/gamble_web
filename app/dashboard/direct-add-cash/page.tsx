@@ -66,8 +66,6 @@ export default function DirectAdd() {
         </div>
       </div>
 
-
-
     </div>
   );
 }

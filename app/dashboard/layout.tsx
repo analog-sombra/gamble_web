@@ -64,17 +64,19 @@ export default function DashboardLayout({
                 <IoMenu className=" text-3xl text-white" />
               </button>
 
-              {currentTab !== "add" || pathname !== '/dashboard/home' ? (
-                <div className=" text-sm font-semibold sm:text-medium text-white">
-                  {" "}
-                  WD limit: 234
-                </div>
-              ) : (
-                <div className=" text-sm font-semibold sm:text-medium text-white">
-                  {" "}
-                  Add limit: 234
-                </div>
-              )}
+              {pathname === '/dashboard/home' &&
+                currentTab !== "add"
+                ? (
+                  <div className=" text-sm font-semibold sm:text-medium text-white">
+                    WD limit: 234
+                  </div>
+                )
+                : (
+                  <div className=" text-sm font-semibold sm:text-medium text-white">
+                    Add limit: 234
+                  </div>
+                )
+              }
               <button className="md:w-32 sm:mr-2 text-black font-semibold h-8 text-sm bg-white hover:bg-zinc-100 py-1 px-2 rounded-md">
                 Log out
               </button>

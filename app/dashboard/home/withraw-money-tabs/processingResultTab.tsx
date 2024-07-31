@@ -162,50 +162,6 @@ const ProcessingResult = () => {
                 </div>
               </div>
 
-              {/* ... ... Seprator ... ... */}
-              <div className="h-[0.5px] w-[70%] bg-gray-300 my-5 "></div>
-
-              {/* ... ... Admin info ... ... */}
-
-              <div className="flex px-4 items-center mb-3 w-full justify-between">
-                <span className="font-semibold text-lg">Admin Info</span>
-                {/* <Tag className="px-4 py-[2px]" color="green">Online</Tag> */}
-              </div>
-
-              <div className="px-4 py-2 w-full justify-between items-center flex ">
-                <div className="flex flex-col justify-between items-start gap-2 ">
-                  <div className="flex items-center gap-2">
-                    <span className="font-semibold text-sm">
-                      <MdSmartphone />
-                    </span>
-                    <span>+91 **********</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="font-semibold text-sm">
-                      <MdEmail />
-                    </span>
-                    <span>exampl@gmail.com</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="font-semibold text-sm">
-                      <BiSolidUser />
-                    </span>
-                    <span>Name of admin</span>
-                  </div>
-                </div>
-
-                {/* <div className="flex flex-col my-2 gap-2 justify-between ">
-                                    <div className="flex flex-col">
-                                        <span className="font-semibold text-sm">Last approved:-</span>
-                                        <span> one minute ago </span>
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <span className="font-semibold text-sm">Last rejected:-</span>
-                                        <span> one minute ago </span>
-                                    </div>
-                                </div> */}
-              </div>
-
               {/* ... ... Action buttons ... ... */}
               <div className="flex justify-between pb-4 px-3 gap-0 mt-5 w-full">
                 <Button

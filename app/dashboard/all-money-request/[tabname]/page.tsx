@@ -71,14 +71,14 @@ const AllAddMoney = ({ params }: { params: { tabname: string } }) => {
                 {/* withdraw and add money tabs */}
 
                 <Tabs defaultValue={params.tabname} className="w-full flex flex-col mt-2 ">
-                    <TabsList className=" m-auto mb-0  ">
-                        <TabsTrigger className=" text-lg" value="add" onClick={e => route.replace('/dashboard/all-money-request/add')}>
+                    <TabsList className=" sm:m-auto sm:my-0 ">
+                        <TabsTrigger className="text-sm sm:text-lg" value="add" onClick={e => route.replace('/dashboard/all-money-request/add')}>
                             <FaMoneyBillTrendUp className="text-green-500 mr-3" />
-                            <span>All add Money</span>
+                            <span className="break-words text-ellipsis">All add Money</span>
                         </TabsTrigger>
-                        <TabsTrigger className=" text-lg" value="withdraw" onClick={e => route.replace('/dashboard/all-money-request/withdraw')}>
+                        <TabsTrigger className="text-sm sm:text-lg" value="withdraw" onClick={e => route.replace('/dashboard/all-money-request/withdraw')}>
                             <BiMoneyWithdraw className="text-yellow-500 text-xl mr-3" />
-                            <span>All withdraw Money</span>
+                            <span className="break-words text-ellipsis">All withdraw Money</span>
                         </TabsTrigger>
                     </TabsList>
 

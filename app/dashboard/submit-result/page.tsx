@@ -97,7 +97,7 @@ export default function SubmitResult() {
 
   return (
     <>
-      <section className="flex w-full gap-3 flex-col justify-center lg:flex-row items-start">
+      <section className="flex w-full gap-3 flex-col justify-center lg:flex-row items-start ">
         <div className="sm:w-96 bg-white p-3 pb-0 rounded-md flex flex-col justify-center gap-2 w-full">
           <h2>Submit Result</h2>
           <Divider />
@@ -148,7 +148,7 @@ export default function SubmitResult() {
         </div>
       </section>
 
-      <section className="bg-white p-3 pt-0 mt-0 sm:mt-8">
+      <section className="bg-white p-3 pt-0 mt-0 sm:mt-8 sm:mb-0 mb-3">
         <div className=" md:gap-8 gap-1 flex flex-col md:flex-row justify-start items-start mb-5 border-none">
           <div className="flex items-end text-sm">
             <span className=" font-semibold ">Total Winning Amount: </span>

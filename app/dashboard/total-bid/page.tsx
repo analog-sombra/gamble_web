@@ -84,55 +84,62 @@ export default function TotalBidAmount() {
       </div>
 
       {sumbit && (
-        <div className="bg-white p-3 rounded-md mt-3 flex flex-col overflow-auto items-center justify-center">
-          {/* ......... Main game ....... */}
-          <table className="border">
-            {array.map((value, index) => (
-              <tr key={index}>
-                {array.map((value, index) => (
-                  <td key={index} className="text-center sm:m-[3px] m-0 md:w-28 sm:w-16 w-12 py-2">
-                    <div>
-                      <p className="bg-indigo-600 text-white">{++counter == 100 ? "00" : counter}</p>
-                      <p className="text-xs text-ellipsis">{Math.round(Math.random() * 1022220)}</p>
-                    </div>
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </table>
+
+        <>
+          <div className="bg-white p-3 rounded-md mt-3 flex flex-col overflow-auto sm:items-center justify-center">
+            {/* ......... Main game ....... */}
+            <table className="border ">
+              {array.map((value, index) => (
+                <tr key={index}>
+                  {array.map((value, index) => (
+                    <td key={index} className="text-center sm:m-[3px] m-0 md:w-28 sm:w-16 w-12 py-2">
+                      <div>
+                        <p className="bg-indigo-600 text-white">{++counter == 100 ? "00" : counter}</p>
+                        <p className="text-xs text-ellipsis">{Math.round(Math.random() * 1022220)}</p>
+                      </div>
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </table>
+          </div>
 
           {/* ......... Ander ....... */}
-          <h1 className="flex w-full text-lg justify-center mt-6 font-bold">Ander / A</h1>
-          <table className="borde flex">
-            {array.map((value, index) => (
-              <tr key={index}>
-                <td key={index} className="text-center sm:m-[3px]  m-0 md:w-28 sm:w-16 w-12 ">
-                  <div>
-                    <p className="bg-indigo-600 text-white">{++index == 10 ? "0" : index}</p>
-                    <p className="text-xs text-ellipsis ">{Math.round(Math.random() * 1222)}</p>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </table>
+          <div className="bg-white p-3 rounded-md mt-3 flex flex-col overflow-auto sm:items-center justify-center">
 
+            <h1 className="flex w-full text-lg justify-center mt-6 font-bold">Ander / A</h1>
+            <table className="borde flex">
+              {array.map((value, index) => (
+                <tr key={index}>
+                  <td key={index} className="text-center sm:m-[3px]  m-0 md:w-28 sm:w-16 w-12 ">
+                    <div>
+                      <p className="bg-indigo-600 text-white">{++index == 10 ? "0" : index}</p>
+                      <p className="text-xs text-ellipsis ">{Math.round(Math.random() * 1222)}</p>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </table>
+          </div>
           {/* ......... Baher ....... */}
-          <h1 className="flex w-full text-lg justify-center mt-6 font-bold">Baher / B</h1>
-          <table className="borde flex">
-            {array.map((value, index) => (
-              <tr key={index}>
-                <td key={index} className="text-center sm:m-[3px]  m-0 md:w-28 sm:w-16 w-12 ">
-                  <div>
-                    <p className="bg-indigo-600 text-white">{++index == 10 ? "0" : index}</p>
-                    <p className="text-xs text-ellipsis ">{Math.round(Math.random() * 1222)}</p>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </table>
+          <div className="bg-white p-3 rounded-md mt-3 flex flex-col overflow-auto sm:items-center justify-center">
 
+            <h1 className="flex w-full text-lg justify-center mt-6 font-bold">Baher / B</h1>
+            <table className="borde flex">
+              {array.map((value, index) => (
+                <tr key={index}>
+                  <td key={index} className="text-center sm:m-[3px]  m-0 md:w-28 sm:w-16 w-12 ">
+                    <div>
+                      <p className="bg-indigo-600 text-white">{++index == 10 ? "0" : index}</p>
+                      <p className="text-xs text-ellipsis ">{Math.round(Math.random() * 1222)}</p>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </table>
+          </div>
+        </>
 
-        </div>
       )}
     </>
   );

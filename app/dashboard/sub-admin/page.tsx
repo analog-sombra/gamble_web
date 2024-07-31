@@ -23,14 +23,15 @@ const SubAdminPage = () => {
     
     return (
         <>
-            <div className="flex flex-col items-center w-full h-full bg-white rounded-md">
+            <div className="flex flex-col items-center w-full h-full bg-white px-3 rounded-md">
                 <h1 className="m-auto font-bold text-2xl my-3">Sub Admin</h1>
 
-                <div className="sm:flex flex sm:flex-row flex-col-reverse justify-between w-full items-center">
+                <div className="sm:flex flex sm:flex-row flex-col-reverse justify-between w-full items-center sm:text-base text-sm">
+
                     <div className="flex gap-3 sm:my-10 my-5 w-full justify-start items-center">
                         <div className="border px-4 py-1  bg-slate-100 shadow-md flex flex-col justify-center items-center">
-                            <span className="font-semibold">Total Withdrawal Balance</span>
-                            <span className="">23,000</span>
+                            <span className="font-semibold">23,000</span>
+                            <span className="sm:text-base text-xs ">Total Withdrawal Balance</span>
                         </div>
                     </div>
 
@@ -40,7 +41,7 @@ const SubAdminPage = () => {
                     </div>
                 </div>
 
-                <div className="w-full flex-1 rounded-lg p-3">
+                <div className="w-full flex-1 rounded-lg ">
                     <Table className='border-2' >
                         <TableHeader className='bg-zinc-100'>
                             <TableHead className='border-0 border-r-2 text-center'>No</TableHead>
@@ -101,7 +102,7 @@ const SubAdminPage = () => {
                                     </TableCell>
 
                                     <TableCell className='border-0 border-r-2 min-w-[120px] text-center'>
-                                        <Button className='bg-blue-500 hover:bg-blue-900 py-0 px-2 text-xs'>Assign QR</Button>
+                                        <Button onClick={e=>route.push("/dashboard/sub-admin/assign-qr-gateway")} className='bg-blue-500 hover:bg-blue-900 py-0 px-2 text-xs'>Assign QR</Button>
                                     </TableCell>
 
                                 </TableRow>
