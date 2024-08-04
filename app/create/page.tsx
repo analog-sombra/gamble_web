@@ -2,10 +2,10 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FieldErrors, useForm } from "react-hook-form";
-import { LoginForm, LoginSchema } from "../../schema/login";
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import { CreateUserForm, CreateUserSchema } from "@/schema/create";
 
 export default function Login() {
   const router = useRouter();
@@ -17,34 +17,38 @@ export default function Login() {
     control,
     formState: { errors, isSubmitting },
     reset,
-  } = useForm<LoginForm>({
-    resolver: valibotResolver(LoginSchema),
+  } = useForm<CreateUserForm>({
+    resolver: valibotResolver(CreateUserSchema),
   });
 
-  const onSubmit = async (data: LoginForm) => {
+  const onSubmit = async (data: CreateUserForm) => {
     console.log(data);
     const responsedata = await axios.get("http://localhost:5000");
     console.log(responsedata.data);
   };
 
-  const onError = (error: FieldErrors<LoginForm>) => {
+  const onError = (error: FieldErrors<CreateUserForm>) => {
     console.log(error);
   };
 
   async function getdata() {
-    const responsedata = await axios.get("http://localhost:5000");
-    console;
+    const responsedata = await axios.get(
+      "http://localhost:5000/api/auth/login"
+    );
 
+    console.log();
     // const users = (await res.json()) as User[];
-    return [];
+    return responsedata;
   }
 
   const { data } = useQuery({
-    queryKey: ["initial-users"],
+    queryKey: ["create-users"],
     queryFn: () => getdata(),
     initialData: null,
     staleTime: 5 * 1000,
   });
+
+  console.log(data);
 
   return (
     <main className="h-screen bg-[linear-gradient(90deg,#C7C5F4,#776BCC)] flex items-center justify-center overflow-hidden">
@@ -53,7 +57,7 @@ export default function Login() {
           <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                Sign in to your account
+                Create User Account
               </h1>
               <form
                 onSubmit={handleSubmit(onSubmit, onError)}
@@ -97,6 +101,7 @@ export default function Login() {
                         ? "border-red-500"
                         : "hover:border-blue-500"
                     }`}
+                    placeholder="Enter password"
                   />
                   {errors.password && (
                     <p className="text-xs text-red-500">
@@ -104,31 +109,13 @@ export default function Login() {
                     </p>
                   )}
                 </div>
-                {/* <div className="flex items-center justify-between">
-                  <div className="flex-1"></div>
-                  <a
-                    href="#"
-                    className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
-                  >
-                    Forgot password?
-                  </a>
-                </div> */}
+
                 <button
-                  // onClick={() => router.push("/dashboard/home")}
                   type="submit"
                   className="w-full text-white bg-blue-600 hover:bg-white dark:hover:bg-black hover:border-blue-600 dark:hover:border-white hover:text-blue-600 border-[1px] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:focus:ring-primary-800"
                 >
-                  Sign in
+                  Create Account
                 </button>
-                <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                  Don’t have an account yet?{" "}
-                  <Link
-                    href="/register"
-                    className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                  >
-                    Sign up
-                  </Link>
-                </p>
               </form>
             </div>
           </div>
