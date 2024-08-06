@@ -1,14 +1,33 @@
 "use client";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+
 import { FieldErrors, useForm } from "react-hook-form";
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { CreateUserForm, CreateUserSchema } from "@/schema/create";
+import { BASE_URL } from "@/lib/const";
+import { toast } from "react-toastify";
 
 export default function Login() {
-  const router = useRouter();
+  const mutation = useMutation({
+    mutationFn: (createuser: CreateUserForm) => {
+      return axios.post(`${BASE_URL}/api/user/create_demo`, {
+        email: createuser.email,
+        password: createuser.password,
+      });
+    },
+    onError: (error: any, variables, context) => {
+      toast.error(error.response.data.message);
+    },
+    onSuccess: async (data, variables, context) => {
+      if (data.data.status) {
+        toast.success(data.data.message);
+        reset();
+      } else {
+        toast.error(data.data.message);
+      }
+    },
+  });
 
   const {
     register,
@@ -22,9 +41,7 @@ export default function Login() {
   });
 
   const onSubmit = async (data: CreateUserForm) => {
-    console.log(data);
-    const responsedata = await axios.get("http://localhost:5000");
-    console.log(responsedata.data);
+    mutation.mutate(data);
   };
 
   const onError = (error: FieldErrors<CreateUserForm>) => {
@@ -36,7 +53,6 @@ export default function Login() {
       "http://localhost:5000/api/auth/login"
     );
 
-    console.log();
     // const users = (await res.json()) as User[];
     return responsedata;
   }
@@ -47,8 +63,6 @@ export default function Login() {
     initialData: null,
     staleTime: 5 * 1000,
   });
-
-  console.log(data);
 
   return (
     <main className="h-screen bg-[linear-gradient(90deg,#C7C5F4,#776BCC)] flex items-center justify-center overflow-hidden">

@@ -8,8 +8,6 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 
 export default function Login() {
-  const router = useRouter();
-
   const {
     register,
     handleSubmit,
@@ -33,9 +31,7 @@ export default function Login() {
 
   async function getdata() {
     const responsedata = await axios.get("http://localhost:5000");
-    console;
 
-    // const users = (await res.json()) as User[];
     return [];
   }
 
@@ -91,6 +87,7 @@ export default function Login() {
                   <input
                     type="password"
                     id="password"
+                    placeholder="Password"
                     {...register("password")}
                     className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${
                       errors.password
