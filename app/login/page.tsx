@@ -8,6 +8,17 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 
 export default function Login() {
+  // complete login
+  // save id and role in cookie
+  // use mw to check id
+  // if login then access dashboard
+  // if not then redirent to login
+  // npm cookies-next
+
+  // const query = useQuery({
+  //   queryKey:"login_data",
+  //   queryFn:()=>{}
+  // })
   const {
     register,
     handleSubmit,
