@@ -14,8 +14,11 @@ import { IoMenu } from "react-icons/io5";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import LoadingPageIndicator from "@/components/LoadingPageIndicator";
+import { Modal } from "antd";
+import { deleteCookie } from "cookies-next";
+import { Replace } from "lucide-react";
 
 export default function DashboardLayout({
   children,
@@ -25,8 +28,14 @@ export default function DashboardLayout({
   const [isSidebarOpen, setSidebar] = useState(false);
   const pathname = usePathname();
   const { currentTab, setCurrentTab } = useTab();
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
-  console.log(pathname)
+  const route = useRouter()
+
+  const handleLogout = () => {
+    deleteCookie('session')
+    route.replace('/login')
+  }
 
   return (
     <div className="w-full flex bg-[#efefef] h-screen">
@@ -77,9 +86,13 @@ export default function DashboardLayout({
                   </div>
                 )
               }
-              <button className="md:w-32 sm:mr-2 text-black font-semibold h-8 text-sm bg-white hover:bg-zinc-100 py-1 px-2 rounded-md">
+              <button onClick={e => setIsModalOpen(true)} className="md:w-32 sm:mr-2 text-black font-semibold h-8 text-sm bg-white hover:bg-zinc-100 py-1 px-2 rounded-md">
                 Log out
               </button>
+
+              <Modal animation={false} centered title="Confirm logout" open={isModalOpen} onOk={handleLogout} onCancel={e => setIsModalOpen(false)}>
+                <p>Are you sure you want to logout?</p>
+              </Modal>
             </div>
 
           </div>
