@@ -5,6 +5,9 @@ export interface ApiResponseType<T> {
   functionname: string;
 }
 
+export interface apiRequestType {
+  
+}
 
 export interface ApiErrorType {
   response: {
@@ -16,3 +19,6 @@ export interface ApiErrorType {
     }
   }
 } 
+
+
+

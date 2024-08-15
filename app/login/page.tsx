@@ -33,11 +33,11 @@ export default function Login() {
     resolver: valibotResolver(LoginSchema),
   });
 
-  async function getdata() {
-    const responsedata = await axios.get("http://localhost:5000");
+  // async function getdata() {
+  //   const responsedata = await axios.get("http://localhost:5000");
 
-    return [];
-  }
+  //   return [];
+  // }
 
   const { mutate } = useMutation({
     mutationKey: [],
@@ -46,10 +46,11 @@ export default function Login() {
         email: data.email,
         password: data.password
       });
-      setCookie('session', JSON.stringify({
-        id: responsedata.data.data.id,
-        role: responsedata.data.data.role
-      }))
+      console.log(responsedata);
+      console.log(responsedata.config.headers["x-refresh-token"]);
+
+      setCookie("session", responsedata.data.data.access_token)
+      setCookie("x-r-t", responsedata.data.data.refresh_token)
       route.replace('/dashboard/home')
       toast.success("Your login process is success")
     },
@@ -140,13 +141,7 @@ export default function Login() {
                   Sign in
                 </button>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                  Don’t have an account yet?{" "}
-                  <Link
-                    href="/register"
-                    className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                  >
-                    Sign up
-                  </Link>
+                  Contact admin for your worker account
                 </p>
               </form>
             </div>

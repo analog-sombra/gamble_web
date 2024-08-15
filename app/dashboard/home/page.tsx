@@ -24,6 +24,23 @@ import { useTab } from "@/state/tabState";
 export default function Home() {
   const { currentTab, setCurrentTab } = useTab();
 
+  const handleUploadFile = async () => {
+    // const reqUlr = generateUrl('api/payment/login', {}, ParamType.Body)
+    // console.info(reqUlr)
+    
+    // const response = await apiRequest(`${BASE_URL}/api/payment/login`, HttpMethodType.POST, {
+    //   bodyParam: {
+    //     "email": "kenkani0408@gmail.com",
+    //     "password": "Doremon@0408",
+    //   },
+    //   includeToke: true,
+    //   makeNewTokenReq: true,
+
+    // })
+    // console.log(response);
+  }
+
+
   return (
     <div className="">
       {/* <LoadingBar progress={50} className="text-blue-600" /> */}
@@ -34,7 +51,7 @@ export default function Home() {
           </button>
           {
             currentTab === "add" && (
-              <button className="w-full md:w-32  mr-2 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
+              <button onClick={handleUploadFile} className="w-full md:w-32  mr-2 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
                 Upload file
               </button>
             )

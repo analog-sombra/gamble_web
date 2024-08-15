@@ -4,7 +4,7 @@ import { NextResponse, NextRequest } from 'next/server'
 export function middleware(request: NextRequest) {
 
     const session = request.cookies.get("session")
-
+    
     if (
         session && (
             request.nextUrl.pathname.startsWith("/login") ||
