@@ -48,7 +48,7 @@ export function generateUrl(path: string, parameters: ParamInput, paramType: Par
     }
 }
 
-export async function apiRequest(url: string,
+export async function makeApiRequeest(url: string,
     httpMethod: HttpMethodType,
     opt: Options = {
         includeToke: true,
@@ -72,7 +72,7 @@ export async function apiRequest(url: string,
 
                 setCookie('session', response.data.data.access_token);
                 setCookie('x-r-t', response.data.data.refresh_token);
-                apiRequest(url, httpMethod, opt)
+                makeApiRequeest(url, httpMethod, opt)
             } catch (refreshError) {
                 console.error('Error refreshing access token: ', refreshError);
                 return refreshError as AxiosError;
@@ -101,7 +101,6 @@ export async function apiRequest(url: string,
 }
 
 const isTokenExpired = (token: string) => {
-    // if (!token) return true;
     try {
         const decodedToken = jwtDecode(token);
         const currentTime = Date.now() / 1000;

@@ -46,8 +46,6 @@ export default function Login() {
         email: data.email,
         password: data.password
       });
-      console.log(responsedata);
-      console.log(responsedata.config.headers["x-refresh-token"]);
 
       setCookie("session", responsedata.data.data.access_token)
       setCookie("x-r-t", responsedata.data.data.refresh_token)
