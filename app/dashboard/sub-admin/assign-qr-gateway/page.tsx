@@ -13,6 +13,9 @@ import React from 'react'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 
 const AssignQRGateWaysPage = () => {
+
+    
+    
     return (
         <div className='flex flex-col items-start justify-start w-full'>
 

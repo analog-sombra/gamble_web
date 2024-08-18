@@ -11,14 +11,12 @@ import {
   maxLength,
   enum_,
 } from "valibot";
-
-enum Role {
-  NONE,
-  User,
-  SYSTEM,
-  ADMIN,
-  WORKER,
-  USER,
+// Assuming this is your Role enum definition
+export enum Role {
+  SYSTEM = "SYSTEM",
+  ADMIN = "ADMIN",
+  WORKER = "WORKER",
+  USER = "USER",
 }
 
 const CreateUserSchema = object({
@@ -32,7 +30,7 @@ const CreateUserSchema = object({
     email("Enter a valid email address"),
     check(isContainSpace, "Mobile number cannot contain space.")
   ),
-  mobile: pipe(
+  number: pipe(
     string(),
     minLength(1, "Please enter your mobile number."),
     maxLength(10, "Mobile number must be 10 digits."),
@@ -40,6 +38,7 @@ const CreateUserSchema = object({
   ),
 
   role: enum_(Role, "Role is required."),
+  // role: string(),
 
   password: pipe(
     string(),

@@ -33,8 +33,14 @@ export default function Login() {
     resolver: valibotResolver(LoginSchema),
   });
 
+  // async function getdata() {
+  //   const responsedata = await axios.get("http://localhost:5000");
+
+  //   return [];
+  // }
+
   const { mutate } = useMutation({
-    mutationKey: ["auth_login"],
+    mutationKey: [],
     mutationFn: async (data: LoginForm) => {
       const responsedata = await axios.post(`${BASE_URL}/api/auth/login`, {
         email: data.email,

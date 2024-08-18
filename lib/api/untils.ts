@@ -28,11 +28,11 @@ interface Options {
 }
 
 interface ParamInput {
-    pathParam: String,
-    queryParam: { [key: string]: any }
+    pathParam?: String,
+    queryParam?: { [key: string]: any }
 }
 
-export function generateUrl(path: string, parameters: ParamInput, paramType: ParamType): string {
+export function generateUrl(path: string, parameters: ParamInput = {}, paramType: ParamType): string {
     let params = '';
     if (paramType === ParamType.Path) {
         return `${BASE_URL}/${path}/${parameters.pathParam}`
@@ -43,11 +43,11 @@ export function generateUrl(path: string, parameters: ParamInput, paramType: Par
         });
         return `${BASE_URL}/${path}?${params}`;
     } else {
-        return `${BASE_URL}/${path}`;
+        return `${BASE_URL}${path}`;
     }
 }
 
-export async function apiRequest(url: string,
+export async function makeApiRequeest(url: string,
     httpMethod: HttpMethodType,
     opt: Options = {
         includeToke: true,
@@ -64,42 +64,35 @@ export async function apiRequest(url: string,
     }
     if (!opt.ignoreTokenExp) {
         if (opt.makeNewTokenReq && isTokenExpired(token)) {
-            try {
-                const refresh_token = getCookie('x-r-t')
-                const response = await axios.post(`${BASE_URL}/api/gen-accesss-tokens/${refresh_token}`);
+            const refresh_token = getCookie('x-r-t')
+            const response = await axios.post(`${BASE_URL}/api/gen-accesss-tokens/${refresh_token}`);
 
-                setCookie('session', response.data.data.access_token);
-                setCookie('x-r-t', response.data.data.refresh_token);
-                apiRequest(url, httpMethod, opt)
-            } catch (refreshError) {
-                console.error('Error refreshing access token: ', refreshError);
-                return refreshError as AxiosError;
-            }
+            setCookie('session', response.data.data.access_token);
+            setCookie('x-r-t', response.data.data.refresh_token);
+            makeApiRequeest(url, httpMethod, opt)
+
         }
     }
 
-    try {
-        const axioConfig: AxiosRequestConfig = { method: HttpMethodType[httpMethod].toString().toLowerCase(), url: url }
+    const axioConfig: AxiosRequestConfig = { method: HttpMethodType[httpMethod].toString().toLowerCase(), url: url }
 
-        if (opt.includeToke) {
-            axioConfig.headers = { Authorization: `Bearer ${token}`, "Content-Type": "application/json" }
-        }
-        if (opt.bodyParam) {
-            axioConfig.data = opt.bodyParam
-        }
-        if (opt.bodyParam && (httpMethod === HttpMethodType.POST || httpMethod === HttpMethodType.PUT)) {
-            axioConfig.data = opt.bodyParam;
-        }
-        const responsedata = await axios(axioConfig) as AxiosResponse<any>;
-        return responsedata;
-    } catch (error: any) {
-        const AxiosError = error as AxiosError;
-        return AxiosError.response;
+    if (opt.includeToke) {
+        axioConfig.headers = { Authorization: `Bearer ${token}`, "Content-Type": "application/json" }
     }
+    if (opt.bodyParam) {
+        axioConfig.data = opt.bodyParam
+    }
+    if (opt.bodyParam && (httpMethod === HttpMethodType.POST || httpMethod === HttpMethodType.PUT)) {
+        axioConfig.data = opt.bodyParam;
+    }
+    const responsedata = await axios(axioConfig) as AxiosResponse<any>;
+    console.log(responsedata);
+
+    return responsedata;
+
 }
 
 const isTokenExpired = (token: string) => {
-    // if (!token) return true;
     try {
         const decodedToken = jwtDecode(token);
         const currentTime = Date.now() / 1000;
