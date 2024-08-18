@@ -28,18 +28,14 @@ export default function DashboardLayout({
   const [isSidebarOpen, setSidebar] = useState(false);
   const pathname = usePathname();
   const { currentTab, setCurrentTab } = useTab();
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const route = useRouter()
-
-  useEffect(() => {
-    console.log("THis is dashboard's layout");
-  }, [])
+  const route = useRouter();
 
   const handleLogout = () => {
-    deleteCookie('session')
-    route.replace('/login')
-  }
+    deleteCookie("session");
+    route.replace("/login");
+  };
 
   return (
     <div className="w-full flex bg-[#efefef] h-screen">
@@ -47,11 +43,13 @@ export default function DashboardLayout({
 
       <div className="w-full p-1 sm:p-5 py-0 flex flex-col h-full overflow-auto bg-white m-0">
         <div className=" bg-white sticky top-0 z-50 py-4 pb-1 ">
-
           <div className=" mb-3 flex flex-col bg-[#341c8c] xp-4 px-6 py-3 rounded-md">
             <div className="flex mb-4 justify-between">
               <div className="flex items-center  space-x-2">
-                <Label htmlFor="toggle-add" className="text-sm sm:text-base text-white ">
+                <Label
+                  htmlFor="toggle-add"
+                  className="text-sm sm:text-base text-white "
+                >
                   Add
                 </Label>
                 <Switch className="" id="toggle-add" />
@@ -60,7 +58,10 @@ export default function DashboardLayout({
 
               <div className="grow"></div>
               <div className="flex items-center space-x-2">
-                <Label htmlFor="toggle-withdraw" className="text-sm sm:text-base text-white">
+                <Label
+                  htmlFor="toggle-withdraw"
+                  className="text-sm sm:text-base text-white"
+                >
                   Withdraw
                 </Label>
                 <Switch id="toggle-withdraw" />
@@ -77,33 +78,37 @@ export default function DashboardLayout({
                 <IoMenu className=" text-3xl text-white" />
               </button>
 
-              {pathname === '/dashboard/home' &&
-                currentTab !== "add"
-                ? (
-                  <div className=" text-sm font-semibold sm:text-medium text-white">
-                    WD limit: 234
-                  </div>
-                )
-                : (
-                  <div className=" text-sm font-semibold sm:text-medium text-white">
-                    Add limit: 234
-                  </div>
-                )
-              }
-              <button onClick={e => setIsModalOpen(true)} className="md:w-32 sm:mr-2 text-black font-semibold h-8 text-sm bg-white hover:bg-zinc-100 py-1 px-2 rounded-md">
+              {pathname === "/dashboard/home" && currentTab !== "add" ? (
+                <div className=" text-sm font-semibold sm:text-medium text-white">
+                  WD limit: 234
+                </div>
+              ) : (
+                <div className=" text-sm font-semibold sm:text-medium text-white">
+                  Add limit: 234
+                </div>
+              )}
+              <button
+                onClick={(e) => setIsModalOpen(true)}
+                className="md:w-32 sm:mr-2 text-black font-semibold h-8 text-sm bg-white hover:bg-zinc-100 py-1 px-2 rounded-md"
+              >
                 Log out
               </button>
 
-              <Modal animation={false} centered title="Confirm logout" open={isModalOpen} onOk={handleLogout} onCancel={e => setIsModalOpen(false)}>
+              <Modal
+                animation={false}
+                centered
+                title="Confirm logout"
+                open={isModalOpen}
+                onOk={handleLogout}
+                onCancel={(e) => setIsModalOpen(false)}
+              >
                 <p>Are you sure you want to logout?</p>
               </Modal>
             </div>
-
           </div>
         </div>
         <div className="">{children}</div>
       </div>
-
-    </div >
+    </div>
   );
 }

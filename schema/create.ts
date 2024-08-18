@@ -8,14 +8,38 @@ import {
   pipe,
   regex,
   email,
+  maxLength,
+  enum_,
 } from "valibot";
 
+enum Role {
+  NONE,
+  User,
+  SYSTEM,
+  ADMIN,
+  WORKER,
+  USER,
+}
+
 const CreateUserSchema = object({
+  name: pipe(
+    string(),
+    minLength(1, "Please enter your name."),
+    check(isContainSpace, "Name cannot contain space.")
+  ),
   email: pipe(
     string(),
     email("Enter a valid email address"),
     check(isContainSpace, "Mobile number cannot contain space.")
   ),
+  mobile: pipe(
+    string(),
+    minLength(1, "Please enter your mobile number."),
+    maxLength(10, "Mobile number must be 10 digits."),
+    check(isContainSpace, "Mobile number cannot contain space.")
+  ),
+
+  role: enum_(Role, "Role is required."),
 
   password: pipe(
     string(),

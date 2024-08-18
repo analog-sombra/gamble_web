@@ -1,6 +1,5 @@
 
 import axios, { AxiosHeaders, AxiosRequestConfig, AxiosError, AxiosResponse } from "axios";
-import jwt, { JsonWebTokenError } from 'jsonwebtoken'
 import { BASE_URL } from "@/lib/const";
 import { getCookie, setCookie } from "cookies-next";
 import { log } from "console";
@@ -68,7 +67,6 @@ export async function apiRequest(url: string,
             try {
                 const refresh_token = getCookie('x-r-t')
                 const response = await axios.post(`${BASE_URL}/api/gen-accesss-tokens/${refresh_token}`);
-                console.log(response);
 
                 setCookie('session', response.data.data.access_token);
                 setCookie('x-r-t', response.data.data.refresh_token);
