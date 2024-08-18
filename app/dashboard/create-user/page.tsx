@@ -128,4 +128,4 @@ export default function CreateUser() {
   );
 }
 
-const userType: string[] = ["SYSTEM", "ADMIN", "WORKER", "USER", "NONE"];
+const userType: string[] = ["SYSTEM", "ADMIN", "WORKER", "USER"];

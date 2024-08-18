@@ -40,13 +40,12 @@ export default function Login() {
         email: data.email,
         password: data.password,
       });
-      setCookie(
-        "session",
-        JSON.stringify({
-          id: responsedata.data.data.id,
-          role: responsedata.data.data.role,
-        })
-      );
+      if (responsedata.data.data.role == "NONE") {
+        return toast.error("Invaled user");
+      }
+      setCookie("session", responsedata.data.data.access_token);
+      setCookie("x-r-t", responsedata.data.data.refresh_token);
+
       route.push("/dashboard/home");
       toast.success("Your login process is success");
     },

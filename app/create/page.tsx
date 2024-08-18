@@ -4,15 +4,13 @@ import { FieldErrors, useForm } from "react-hook-form";
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import axios from "axios";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { CreateUserForm, CreateUserSchema } from "@/schema/create";
 import { BASE_URL } from "@/lib/const";
 import { toast } from "react-toastify";
-import { totalmem } from "os";
-import { errorToString } from "@/lib/utils";
+import { CreateDemoUserForm, CreateDemoUserSchema } from "@/schema/createdemo";
 
 export default function Login() {
   const mutation = useMutation({
-    mutationFn: async (createuser: CreateUserForm) => {
+    mutationFn: async (createuser: CreateDemoUserForm) => {
       return await axios.post(`${BASE_URL}/api/user/create_demo`, {
         email: createuser.email,
         password: createuser.password,
@@ -38,15 +36,15 @@ export default function Login() {
     control,
     formState: { errors, isSubmitting },
     reset,
-  } = useForm<CreateUserForm>({
-    resolver: valibotResolver(CreateUserSchema),
+  } = useForm<CreateDemoUserForm>({
+    resolver: valibotResolver(CreateDemoUserSchema),
   });
 
-  const onSubmit = async (data: CreateUserForm) => {
+  const onSubmit = async (data: CreateDemoUserForm) => {
     mutation.mutate(data);
   };
 
-  const onError = (error: FieldErrors<CreateUserForm>) => {
+  const onError = (error: FieldErrors<CreateDemoUserForm>) => {
     console.log(error);
   };
 

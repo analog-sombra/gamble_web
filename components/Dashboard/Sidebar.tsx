@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FaMoneyBillTrendUp } from "react-icons/fa6"
+import { FaMoneyBillTrendUp } from "react-icons/fa6";
 
 import {
   FluentWalletCreditCard16Regular,
@@ -16,7 +16,6 @@ import {
   SystemUiconsBook,
   SystemUiconsUserAdd,
   SystemUiconsUserMale,
-
 } from "../Icon";
 
 import { Drawer, Image } from "antd";
@@ -26,139 +25,170 @@ import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible"
+} from "@/components/ui/collapsible";
 
 const navLinks = [
   {
     name: "Dashboard",
     url: "/dashboard/home",
     icon: <MaterialSymbolsDashboard />,
+    role: ["USER", "ADMIN"],
   },
   {
     name: "Games",
     url: "/dashboard/games",
     icon: <MaterialSymbolsBubbleChartOutlineRounded />,
+    role: ["USER", "ADMIN"],
   },
   {
     name: "Submit Result",
     url: "/dashboard/submit-result",
     icon: <SystemUiconsBook />,
+    role: ["USER", "ADMIN"],
   },
   {
     name: "Cancle Result Number",
     url: "/dashboard/cancle-result",
     icon: <MaterialSymbolsManageHistory />,
+    role: ["USER", "ADMIN"],
   },
   {
     name: "Total bid amount",
     url: "/dashboard/total-bid",
     icon: <MaterialSymbolsManageHistory />,
+    role: ["USER", "ADMIN"],
   },
   {
     name: "Excel Record",
     url: "/dashboard/excel-record",
     icon: <MaterialSymbolsManageHistory />,
+    role: ["USER", "ADMIN"],
   },
   {
     name: "Total winner",
     url: "/dashboard/total-winner",
     icon: <MaterialSymbolsManageHistory />,
+    role: ["USER", "ADMIN"],
   },
   {
     name: "Set Amount",
     url: "/dashboard/set-amount",
     icon: <MaterialSymbolsManageHistory />,
+    role: ["USER", "ADMIN"],
   },
   {
     name: "Create User",
     url: "/dashboard/create-user",
     icon: <SystemUiconsUserAdd />,
+    role: ["USER", "ADMIN"],
   },
   {
     name: "X Customer care direct chat",
     url: "/dashboard/customer-care-chat",
     icon: <MaterialSymbolsHeadsetMicOutlineRounded />,
+    role: ["USER", "ADMIN"],
   },
-  { name: "Users", url: "/dashboard/users", icon: <SystemUiconsUserMale /> },
+  {
+    name: "Users",
+    url: "/dashboard/users",
+    icon: <SystemUiconsUserMale />,
+    role: ["USER", "ADMIN"],
+  },
   {
     name: "Payment Gateways",
     url: "/dashboard/payment-gateways",
     icon: <MaterialSymbolsManageHistory />,
+    role: ["USER", "ADMIN"],
   },
   {
     name: "Withdraw Record",
     url: "/dashboard/withdraw-record",
     icon: <MaterialSymbolsManageHistory />,
+    role: ["USER", "ADMIN"],
   },
   {
     name: "All money Request",
     url: "/dashboard/all-money-request/add",
     icon: <FaMoneyBillTrendUp className="text-sm" />,
+    role: ["USER", "ADMIN"],
   },
   {
     name: "All withdraw Request",
     url: "/dashboard/all-money-request/withdraw",
     icon: <BiMoneyWithdraw className="text-xl p-0 m-0" />,
+    role: ["USER", "ADMIN"],
   },
   {
     name: "Admin panel",
     url: "/dashboard/admin-panel",
     icon: <MaterialSymbolsManageHistory />,
+    role: ["USER", "ADMIN"],
   },
   {
     name: "Manage account",
     url: "/dashboard/manage-account",
     icon: <MaterialSymbolsManageHistory />,
+    role: ["USER", "ADMIN"],
   },
   {
     name: "X Automatic approval",
     url: "/dashboard/automatic-approval",
     icon: <MaterialSymbolsManageHistory />,
+    role: ["USER", "ADMIN"],
   },
   {
     name: "status",
     url: "/dashboard/status",
     icon: <MaterialSymbolsManageHistory />,
+    role: ["USER", "ADMIN"],
   },
   {
     name: "Statement",
     url: "/dashboard/statement",
     icon: <MaterialSymbolsManageHistory />,
+    role: ["USER", "ADMIN"],
   },
   {
     name: "Notification and Updates",
     url: "/dashboard/notification-and-updates",
     icon: <SystemUiconsBell />,
+    role: ["USER", "ADMIN"],
   },
   {
     name: "Direct Add Cash",
     url: "/dashboard/direct-add-cash",
     icon: <FluentWalletCreditCard16Regular />,
+    role: ["USER", "ADMIN"],
   },
   {
     name: "P&L record",
     url: "/dashboard/p-and-l-record",
     icon: <MaterialSymbolsManageHistory />,
+    role: ["USER", "ADMIN"],
   },
   {
     name: "X Create Game",
     url: "/dashboard/create-game",
     icon: <MaterialSymbolsManageHistory />,
+    role: ["USER", "ADMIN"],
   },
   {
     name: "X Approve gateway",
     url: "/dashboard/approve-gateway",
     icon: <MaterialSymbolsManageHistory />,
+    role: ["USER", "ADMIN"],
   },
   {
     name: "X Daily in record bonus",
     url: "/dashboard/daily-in-record-bonus",
     icon: <MaterialSymbolsManageHistory />,
+    role: ["USER", "ADMIN"],
   },
   {
     name: "OCR",
     url: "/dashboard/ocr",
     icon: <MaterialSymbolsLightFeatureSearchOutline />,
+    role: ["USER", "ADMIN"],
   },
 ];
 
@@ -206,27 +236,46 @@ export default function Sidebar({ isSidebarOpen, setSidebar }: SidebarProps) {
             return (
               <div
                 key={index}
-                className={`${isActive ? "bg-slate-100  border-l-4 border-blue-500" : ""}  flex p-2 rounded gap-2`}>
-                <span className={`${isActive ? "text-[#3f2632]" : "text-black"} text-xl`}>
+                className={`${
+                  isActive ? "bg-slate-100  border-l-4 border-blue-500" : ""
+                }  flex p-2 rounded gap-2`}
+              >
+                <span
+                  className={`${
+                    isActive ? "text-[#3f2632]" : "text-black"
+                  } text-xl`}
+                >
                   {links.icon}
                 </span>
-                {
-                  links.url === "/dashboard/admin-panel"
-                    ? <Collapsible>
-                      <CollapsibleTrigger>{links.name}</CollapsibleTrigger>
-                      <CollapsibleContent className=" flex flex-col ">
-                        <Link onClick={e=>setSidebar(false)} className="text-md my-3" href={`/dashboard/sub-admin`}>Subadmin</Link>
-                        <Link onClick={e=>setSidebar(false)} className="text-md" href={"/dashboard/blocked"}>
-                          Blocked
-                        </Link>
-                      </CollapsibleContent>
-                    </Collapsible>
-
-                    :
-                    <Link onClick={e=>setSidebar(false)} className="text-md" href={links.url}>
-                      {links.name}
-                    </Link>
-                }
+                {links.url === "/dashboard/admin-panel" ? (
+                  <Collapsible>
+                    <CollapsibleTrigger>{links.name}</CollapsibleTrigger>
+                    <CollapsibleContent className=" flex flex-col ">
+                      <Link
+                        onClick={(e) => setSidebar(false)}
+                        className="text-md my-3"
+                        href={`/dashboard/sub-admin`}
+                      >
+                        Subadmin
+                      </Link>
+                      <Link
+                        onClick={(e) => setSidebar(false)}
+                        className="text-md"
+                        href={"/dashboard/blocked"}
+                      >
+                        Blocked
+                      </Link>
+                    </CollapsibleContent>
+                  </Collapsible>
+                ) : (
+                  <Link
+                    onClick={(e) => setSidebar(false)}
+                    className="text-md"
+                    href={links.url}
+                  >
+                    {links.name}
+                  </Link>
+                )}
               </div>
             );
           })}
@@ -250,7 +299,10 @@ export default function Sidebar({ isSidebarOpen, setSidebar }: SidebarProps) {
           />
           Gamble Zone
         </div>
-        <div className=" h-[90vh] overflow-scroll" style={{ scrollbarWidth: "none" }} >
+        <div
+          className=" h-[90vh] overflow-scroll"
+          style={{ scrollbarWidth: "none" }}
+        >
           {navLinks.map((item, index) => {
             const route = item.url;
             const isActive = pathname === route;
@@ -258,32 +310,40 @@ export default function Sidebar({ isSidebarOpen, setSidebar }: SidebarProps) {
             return (
               <div
                 key={index}
-                className={`flex gap-2 items-center justify-start cursor-pointer py-2 pr-2 pl-4 rounded-r-md ${isActive
-                  ? "text-black bg-white border-blue-500 border-l-4"
-                  : "text-gray-500  hover:text-black "
-                  }`}>
+                className={`flex gap-2 items-center justify-start cursor-pointer py-2 pr-2 pl-4 rounded-r-md ${
+                  isActive
+                    ? "text-black bg-white border-blue-500 border-l-4"
+                    : "text-gray-500  hover:text-black "
+                }`}
+              >
                 <span
-                  className={`${isActive ? "text-blue-400" : "text-blue-600"} text-xl`}>
+                  className={`${
+                    isActive ? "text-blue-400" : "text-blue-600"
+                  } text-xl`}
+                >
                   {item.icon}
                 </span>
 
-                {
-                  item.url === "/dashboard/admin-panel"
-                    ? <Collapsible>
-                      <CollapsibleTrigger>{item.name}</CollapsibleTrigger>
-                      <CollapsibleContent className=" flex flex-col ">
-                        <Link className="text-md my-3" href={`/dashboard/sub-admin`}>Subadmin</Link>
-                        <Link className="text-md" href={"/dashboard/blocked"}>
-                          Blocked
-                        </Link>
-                      </CollapsibleContent>
-                    </Collapsible>
-
-                    :
-                    <Link className="text-md" href={item.url}>
-                      {item.name}
-                    </Link>
-                }
+                {item.url === "/dashboard/admin-panel" ? (
+                  <Collapsible>
+                    <CollapsibleTrigger>{item.name}</CollapsibleTrigger>
+                    <CollapsibleContent className=" flex flex-col ">
+                      <Link
+                        className="text-md my-3"
+                        href={`/dashboard/sub-admin`}
+                      >
+                        Subadmin
+                      </Link>
+                      <Link className="text-md" href={"/dashboard/blocked"}>
+                        Blocked
+                      </Link>
+                    </CollapsibleContent>
+                  </Collapsible>
+                ) : (
+                  <Link className="text-md" href={item.url}>
+                    {item.name}
+                  </Link>
+                )}
               </div>
             );
           })}
@@ -296,7 +356,6 @@ export default function Sidebar({ isSidebarOpen, setSidebar }: SidebarProps) {
           </div>
         </div>
       </div>
-
     </div>
   );
 }
