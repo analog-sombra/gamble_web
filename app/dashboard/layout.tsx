@@ -9,7 +9,7 @@ import {
 } from "@/components/Icon";
 // import { Avatar } from "antd";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoMenu } from "react-icons/io5";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
@@ -31,6 +31,10 @@ export default function DashboardLayout({
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const route = useRouter()
+
+  useEffect(() => {
+    console.log("THis is dashboard's layout");
+  }, [])
 
   const handleLogout = () => {
     deleteCookie('session')
