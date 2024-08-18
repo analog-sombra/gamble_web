@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-import { setCookie } from "cookies-next"
+import { setCookie } from "cookies-next";
 import { LoginForm, LoginSchema } from "../../schema/login";
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import axios, { AxiosError } from "axios";
@@ -33,29 +33,26 @@ export default function Login() {
     resolver: valibotResolver(LoginSchema),
   });
 
-  async function getdata() {
-    const responsedata = await axios.get("http://localhost:5000");
-
-    return [];
-  }
-
   const { mutate } = useMutation({
-    mutationKey: [],
+    mutationKey: ["auth_login"],
     mutationFn: async (data: LoginForm) => {
       const responsedata = await axios.post(`${BASE_URL}/api/auth/login`, {
         email: data.email,
-        password: data.password
+        password: data.password,
       });
-      setCookie('session', JSON.stringify({
-        id: responsedata.data.data.id,
-        role: responsedata.data.data.role
-      }))
-      route.replace('/dashboard/home')
-      toast.success("Your login process is success")
+      setCookie(
+        "session",
+        JSON.stringify({
+          id: responsedata.data.data.id,
+          role: responsedata.data.data.role,
+        })
+      );
+      route.push("/dashboard/home");
+      toast.success("Your login process is success");
     },
     onError: (error: ApiErrorType) => {
-      toast.error(error.response.data.message)
-    }
+      toast.error(error.response.data.message);
+    },
   });
 
   // const queryData = useQuery({
@@ -76,7 +73,7 @@ export default function Login() {
                 Sign in to your account
               </h1>
               <form
-                onSubmit={handleSubmit(data => mutate(data))}
+                onSubmit={handleSubmit((data) => mutate(data))}
                 className="space-y-4 md:space-y-6"
               >
                 <div>
@@ -89,8 +86,9 @@ export default function Login() {
                   <input
                     type="email"
                     id="email"
-                    className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500  ${errors.email ? "border-red-500" : "hover:border-blue-500"
-                      }`}
+                    className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500  ${
+                      errors.email ? "border-red-500" : "hover:border-blue-500"
+                    }`}
                     placeholder="Email address"
                     {...register("email")}
                   />
@@ -112,10 +110,11 @@ export default function Login() {
                     id="password"
                     placeholder="Password"
                     {...register("password")}
-                    className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${errors.password
-                      ? "border-red-500"
-                      : "hover:border-blue-500"
-                      }`}
+                    className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${
+                      errors.password
+                        ? "border-red-500"
+                        : "hover:border-blue-500"
+                    }`}
                   />
                   {errors.password && (
                     <p className="text-xs text-red-500">
