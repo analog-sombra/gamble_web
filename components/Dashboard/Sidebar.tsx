@@ -202,7 +202,7 @@ export default function Sidebar({ isSidebarOpen, setSidebar }: SidebarProps) {
         open={isSidebarOpen}
         placement="left"
       >
-        {/* Nav links */}
+        {/* ------------------ Mobile navigation ------------------ */}
         <div className="flex flex-col  gap-2 ">
           {navLinks.map((links: any, index: number) => {
             const route = links.url;
@@ -211,26 +211,36 @@ export default function Sidebar({ isSidebarOpen, setSidebar }: SidebarProps) {
             return (
               <div
                 key={index}
-                className={`${isActive ? "bg-slate-100  border-l-4 border-blue-500" : ""}  flex p-2 rounded gap-2`}>
-                <span className={`${isActive ? "text-[#3f2632]" : "text-black"} text-xl`}>
-                  {links.icon}
-                </span>
+                className={`${isActive ? " border-l-4 bg-slate-100 border-blue-500" : ""}  flex p-2 rounded gap-2`}>
+
                 {
                   links.url === "/dashboard/admin-panel"
                     ? <Collapsible>
-                      <CollapsibleTrigger>{links.name}</CollapsibleTrigger>
-                      <CollapsibleContent className=" flex flex-col ">
-                        <Link onClick={e=>setSidebar(false)} className="text-md my-3" href={`/dashboard/sub-admin`}>Subadmin</Link>
-                        <Link onClick={e=>setSidebar(false)} className="text-md" href={"/dashboard/blocked"}>
+                      <CollapsibleTrigger className="flex gap-3">
+                        <span className={`${isActive ? "text-[#3f2632]" : "text-black"} text-xl`}>
+                          {links.icon}
+                        </span>
+                        {links.name}
+                      </CollapsibleTrigger>
+                      <CollapsibleContent className=" flex flex-col pl-8">
+                        <Link onClick={e => setSidebar(false)} className="text-md   my-3" href={`/dashboard/sub-admin`}>Subadmin</Link>
+                        <Link onClick={e => setSidebar(false)} className="text-md  " href={"/dashboard/blocked"}>
                           Blocked
                         </Link>
                       </CollapsibleContent>
                     </Collapsible>
 
                     :
-                    <Link onClick={e=>setSidebar(false)} className="text-md" href={links.url}>
-                      {links.name}
-                    </Link>
+                    <>
+                      <span className={`${isActive ? "text-[#3f2632]" : "text-black"} text-xl`}>
+                        {links.icon}
+                      </span>
+
+                      <Link onClick={e => setSidebar(false)} className={`text-md`}
+                        href={links.url}>
+                        {links.name}
+                      </Link>
+                    </>
                 }
               </div>
             );
@@ -243,7 +253,7 @@ export default function Sidebar({ isSidebarOpen, setSidebar }: SidebarProps) {
         </div>
       </Drawer>
 
-      {/* Desktop navigation */}
+      {/* ------------------ Desktop navigation ------------------ */}
       <div className="hidden flex-col lg:flex min-w-64">
         <div className="flex items-center p-4 gap-2 justify-center">
           <Image
@@ -267,27 +277,35 @@ export default function Sidebar({ isSidebarOpen, setSidebar }: SidebarProps) {
                   ? "text-black bg-white border-blue-500 border-l-4"
                   : "text-gray-500  hover:text-black "
                   }`}>
-                <span
-                  className={`${isActive ? "text-blue-400" : "text-blue-600"} text-xl`}>
-                  {item.icon}
-                </span>
-
                 {
                   item.url === "/dashboard/admin-panel"
                     ? <Collapsible>
-                      <CollapsibleTrigger>{item.name}</CollapsibleTrigger>
-                      <CollapsibleContent className=" flex flex-col ">
-                        <Link className="text-md my-3" href={`/dashboard/sub-admin`}>Subadmin</Link>
-                        <Link className="text-md" href={"/dashboard/blocked"}>
+                      <CollapsibleTrigger className="text-gray-500 flex items-center gap-2 hover:text-black">
+                        <span
+                          className={`${isActive ? "text-blue-400" : "text-blue-600"} text-xl`}>
+                          {item.icon}
+                        </span>
+                        {item.name}
+                      </CollapsibleTrigger>
+                      <CollapsibleContent className=" flex flex-col items-start pl-8 ">
+                        <Link className="text-md my-3 text-gray-500  hover:text-black" href={`/dashboard/sub-admin`}>
+                          Subadmin
+                        </Link>
+                        <Link className="text-md text-gray-500  hover:text-black" href={"/dashboard/blocked"}>
                           Blocked
                         </Link>
                       </CollapsibleContent>
                     </Collapsible>
-
                     :
-                    <Link className="text-md" href={item.url}>
-                      {item.name}
-                    </Link>
+                    <>
+                      <span
+                        className={`${isActive ? "text-blue-400" : "text-blue-600"} text-xl`}>
+                        {item.icon}
+                      </span>
+                      <Link className={`text-md`} href={item.url}>
+                        {item.name}
+                      </Link>
+                    </>
                 }
               </div>
             );

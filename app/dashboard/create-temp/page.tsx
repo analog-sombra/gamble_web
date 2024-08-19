@@ -11,16 +11,12 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { HttpMethodType, makeApiRequeest } from "@/lib/api/untils";
-import { BASE_URL } from "@/lib/const";
 import { ApiErrorType } from "@/models/response";
-import { CreateDemoPayment, CreateUserForm, CreateUserSchema, demoPaymentGatewaySchema } from "@/schema/create";
+import { CreateDemoPayment, demoPaymentGatewaySchema } from "@/schema/create";
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
-import { value } from "valibot";
 
 export default function CreateUser() {
     const form = useForm<CreateDemoPayment>({
@@ -38,7 +34,7 @@ export default function CreateUser() {
     } = form;
 
     const watchFile = watch('file');
-    
+
 
     const { mutate } = useMutation({
         mutationKey: ["create_user"],
@@ -87,7 +83,7 @@ export default function CreateUser() {
                                 {...register("file")}
                                 type="file"
                                 name="file"
-                                onChange={e=>{
+                                onChange={e => {
                                     setImageFile(e.target.value)
                                 }}
                                 placeholder="select a img"
