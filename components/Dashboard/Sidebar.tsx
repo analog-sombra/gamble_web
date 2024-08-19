@@ -75,6 +75,11 @@ const navLinks = [
     icon: <SystemUiconsUserAdd />,
   },
   {
+    name: "Create Demo",
+    url: "/dashboard/create-temp",
+    icon: <SystemUiconsUserAdd />,
+  },
+  {
     name: "X Customer care direct chat",
     url: "/dashboard/customer-care-chat",
     icon: <MaterialSymbolsHeadsetMicOutlineRounded />,

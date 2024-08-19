@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -11,16 +11,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { generateUrl, HttpMethodType, makeApiRequeest, ParamType } from "@/lib/api/untils";
+import { HttpMethodType, makeApiRequeest } from "@/lib/api/untils";
 import { BASE_URL } from "@/lib/const";
 import { ApiErrorType } from "@/models/response";
 import { CreateUserForm, CreateUserSchema } from "@/schema/create";
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
-import { url } from "inspector";
-import { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 export default function CreateUser() {
@@ -67,7 +64,7 @@ export default function CreateUser() {
             className="space-y-4 md:space-y-6"
           >
 
-            <div className="flex  gap-3 items-center">
+            <div className="flex gap-3 items-center">
               <p className="text-sm font-normal w-20">Name: </p>
               <Input
                 id="name"
