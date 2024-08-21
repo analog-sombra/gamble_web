@@ -7,12 +7,13 @@ import { MdSmartphone } from "react-icons/md";
 import { Image } from "antd";
 import { Button } from "@/components/ui/button";
 import React from "react";
-("");
+
 import { Input, Tag } from "antd";
 import { FaMoneyBill } from "react-icons/fa6";
-import ApproveDailouge from "../../all-money-request/DialogeBoxes/approve";
-import RejectDailouge from "../../all-money-request/DialogeBoxes/reject";
-import TransferDailouge from "../../all-money-request/DialogeBoxes/transfer";
+
+
+import RejectDailouge from "../DialogeBoxes/reject";
+import ApproveDailouge from "../DialogeBoxes/approve";
 
 type Players = {
   userId: number;
@@ -136,6 +137,17 @@ const PendingResult = () => {
                   src="https://www.hackinclude.com/wp-content/uploads/2018/06/fake-paytm-receipt.jpg"
                   alt=""
                 />
+              </div>
+              {/* ... ... Action buttons ... ... */}
+              <div className="flex justify-between pb-4 px-3 gap-0 mt-5 w-full">
+                <ApproveDailouge />
+                <Button
+                  className="bg-blue-500 py-2 m-0 rounded-none hover:bg-blue-700 text-white w-full hover:text-white"
+                  variant={"outline"}
+                >
+                  processing
+                </Button>
+                <RejectDailouge />
               </div>
 
             </div>

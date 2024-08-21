@@ -22,8 +22,8 @@ const ApproveDailouge = () => {
     return (
         <>
             <AlertDialog>
-                <AlertDialogTrigger className=''>
-                    <Button className="bg-green-500 w-full  rounded-md hover:bg-green-700 text-white " variant={"default"}>
+                <AlertDialogTrigger className='w-full m-0 p-0'>
+                    <Button className="bg-green-500 w-full rounded-none m-0 rounded-l-lg hover:bg-green-700 text-white " variant={"default"}>
                         Approve
                     </Button>
                 </AlertDialogTrigger>

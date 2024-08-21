@@ -110,7 +110,14 @@ const ProcessingResult = () => {
                   alt=""
                 />
               </div>
-
+              {/* ... ... Action buttons ... ... */}
+              <div className="flex justify-around pb-4 px-3 gap-0 mt-5 w-full">
+                <ApproveDailouge />
+                {/* <Button className="bg-blue-500 py-2  hover:bg-blue-700 text-white w-full hover:text-white" variant={"outline"}>
+                                    processing
+                                </Button> */}
+                <RejectDailouge />
+              </div>
 
             </div>
           );

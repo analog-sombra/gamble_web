@@ -102,22 +102,18 @@ const PendingExcelResult = () => {
                   className=""
                   src="https://cdn-icons-png.flaticon.com/128/3177/3177440.png"
                 />
-                <div className="flex flex-col gap-1 my-5 mb-2 w-full items-center">
+                <div className="flex flex-col gap-1 my-5 mb-2 mx-auto items-start ">
                   <div className="flex gap-2 items-center">
-                    {" "}
                     <span className="font-semibold text-sm"> Phone no:</span>
                     <span>+91 **********</span>
                   </div>
                   <div className="flex gap-2 items-center">
-                    {" "}
                     <span className="font-semibold text-sm ">
-                      {" "}
-                      User Id:{" "}
-                    </span>{" "}
+                      User Id:
+                    </span>
                     234
                   </div>
                   <div className="flex gap-2 items-center">
-                    {" "}
                     22 jul 2024, 4:10pm
                   </div>
                 </div>
@@ -134,6 +130,7 @@ const PendingExcelResult = () => {
 
                 <div className="h-[0.5px] w-full bg-gray-300 my-1 "></div>
 
+                {/* ... ... Account holder details ... ... */}
                 <div className="flex gap-3 items-center w-full">
                   <span className="font-bold text-sm">Account holder:</span>
                   <span> Name of holder </span>
@@ -143,6 +140,7 @@ const PendingExcelResult = () => {
 
                 <div className="h-[0.5px] w-full bg-gray-300 my-1 "></div>
 
+                {/* ... ... Account number  ... ... */}
                 <div className="flex gap-3 items-center w-full">
                   <span className="font-bold text-sm">Account number:</span>
                   <span> number of account</span>
@@ -152,6 +150,7 @@ const PendingExcelResult = () => {
 
                 <div className="h-[0.5px] w-full bg-gray-300 my-1 "></div>
 
+                {/* ... ... IFSC code  ... ... */}
                 <div className="flex gap-3 items-center w-full">
                   <span className="font-bold text-sm">IFSC code:</span>
                   <span> ACWE45345D </span>
@@ -161,6 +160,7 @@ const PendingExcelResult = () => {
 
                 <div className="h-[0.5px] w-full bg-gray-300 my-1 "></div>
 
+                {/* ... ... Amount details ... ... */}
                 <div className="flex gap-3 items-center w-full">
                   <span className="font-bold text-sm text-zinc-500">
                     Amount:

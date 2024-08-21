@@ -1,44 +1,10 @@
 'use client'
 import { BiMoneyWithdraw } from "react-icons/bi";
 import React from 'react'
-import { IoMdClose } from "react-icons/io";
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
 import { TbReload } from "react-icons/tb";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
-import SimpleCard from "@/components/Dashboard/SimpleCard";
-import {
-    MaterialSymbolsAttachMoney,
-    MaterialSymbolsDone,
-    MaterialSymbolsPerson,
-    MaterialSymbolsPersonRaisedHand,
-    MaterialSymbolsWifiRounded,
-} from "@/components/Icon";
-import { Button } from "@/components/ui/button";
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableFooter,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
 // import { Divider, Tag } from "antd";
-import { Divider } from "@nextui-org/react";
 
-import { useState } from "react";
 import AddMoney from '../add-money';
 import WithdrawMoney from '../withdraw-mony';
 import { FaMoneyBillTrendUp } from 'react-icons/fa6';
@@ -71,7 +37,7 @@ const AllAddMoney = ({ params }: { params: { tabname: string } }) => {
                 {/* withdraw and add money tabs */}
 
                 <Tabs defaultValue={params.tabname} className="w-full flex flex-col mt-2 ">
-                    <TabsList className=" sm:m-auto sm:my-0 ">
+                    <TabsList className=" sm:m-auto m-0 sm:mb-3 ">
                         <TabsTrigger className="text-sm sm:text-lg" value="add" onClick={e => route.replace('/dashboard/all-money-request/add')}>
                             <FaMoneyBillTrendUp className="text-green-500 mr-3" />
                             <span className="break-words text-ellipsis">All add Money</span>
@@ -82,7 +48,7 @@ const AllAddMoney = ({ params }: { params: { tabname: string } }) => {
                         </TabsTrigger>
                     </TabsList>
 
-                    <TabsContent className="m-0 p-0" value="add">
+                    <TabsContent className="" value="add">
                         <AddMoney />
                     </TabsContent>
 

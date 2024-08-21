@@ -20,6 +20,7 @@ import {
 import AddMoney from "./add-money";
 import WithdrawMoney from "./withdraw-money";
 import { useTab } from "@/state/tabState";
+import { Image } from "antd";
 
 export default function Home() {
   const { currentTab, setCurrentTab } = useTab();
@@ -27,7 +28,7 @@ export default function Home() {
   const handleUploadFile = async () => {
     // const reqUlr = generateUrl('api/payment/login', {}, ParamType.Body)
     // console.info(reqUlr)
-    
+
     // const response = await apiRequest(`${BASE_URL}/api/payment/login`, HttpMethodType.POST, {
     //   bodyParam: {
     //     "email": "kenkani0408@gmail.com",
@@ -75,14 +76,18 @@ export default function Home() {
                 <Switch></Switch>
                 <AlertDialog>
                   <AlertDialogTrigger>
-                    <div className="border text-center flex flex-col py-1 px-3 h-34 rounded-md w-20">
-                      <img
-                        className="w-13 "
+                    <div className="border text-center flex items-center flex-col justify-start py-1 px-3 h-24 rounded-md w-20">
+                      <Image
+                        width={50}
+                        height={45}
+                        preview={false}
+                        className="my-2 flex"
                         src="https://cdn-icons-png.flaticon.com/128/6124/6124998.png"
                         alt=""
                       />
-                      <div className="h-[0.5px] bg-black"></div>
-                      <span className="text-center">UPI id</span>
+                      <div className="grow"></div>
+                      <div className="h-[0.5px] w-full bg-black my-1"></div>
+                      <span className="text-center mb-1">UPI id</span>
                     </div>
                   </AlertDialogTrigger>
 
@@ -93,7 +98,7 @@ export default function Home() {
                         <span className="font-medium pr-6">
                           Payment gateway details (GPay)
                         </span>
-                        {/* <img className="w-10 h-10" src="https://cdn-icons-png.flaticon.com/128/6124/6124998.png" alt="" /> */}
+                        {/* Imageg className="w-10 h-10" src="https://cdn-icons-png.flaticon.com/128/6124/6124998.png" alt="" /> */}
                         <div className="grow"></div>
 
                         <button className="rounded-md py-1 px-4 bg-red-500 mr-4 text-white">
@@ -125,56 +130,71 @@ export default function Home() {
               {/* Paytem switch button */}
               <div className="flex flex-col gap-3 items-center">
                 <Switch></Switch>
-                <div className="border text-center flex flex-col py-1 px-3 h-34 rounded-md w-20">
-                  <img
-                    className="w-13 "
+                <div className="border text-center flex flex-col justify-start items-center py-1 px-3 h-24 rounded-md w-20">
+                  <Image
+                    width={50}
+                    height={45}
+                    preview={false}
+                    className="my-2 flex"
                     src="https://cdn.iconscout.com/icon/free/png-256/free-paytm-226448.png?f=webp&w=256"
                     alt=""
                   />
-                  <div className="h-[0.5px] bg-black"></div>
-                  <span className="text-center">UPI id</span>
+                  <div className="grow"></div>
+                  <div className="h-[0.5px] w-full bg-black my-1"></div>
+                  <span className="text-center mb-1">UPI id</span>
                 </div>
               </div>
 
               {/* Phonpe switch button */}
               <div className="flex flex-col gap-3 items-center justify-center">
                 <Switch></Switch>
-                <div className="border flex flex-col py-1 px-3 h-34 rounded-md justify-center item-center w-20">
-                  <img
-                    className="w-11 "
+                <div className="border flex flex-col justify-center items-center py-1 px-3 h-24 rounded-md w-20">
+                  <Image
+                    width={40}
+                    height={40}
+                    preview={false}
+                    className="w-full my-1 mx-auto"
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTo4x8kSTmPUq4PFzl4HNT0gObFuEhivHOFYg&s"
-                    alt=""
                   />
-                  <div className="h-[1.5px] my-1 bg-black"></div>
-                  <span className="text-center">UPI id</span>
+                  {/* <div className=""></div> */}
+                  <div className="h-[0.5px] bg-black w-full my-1 mt-3"></div>
+                  <span className="text-center mb-1">UPI id</span>
                 </div>
               </div>
 
               {/* UPI switch button */}
               <div className="flex flex-col gap-3 items-center justify-center">
                 <Switch></Switch>
-                <div className="border flex flex-col py-3 px-3 h-34 rounded-md justify-between item-center w-20">
-                  <img
-                    className="w-11 my-1"
+                <div className="border text-center flex flex-col justify-center items-center py-1 px-3 h-24 rounded-md w-20">
+                  <Image
+                    width={50}
+                    // height={45}
+                    preview={false}
+                    className="mt-4 flex"
                     src="https://cdn.icon-icons.com/icons2/2699/PNG/512/upi_logo_icon_169316.png"
                     alt=""
                   />
-                  <div className="h-[1.5px] my-1 bg-black"></div>
-                  <span className="text-center">UPI id</span>
+                  <div className="grow "></div>
+                  <div className="h-[0.5px] w-full bg-black my-1"></div>
+                  <span className="text-center mb-1">UPI id</span>
                 </div>
               </div>
 
               {/* Bank detail switch button */}
               <div className="flex flex-col gap-3 items-center justify-center">
                 <Switch></Switch>
-                <div className="border flex flex-col py-1 px-3 h-34 rounded-md justify-center item-center w-20">
-                  <img
-                    className="w-10 my-2 flex"
+                <div className="border text-center flex flex-col justify-center items-center py-1 px-3 h-24 rounded-md w-20">
+                  <Image
+                    width={37}
+                    // height={45}
+                    preview={false}
+                    className="mt-2  "
                     src="https://www.clipartkey.com/mpngs/m/84-841013_bank-png-blue-bank-icon.png"
                     alt=""
                   />
-                  <div className="h-[1.5px] my-1 bg-black"></div>
-                  <span className="text-center text-xs">AC detail</span>
+                  <div className="grow "></div>
+                  <div className="h-[0.5px] w-full bg-black my-1"></div>
+                  <span className="text-center mb-1">UPI id</span>
                 </div>
               </div>
 
@@ -184,25 +204,27 @@ export default function Home() {
                 <Switch></Switch>
                 <AlertDialog>
                   <AlertDialogTrigger>
-                    <div className="border text-center flex flex-col py-1 px-3 h-34 rounded-md w-20">
-                      <img
-                        className="w-13 "
+                    <div className="border text-center flex items-center flex-col justify-start py-1 px-3 h-24 rounded-md w-20">
+                      <Image
+                        width={50}
+                        height={45}
+                        preview={false}
+                        className="my-2 flex"
                         src="https://cdn-icons-png.flaticon.com/128/6124/6124998.png"
                         alt=""
                       />
-                      <div className="h-[0.5px] bg-black"></div>
-                      <span className="text-center text-sm py-1">QR code</span>
+                      <div className="grow"></div>
+                      <div className="h-[0.5px] w-full bg-black my-1"></div>
+                      <span className="text-center text-sm mb-1">QR code</span>
                     </div>
                   </AlertDialogTrigger>
-
-                  {/* Gpay upi options  */}
                   <AlertDialogContent>
                     <div className="flex flex-col m-0 p-0">
                       <div className="flex justify-start items-center">
                         <span className="font-medium pr-6">
                           Payment gateway details (GPay)
                         </span>
-                        {/* <img className="w-10 h-10" src="https://cdn-icons-png.flaticon.com/128/6124/6124998.png" alt="" /> */}
+                        {/* Imageg className="w-10 h-10" src="https://cdn-icons-png.flaticon.com/128/6124/6124998.png" alt="" /> */}
                         <div className="grow"></div>
 
                         <button className="rounded-md py-1 px-4 bg-red-500 mr-4 text-white">
@@ -223,7 +245,8 @@ export default function Home() {
                       <div className="flex mb-3 justify-start items-center border-x-white">
                         <span className=" pr-12"> 1.</span>
                         {/* <div className="grow"></div> */}
-                        <img
+                        <Image
+                          width={50}
                           className=" w-20"
                           src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg"
                           alt=""
@@ -239,28 +262,35 @@ export default function Home() {
               {/* Paytem QR switch button */}
               <div className="flex flex-col gap-3 items-center">
                 <Switch></Switch>
-                <div className="border text-center flex flex-col py-1 px-3 h-34 rounded-md w-20">
-                  <img
-                    className="w-13 "
+                <div className="border text-center flex flex-col justify-start items-center py-1 px-3 h-24 rounded-md w-20">
+                  <Image
+                    width={50}
+                    height={45}
+                    preview={false}
+                    className="my-2 flex"
                     src="https://cdn.iconscout.com/icon/free/png-256/free-paytm-226448.png?f=webp&w=256"
                     alt=""
                   />
-                  <div className="h-[0.5px] bg-black"></div>
-                  <span className="text-center text-sm py-1">QR code</span>
+                  <div className="grow"></div>
+                  <div className="h-[0.5px] w-full bg-black my-1"></div>
+                  <span className="text-center mb-1 text-sm ">QR code</span>
                 </div>
               </div>
 
               {/* Phonpe  QR switch button */}
               <div className="flex flex-col gap-3 items-center justify-center">
                 <Switch></Switch>
-                <div className="border flex flex-col py-1 px-3 h-34 rounded-md justify-center item-center w-20">
-                  <img
-                    className="w-11 "
+                <div className="border flex flex-col justify-center items-center py-1 px-3 h-24 rounded-md w-20">
+                  <Image
+                    width={40}
+                    height={40}
+                    preview={false}
+                    className="w-full my-1 mx-auto"
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTo4x8kSTmPUq4PFzl4HNT0gObFuEhivHOFYg&s"
-                    alt=""
                   />
-                  <div className="h-[1.5px] my-1 bg-black"></div>
-                  <span className="text-center text-sm py-1">QR code</span>
+                  {/* <div className=""></div> */}
+                  <div className="h-[0.5px] bg-black w-full my-1 mt-3"></div>
+                  <span className="text-center mb-1 text-sm ">QR code</span>
                 </div>
               </div>
             </div>

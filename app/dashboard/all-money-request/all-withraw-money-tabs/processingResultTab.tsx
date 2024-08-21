@@ -1,14 +1,10 @@
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { Image } from "antd";
 import { Input, Tag } from "antd";
-import React from "react";
 import { BiSolidUser } from "react-icons/bi";
-import { BsBank } from "react-icons/bs";
 import { FaCopy, FaMoneyBill, FaRegCalendar } from "react-icons/fa6";
 import { MdSmartphone, MdEmail } from "react-icons/md";
-import ApproveDailouge from "../DialogeBoxes/approve";
-import RejectDailouge from "../DialogeBoxes/reject";
-import TransferDailouge from "../DialogeBoxes/transfer";
 
 type Players = {
   userId: number;
@@ -89,33 +85,31 @@ const ProcessingResult = () => {
                   src="https://cdn.iconscout.com/icon/free/png-256/free-paytm-226448.png?f=webp&w=256"
                 />
                 )
-                {/* <div className="grow"></div>
-                                <TransferDailouge /> */}
               </div>
 
               {/* Payment infomation */}
               <div className="flex justify-between px-4 py-2 pb-6 w-full">
                 <div className="flex flex-col gap-1 justify-between  min-h-36">
                   <div className="flex gap-3 items-center">
-                    {" "}
+
                     <MdSmartphone /> <span>+91 **********</span>
                   </div>
                   <div className="flex gap-3 items-center">
-                    <BiSolidUser />{" "}
-                    <span className="font-semibold text-sm "> User Id: </span>{" "}
+                    <BiSolidUser />
+                    <span className="font-semibold text-sm "> User Id: </span>
                     234
                   </div>
                   <div className="flex gap-3 items-center">
-                    {" "}
-                    <FaMoneyBill />{" "}
+
+                    <FaMoneyBill />
                     <span className="font-semibold text-sm">
-                      {" "}
-                      23,490 INR{" "}
-                    </span>{" "}
+
+                      23,490 INR
+                    </span>
                   </div>
                   <div className="flex gap-3 items-center">
-                    {" "}
-                    <FaRegCalendar />{" "}
+
+                    <FaRegCalendar />
                     <span className="font-semibold text-sm"> 29/05/2005 </span>
                   </div>
                   <Image
@@ -209,15 +203,15 @@ const ProcessingResult = () => {
               {/* ... ... Action buttons ... ... */}
               <div className="flex justify-between pb-4 px-3 gap-0 mt-5 w-full">
                 <Button
-                  className="bg-green-500 w-full  rounded-md hover:bg-green-700 text-white "
+                  className="bg-green-500 w-full rounded-none rounded-l-md hover:bg-green-700 text-white "
                   variant={"default"}
                 >
                   Approve
                 </Button>
                 <Button
-                  className="bg-red-500 w-full  rounded-md hover:bg-red-700 text-white "
+                  className="bg-red-500 w-full rounded-none rounded-r-md hover:bg-red-700 text-white "
                   variant={"default"}
-                >
+                  >
                   Rejected
                 </Button>
               </div>

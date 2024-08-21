@@ -91,7 +91,7 @@ const navLinks = [
     icon: <MaterialSymbolsManageHistory />,
   },
   {
-    name: "Withdraw Record",
+    name: "X Withdraw Record",
     url: "/dashboard/withdraw-record",
     icon: <MaterialSymbolsManageHistory />,
   },
