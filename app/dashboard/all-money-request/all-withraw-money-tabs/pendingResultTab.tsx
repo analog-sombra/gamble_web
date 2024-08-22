@@ -2,50 +2,13 @@ import { FaCopy } from "react-icons/fa6";
 import { BsBank } from "react-icons/bs";
 import { Button } from "@/components/ui/button";
 import { MdEmail } from "react-icons/md";
-import { FaSearch } from "react-icons/fa";
-import { Checkbox } from "@/components/ui/checkbox";
-import { IoPersonSharp } from "react-icons/io5";
 import { BiSolidUser } from "react-icons/bi";
-import { CiCreditCard2 } from "react-icons/ci";
-import { FiSmartphone } from "react-icons/fi";
-import { FaRegCalendar } from "react-icons/fa6";
 import { MdSmartphone } from "react-icons/md";
 import TransferDailouge from "../DialogeBoxes/transfer";
 
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Drawer, Image } from "antd";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
-import { TbReload } from "react-icons/tb";
+import { Image } from "antd";
 ("");
 import { Tag } from "antd";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { SwitchThumb } from "@radix-ui/react-switch";
-import { FaMoneyBill } from "react-icons/fa6";
-import {
-  AlertDialog,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { IoMdClose } from "react-icons/io";
 import ApproveDailouge from "../DialogeBoxes/approve";
 import RejectDailouge from "../DialogeBoxes/reject";
 
@@ -258,7 +221,7 @@ const PendingResult = () => {
               <div className="flex justify-between pb-4 px-3 gap-0 mt-5 w-full">
                 <ApproveDailouge />
                 <Button
-                  className="bg-blue-500 py-2  hover:bg-blue-700 text-white w-full hover:text-white"
+                  className="bg-blue-500 py-2 rounded-none m-0  hover:bg-blue-700 text-white w-full hover:text-white"
                   variant={"outline"}
                 >
                   processing

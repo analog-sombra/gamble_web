@@ -101,7 +101,7 @@ const navLinks = [
     role: ["USER", "ADMIN"],
   },
   {
-    name: "Withdraw Record",
+    name: "X Withdraw Record",
     url: "/dashboard/withdraw-record",
     icon: <MaterialSymbolsManageHistory />,
     role: ["USER", "ADMIN"],
@@ -227,7 +227,7 @@ export default function Sidebar({ isSidebarOpen, setSidebar }: SidebarProps) {
         open={isSidebarOpen}
         placement="left"
       >
-        {/* Nav links */}
+        {/* ------------------ Mobile navigation ------------------ */}
         <div className="flex flex-col  gap-2 ">
           {navLinks.map((links: any, index: number) => {
             const route = links.url;
@@ -287,7 +287,7 @@ export default function Sidebar({ isSidebarOpen, setSidebar }: SidebarProps) {
         </div>
       </Drawer>
 
-      {/* Desktop navigation */}
+      {/* ------------------ Desktop navigation ------------------ */}
       <div className="hidden flex-col lg:flex min-w-64">
         <div className="flex items-center p-4 gap-2 justify-center">
           <Image

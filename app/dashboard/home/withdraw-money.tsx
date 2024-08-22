@@ -1,27 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
-import { Switch } from "@/components/ui/switch";
 import React, { useState } from 'react'
-import { Label } from "@/components/ui/label";
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableFooter,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
 // import { Input } from "@/components/ui/input";
 import { Input } from "antd";
 import ProcessingResult from "./withraw-money-tabs/processingResultTab";
@@ -30,6 +9,9 @@ import ApprovedResult from "./withraw-money-tabs/approvedResultTab";
 import RejectedResult from "./withraw-money-tabs/rejectedResultTab";
 import RefundedResult from "./withraw-money-tabs/refundedResultTab";
 import PendingExcelResult from "./withraw-money-tabs/pendingExceelResultTab";
+import { FaCheckCircle, FaFileExcel } from "react-icons/fa";
+import { IoCloseCircleSharp, IoTimeSharp } from "react-icons/io5";
+import { FaArrowsRotate, FaCircleExclamation } from "react-icons/fa6";
 
 export default function WithdrawMoney() {
     const [currentTab, setTab] = useState("add");
@@ -53,24 +35,31 @@ export default function WithdrawMoney() {
                 {/* ---- navigation buttons ---- */}
                 <TabsList className=" m-auto bg-transparent sm:mb-0 mb-12 flex flex-wrap">
                     <TabsTrigger value="excel" className="bg-gray-100 px-5  mx-0 py-2 rounded-sm  text-grey-400 font-semibold text-sm shadow-sm ">
+                        <FaFileExcel className="mr-1" />
                         Excel
                     </TabsTrigger>
                     <TabsTrigger value="pending" className="bg-gray-100 px-5  mx-0 py-2 rounded-sm text-orange-700 font-semibold text-sm shadow-sm ">
-                        Pending
+                        <IoTimeSharp className="text-base mr-1" />
+                        <span className="pb-[2px]">Pending</span>
                     </TabsTrigger>
                     <TabsTrigger value="processing" className="bg-gray-100 px-5  mx-0 py-2 rounded-sm text-blue-400 font-semibold  text-sm shadow-sm ">
-                        Processing
+                        < FaCircleExclamation className="mr-1" />
+                        <span className="pb-[2px]">Processing</span>
                     </TabsTrigger>
                     <TabsTrigger value="approved" className="bg-gray-100 px-5  mx-0 py-2 rounded-sm  text-green-400 font-semibold text-sm shadow-sm ">
-                        Approved
+                        <FaCheckCircle className="mr-1" />
+                        <span className="pb-[2px]">Approved</span>
                     </TabsTrigger>
                     <TabsTrigger value="rejected" className="bg-gray-100 px-5  mx-0 py-2 rounded-sm text-red-400 font-semibold  text-sm shadow-sm ">
+                        <IoCloseCircleSharp className="text-base mr-1" />
                         Rejected
                     </TabsTrigger>
                     <TabsTrigger value="refunded" className="bg-gray-100 px-5  mx-0 py-2 rounded-sm  text-purple-500 font-semibold text-sm shadow-sm ">
+                        <FaArrowsRotate className="text-sm mr-1" />
                         Refunded
                     </TabsTrigger>
                     <TabsTrigger value="pending excel" className="bg-gray-100 px-5  mx-0 py-2 rounded-sm  text-red-400 font-semibold text-sm shadow-sm ">
+                        <FaFileExcel className="mr-1" />
                         Pending excel
                     </TabsTrigger>
                 </TabsList>

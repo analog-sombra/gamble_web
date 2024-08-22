@@ -90,13 +90,13 @@ const ApproveResult = () => {
               <div className="min-h-7 bg-zinc-200 w-full flex items-center px-2 justify-start">
                 <span className="mx-1">Approved request</span>
                 (
-                  <Image
-                    preview={false}
-                    height={50}
-                    width={50}
-                    alt="NextUI hero Image"
-                    src="https://cdn.iconscout.com/icon/free/png-256/free-paytm-226448.png?f=webp&w=256"
-                  />
+                <Image
+                  preview={false}
+                  height={50}
+                  width={50}
+                  alt="NextUI hero Image"
+                  src="https://cdn.iconscout.com/icon/free/png-256/free-paytm-226448.png?f=webp&w=256"
+                />
                 )
               </div>
 
@@ -142,6 +142,15 @@ const ApproveResult = () => {
                 />
               </div>
 
+              {/* ... ... Status ... ... */}
+              <div className="min-h-7  w-full flex items-center justify-end">
+                <Tag
+                  className="w-full text-center p-0 m-0 py-[2px]"
+                  color="green"
+                >
+                  Approved
+                </Tag>
+              </div>
             </div>
           );
         })}

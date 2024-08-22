@@ -10,6 +10,10 @@ import {
   email,
   maxLength,
   enum_,
+  file,
+  mimeType,
+  maxSize,
+  optional,
 } from "valibot";
 // Assuming this is your Role enum definition
 export enum Role {
@@ -18,6 +22,15 @@ export enum Role {
   WORKER = "WORKER",
   USER = "USER",
 }
+
+
+export const demoPaymentGatewaySchema = object({
+  name: string(),
+  gatewayType: string(),
+  status: string(),
+  file: optional<any, string>(file('Please select an image file.'), "no img"),
+
+})
 
 const CreateUserSchema = object({
   name: pipe(
@@ -56,5 +69,6 @@ const CreateUserSchema = object({
 });
 
 type CreateUserForm = InferInput<typeof CreateUserSchema>;
+type CreateDemoPayment = InferInput<typeof demoPaymentGatewaySchema>;
 
-export { CreateUserSchema, type CreateUserForm };
+export { CreateUserSchema, type CreateUserForm, type CreateDemoPayment };

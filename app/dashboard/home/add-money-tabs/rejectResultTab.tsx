@@ -144,7 +144,16 @@ const RejectResult = () => {
                   alt=""
                 />
               </div>
-
+              
+              {/* ... ... Action buttons ... ... */}
+              <div className="  w-full flex items-center justify-end">
+                <Tag
+                  className="w-full  text-center p-0 m-0 py-[2px]"
+                  color="red"
+                >
+                  Rejected
+                </Tag>
+              </div>
             </div>
           );
         })}

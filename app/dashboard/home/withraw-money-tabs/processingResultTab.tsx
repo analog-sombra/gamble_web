@@ -97,7 +97,7 @@ const ProcessingResult = () => {
               <div className="flex justify-between px-4 py-2 pb-6 w-full">
                 <div className="flex flex-col gap-1 justify-between  min-h-36">
                   <div className="flex gap-3 items-center">
-                    {" "}
+                    {/* {" "} */}
                     <MdSmartphone /> <span>+91 **********</span>
                   </div>
                   <div className="flex gap-3 items-center">
@@ -165,13 +165,13 @@ const ProcessingResult = () => {
               {/* ... ... Action buttons ... ... */}
               <div className="flex justify-between pb-4 px-3 gap-0 mt-5 w-full">
                 <Button
-                  className="bg-green-500 w-full  rounded-md hover:bg-green-700 text-white "
+                  className="bg-green-500 w-full rounded-none rounded-l-lg m-0 hover:bg-green-700 text-white "
                   variant={"default"}
                 >
                   Approve
                 </Button>
                 <Button
-                  className="bg-red-500 w-full  rounded-md hover:bg-red-700 text-white "
+                  className="bg-red-500 w-full rounded-none rounded-r-lg m0m hover:bg-red-700 text-white "
                   variant={"default"}
                 >
                   Rejected

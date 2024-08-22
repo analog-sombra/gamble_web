@@ -1,45 +1,9 @@
 "use client"
 
-import { MdEmail } from "react-icons/md";
-import { FaSearch } from "react-icons/fa";
-import { Checkbox } from "@/components/ui/checkbox"
-import { IoPersonSharp } from "react-icons/io5";
-import { BiSolidUser } from "react-icons/bi";
-import { CiCreditCard2 } from "react-icons/ci";
-import { FiSmartphone } from "react-icons/fi";
-import { FaRegCalendar } from "react-icons/fa6";
-import { MdSmartphone } from "react-icons/md";
 
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
-import { Drawer, Image } from "antd";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
 import React, { useState } from 'react'
-import { Label } from "@/components/ui/label";
-import { TbReload } from "react-icons/tb"; ''
-import { Input, Tag } from "antd";
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableFooter,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
-import { SwitchThumb } from "@radix-ui/react-switch";
-import { FaMoneyBill } from "react-icons/fa6";
-import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import { IoMdClose } from "react-icons/io";
+
 import PendingResult from "./all-add-money-tabs/pendingResultTab";
 import ProcessingResult from "./all-add-money-tabs/processingResultTab";
 import ApproveResult from "./all-add-money-tabs/approveResultTab";
@@ -48,33 +12,66 @@ import EnteriesResult from "./all-add-money-tabs/enteriesResultTab";
 import PendingEnteriesResult from "./all-add-money-tabs/pendingEntriesResultTab";
 import HighToLowResult from "./all-add-money-tabs/highToLowResultTab";
 
+// Icons ....
+import { IoTimeSharp } from "react-icons/io5";
+import { FaCheckCircle } from "react-icons/fa";
+import { FaCircleExclamation } from "react-icons/fa6";
+import { MdPlaylistAddCheckCircle } from "react-icons/md";
+import { MdOutlinePendingActions } from "react-icons/md";
+import { IoCloseCircleSharp } from "react-icons/io5";
+import { GoGraph } from "react-icons/go";
+
+
+
 export default function AddMoney() {
-    const [currentTab, setTab] = useState("add");
+    const [currentTab, setTab] = useState("pending");
 
     return (
         <div>
 
-            <Tabs defaultValue="pending" className="w-full  flex flex-col sm:mt-2">
+            <Tabs value={currentTab} className="w-full  flex flex-col sm:mt-2">
                 <TabsList className=" mx-auto sm:mb-0 mb-24 bg-transparent w-full flex flex-wrap">
-                    <TabsTrigger value="pending" className="bg-gray-100 px-5  mx-0 py-2 rounded-sm text-orange-700 font-semibold text-xs sm:text-sm shadow-sm ">
-                        Pending
+                    <TabsTrigger
+                        onClick={e => setTab("pending")}
+                        value="pending" className="bg-gray-100 px-5  mx-0 py-2 rounded-sm text-orange-700 flex items-center gap-1 font-semibold text-xs sm:text-sm shadow-sm ">
+                        <IoTimeSharp className="text-base" />
+                        <span className="pb-[2px]">Pending</span>
                     </TabsTrigger>
-                    <TabsTrigger value="processing" className="bg-gray-100 px-5  mx-0 py-2 rounded-sm text-blue-400 font-semibold  text-xs sm:text-sm shadow-sm ">
-                        Processing
+                    <TabsTrigger
+                        onClick={e => setTab("processing")}
+                        value="processing" className="bg-gray-100 px-5 flex items-center gap-1  mx-0 py-2 rounded-sm text-blue-400 font-semibold  text-xs sm:text-sm shadow-sm ">
+                        < FaCircleExclamation />
+                        <span className="pb-[2px]">Processing</span>
                     </TabsTrigger>
-                    <TabsTrigger value="approved" className="bg-gray-100 px-5  mx-0 py-2 rounded-sm  text-green-400 font-semibold text-xs sm:text-sm shadow-sm ">
-                        Approved
+                    <TabsTrigger
+                        onClick={e => setTab("approved")}
+                        value="approved"
+                        className="bg-gray-100 px-5  mx-0 py-2 flex items-center gap-1 rounded-sm  text-green-400 font-semibold text-xs sm:text-sm shadow-sm ">
+                        <FaCheckCircle />
+                        <span className="pb-[2px]">Approved</span>
                     </TabsTrigger>
-                    <TabsTrigger value="entries" className="bg-gray-100 px-5  mx-0 py-2 rounded-sm text-red-400 font-semibold  text-xs sm:text-sm shadow-sm ">
+                    <TabsTrigger
+                        onClick={e => setTab("entries")}
+                        value="entries" className="bg-gray-100 px-5  flex items-center gap-1 mx-0 py-2 rounded-sm text-zinc-600 font-semibold  text-xs sm:text-sm shadow-sm ">
+                        < MdPlaylistAddCheckCircle className="text-lg" />
                         Entries
                     </TabsTrigger>
-                    <TabsTrigger value="pending entries" className="bg-gray-100 px-5  mx-0 py-2 rounded-sm text-red-400 font-semibold  text-xs sm:text-sm shadow-sm ">
+                    <TabsTrigger
+                        onClick={e => setTab("pending entries")}
+                        value="pending entries" className="bg-gray-100 px-5 flex items-center gap-1  mx-0 py-2 rounded-sm text-purple-400 font-semibold  text-xs sm:text-sm shadow-sm ">
+                        <MdOutlinePendingActions className="text-lg" />
                         Pending entries
                     </TabsTrigger>
-                    <TabsTrigger value="rejected" className="bg-gray-100 px-5  mx-0 py-2 rounded-sm  text-purple-500 font-semibold text-xs sm:text-sm shadow-sm ">
+                    <TabsTrigger
+                        onClick={e => setTab("rejected")}
+                        value="rejected" className="bg-gray-100 px-5  flex items-center gap-1 mx-0 py-2 rounded-sm  text-red-500 font-semibold text-xs sm:text-sm shadow-sm ">
+                        <IoCloseCircleSharp className="text-base" />
                         Rejected
                     </TabsTrigger>
-                    <TabsTrigger value="hight to low" className="bg-gray-100 px-5  mx-0 py-2 rounded-sm  text-purple-500 font-semibold text-xs sm:text-sm shadow-sm ">
+                    <TabsTrigger
+                        onClick={e => setTab("hight to low")}
+                        value="hight to low" className="bg-gray-100 px-5  flex items-center gap-1 mx-0 py-2 rounded-sm  text-purple-500 font-semibold text-xs sm:text-sm shadow-sm ">
+                        <GoGraph className="text-base" />
                         High to low
                     </TabsTrigger>
                 </TabsList>
