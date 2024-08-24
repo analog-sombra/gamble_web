@@ -1,35 +1,33 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import React, { useState } from 'react'
-// import { Input } from "@/components/ui/input";
 import { Input } from "antd";
-import ProcessingResult from "./withraw-money-tabs/processingResultTab";
-import PendingResult from "./withraw-money-tabs/pendingResultTab";
-import ApprovedResult from "./withraw-money-tabs/approvedResultTab";
-import RejectedResult from "./withraw-money-tabs/rejectedResultTab";
-import RefundedResult from "./withraw-money-tabs/refundedResultTab";
-import PendingExcelResult from "./withraw-money-tabs/pendingExceelResultTab";
 import { FaCheckCircle, FaFileExcel } from "react-icons/fa";
 import { IoCloseCircleSharp, IoTimeSharp } from "react-icons/io5";
 import { FaArrowsRotate, FaCircleExclamation } from "react-icons/fa6";
+import SearchFiedls from "@/components/Dashboard/SearchFiedls";
+import PendingRequestCard from "@/components/infoCards/PendingResultCard";
+import ProcessingRequestCard from "@/components/WithdrawlCards/ProcessingRequestCard";
+import FilterField from "@/components/Dashboard/FilterField";
+import ApprovedRequestCard from "@/components/WithdrawlCards/ApprovedRequestCard";
+
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import RejectedRequestCard from "@/components/WithdrawlCards/RejectedRequestCard";
+import RefundRequestCard from "@/components/WithdrawlCards/RefundRequestCard";
+import PendingExcelRequestCard from "@/components/WithdrawlCards/PendingExcelRequestCard";
 
 export default function WithdrawMoney() {
     const [currentTab, setTab] = useState("add");
 
     return (
         <div className="flex flex-col items-center">
-            <div className="flex gap-5 justify-between">
-                {/* <div className="flex gap-5">
-                    <div className="flex items-center space-x-2">
-                        <Label htmlFor="toggle-add">Add</Label>
-                        <Switch id="toggle-add" />
-                    </div>
-                    <div className="flex items-center space-x-2">
-                        <Label htmlFor="toggle-withdraw">Withdraw</Label>
-                        <Switch id="toggle-withdraw" />
-                    </div>
-                </div> */}
-            </div>
 
             <Tabs defaultValue="pending" className="w-full flex flex-col mt-6 ">
                 {/* ---- navigation buttons ---- */}
@@ -85,32 +83,113 @@ export default function WithdrawMoney() {
 
                 {/* ---- pending content ---- */}
                 <TabsContent value="pending" className="flex flex-col w-full justify-center items-center">
-                    <PendingResult />
+                    <div className="w-[250px] sm:w-[350px] flex flex-col gap-2 mt-10 items-center">
+                        <SearchFiedls placeholder="All" />
+                        <SearchFiedls placeholder="User Id" />
+                    </div>
+
+                    <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
+                        {Array.from([1, 2, 3, 4, 5, 6]).map(() => {
+                            return (
+                                <PendingRequestCard showAdminInfo={false} />
+                            );
+                        })}
+                    </div>
                 </TabsContent>
 
                 {/* ---- processing content ---- */}
                 <TabsContent value="processing" className="flex flex-col w-full justify-center items-center">
-                    <ProcessingResult />
+                    <div className="w-[250px] sm:w-[350px] flex flex-col gap-2 mt-10 items-center">
+                        <SearchFiedls placeholder="All" />
+                        <SearchFiedls placeholder="User Id" />
+                    </div>
+
+                    <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
+                        {Array.from([1, 2, 3, 4, 5, 6]).map(() => {
+                            return (
+                                <ProcessingRequestCard showAdminInfo={false} />
+                            );
+                        })}
+                    </div>
                 </TabsContent>
 
                 {/* ---- Approved content ---- */}
                 <TabsContent value="approved" className="flex flex-col w-full justify-center items-center" >
-                    <ApprovedResult />
+                    <div className="w-[250px] sm:w-[400px] flex flex-col gap-2 mt-10 items-center">
+                        <FilterField />
+                        <SearchFiedls placeholder="User Id" />
+                        <div className="flex h-10 w-full mb-3 max-w-sm items-center">
+                            <Select>
+                                <SelectTrigger className="w-[180px] rounded-none rounded-l-md mb-1 focus:out">
+                                    <SelectValue placeholder="ACC" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        <SelectItem value="apple">Account number</SelectItem>
+                                        <SelectItem value="banana">Account holder name</SelectItem>
+                                        <SelectItem value="blueberry">Amount</SelectItem>
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+                            <SearchFiedls placeholder="Enter" className="rounded-l-none" />
+                        </div>
+                    </div>
+
+                    <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
+                        {Array.from([1, 2, 3, 4, 5, 6]).map(() => {
+                            return (
+                                <ApprovedRequestCard showAdminInfo={false} />
+                            );
+                        })}
+                    </div>
                 </TabsContent>
 
                 {/* ---- Rejcted content ---- */}
                 <TabsContent value="rejected" className="flex flex-col w-full justify-center items-center">
-                    <RejectedResult />
+                    <div className="w-[250px] sm:w-[350px] flex flex-col gap-2 mt-10 items-center">
+                        <SearchFiedls placeholder="All" />
+                        <SearchFiedls placeholder="User Id" />
+                    </div>
+
+                    <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
+                        {Array.from([1, 2, 3, 4, 5, 6]).map(() => {
+                            return (
+                                <RejectedRequestCard showAdminInfo={false} />
+                            );
+                        })}
+                    </div>
                 </TabsContent>
 
                 {/* ---- Refunded content ---- */}
                 <TabsContent value="refunded" className="flex flex-col w-full justify-center items-center">
-                    <RefundedResult />
+                    <div className="w-[250px] sm:w-[350px] flex flex-col gap-2 mt-10 items-center">
+                        <SearchFiedls placeholder="All" />
+                        <SearchFiedls placeholder="User Id" />
+                    </div>
+
+                    <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
+                        {Array.from([1, 2, 3, 4, 5, 6]).map(() => {
+                            return (
+                                <RefundRequestCard showAdminInfo={false} />
+                            );
+                        })}
+                    </div>
                 </TabsContent>
 
                 {/* ---- Pending excel content ---- */}
                 <TabsContent value="pending excel" className="flex flex-col w-full justify-center items-center">
-                    <PendingExcelResult />
+                    <div className="w-[250px] sm:w-[350px] flex flex-col gap-2 mt-10 items-center">
+                        <SearchFiedls placeholder="All" />
+                        <SearchFiedls placeholder="User Id" />
+                    </div>
+
+                    <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
+                        {Array.from([1, 2, 3, 4, 5, 6]).map(() => {
+                            return (
+                                <PendingExcelRequestCard showAdminInfo={false} />
+                            );
+                        })}
+                    </div>
                 </TabsContent>
             </Tabs>
 

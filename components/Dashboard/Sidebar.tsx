@@ -83,6 +83,11 @@ const navLinks = [
     role: ["USER", "ADMIN"],
   },
   {
+    name: "Create Demo",
+    url: "/dashboard/create-temp",
+    icon: <SystemUiconsUserAdd />,
+  },
+  {
     name: "X Customer care direct chat",
     url: "/dashboard/customer-care-chat",
     icon: <MaterialSymbolsHeadsetMicOutlineRounded />,
@@ -236,46 +241,37 @@ export default function Sidebar({ isSidebarOpen, setSidebar }: SidebarProps) {
             return (
               <div
                 key={index}
-                className={`${
-                  isActive ? "bg-slate-100  border-l-4 border-blue-500" : ""
-                }  flex p-2 rounded gap-2`}
-              >
-                <span
-                  className={`${
-                    isActive ? "text-[#3f2632]" : "text-black"
-                  } text-xl`}
-                >
-                  {links.icon}
-                </span>
-                {links.url === "/dashboard/admin-panel" ? (
-                  <Collapsible>
-                    <CollapsibleTrigger>{links.name}</CollapsibleTrigger>
-                    <CollapsibleContent className=" flex flex-col ">
-                      <Link
-                        onClick={(e) => setSidebar(false)}
-                        className="text-md my-3"
-                        href={`/dashboard/sub-admin`}
-                      >
-                        Subadmin
+                className={`${isActive ? " border-l-4 bg-slate-100 border-blue-500" : ""}  flex p-2 rounded gap-2`}>
+
+                {
+                  links.url === "/dashboard/admin-panel"
+                    ? <Collapsible>
+                      <CollapsibleTrigger className="flex gap-3">
+                        <span className={`${isActive ? "text-[#3f2632]" : "text-black"} text-xl`}>
+                          {links.icon}
+                        </span>
+                        {links.name}
+                      </CollapsibleTrigger>
+                      <CollapsibleContent className=" flex flex-col pl-8">
+                        <Link onClick={e => setSidebar(false)} className="text-md   my-3" href={`/dashboard/sub-admin`}>Subadmin</Link>
+                        <Link onClick={e => setSidebar(false)} className="text-md  " href={"/dashboard/blocked"}>
+                          Blocked
+                        </Link>
+                      </CollapsibleContent>
+                    </Collapsible>
+
+                    :
+                    <>
+                      <span className={`${isActive ? "text-[#3f2632]" : "text-black"} text-xl`}>
+                        {links.icon}
+                      </span>
+
+                      <Link onClick={e => setSidebar(false)} className={`text-md`}
+                        href={links.url}>
+                        {links.name}
                       </Link>
-                      <Link
-                        onClick={(e) => setSidebar(false)}
-                        className="text-md"
-                        href={"/dashboard/blocked"}
-                      >
-                        Blocked
-                      </Link>
-                    </CollapsibleContent>
-                  </Collapsible>
-                ) : (
-                  <Link
-                    onClick={(e) => setSidebar(false)}
-                    className="text-md"
-                    href={links.url}
-                  >
-                    {links.name}
-                  </Link>
-                )}
+                    </>
+                }
               </div>
             );
           })}
@@ -299,10 +295,7 @@ export default function Sidebar({ isSidebarOpen, setSidebar }: SidebarProps) {
           />
           Gamble Zone
         </div>
-        <div
-          className=" h-[90vh] overflow-scroll"
-          style={{ scrollbarWidth: "none" }}
-        >
+        <div className=" h-[90vh] overflow-scroll" style={{ scrollbarWidth: "none" }} >
           {navLinks.map((item, index) => {
             const route = item.url;
             const isActive = pathname === route;
@@ -310,40 +303,40 @@ export default function Sidebar({ isSidebarOpen, setSidebar }: SidebarProps) {
             return (
               <div
                 key={index}
-                className={`flex gap-2 items-center justify-start cursor-pointer py-2 pr-2 pl-4 rounded-r-md ${
-                  isActive
-                    ? "text-black bg-white border-blue-500 border-l-4"
-                    : "text-gray-500  hover:text-black "
-                }`}
-              >
-                <span
-                  className={`${
-                    isActive ? "text-blue-400" : "text-blue-600"
-                  } text-xl`}
-                >
-                  {item.icon}
-                </span>
-
-                {item.url === "/dashboard/admin-panel" ? (
-                  <Collapsible>
-                    <CollapsibleTrigger>{item.name}</CollapsibleTrigger>
-                    <CollapsibleContent className=" flex flex-col ">
-                      <Link
-                        className="text-md my-3"
-                        href={`/dashboard/sub-admin`}
-                      >
-                        Subadmin
+                className={`flex gap-2 items-center justify-start cursor-pointer py-2 pr-2 pl-4 rounded-r-md ${isActive
+                  ? "text-black bg-white border-blue-500 border-l-4"
+                  : "text-gray-500  hover:text-black "
+                  }`}>
+                {
+                  item.url === "/dashboard/admin-panel"
+                    ? <Collapsible>
+                      <CollapsibleTrigger className="text-gray-500 flex items-center gap-2 hover:text-black">
+                        <span
+                          className={`${isActive ? "text-blue-400" : "text-blue-600"} text-xl`}>
+                          {item.icon}
+                        </span>
+                        {item.name}
+                      </CollapsibleTrigger>
+                      <CollapsibleContent className=" flex flex-col items-start pl-8 ">
+                        <Link className="text-md my-3 text-gray-500  hover:text-black" href={`/dashboard/sub-admin`}>
+                          Subadmin
+                        </Link>
+                        <Link className="text-md text-gray-500  hover:text-black" href={"/dashboard/blocked"}>
+                          Blocked
+                        </Link>
+                      </CollapsibleContent>
+                    </Collapsible>
+                    :
+                    <>
+                      <span
+                        className={`${isActive ? "text-blue-400" : "text-blue-600"} text-xl`}>
+                        {item.icon}
+                      </span>
+                      <Link className={`text-md`} href={item.url}>
+                        {item.name}
                       </Link>
-                      <Link className="text-md" href={"/dashboard/blocked"}>
-                        Blocked
-                      </Link>
-                    </CollapsibleContent>
-                  </Collapsible>
-                ) : (
-                  <Link className="text-md" href={item.url}>
-                    {item.name}
-                  </Link>
-                )}
+                    </>
+                }
               </div>
             );
           })}
@@ -356,6 +349,7 @@ export default function Sidebar({ isSidebarOpen, setSidebar }: SidebarProps) {
           </div>
         </div>
       </div>
+
     </div>
   );
 }

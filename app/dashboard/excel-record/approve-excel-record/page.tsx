@@ -15,8 +15,8 @@ import { BiSolidUser } from "react-icons/bi";
 import { BsBank } from "react-icons/bs";
 import { FaCopy } from "react-icons/fa6";
 import { MdEmail, MdSmartphone } from "react-icons/md";
-import ApproveDailouge from '../../all-money-request/DialogeBoxes/approve';
-import RejectDailouge from '../../all-money-request/DialogeBoxes/reject';
+import ApproveDailouge from '../../../../components/DialogeBoxes/approve';
+import RejectDailouge from '../../../../components/DialogeBoxes/reject';
 
 const ApproveExcelReq = () => {
   return (

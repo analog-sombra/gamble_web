@@ -5,7 +5,6 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -29,7 +28,7 @@ export default function AdminPanel() {
               </TableRow>
             </TableHeader>
             <TableBody className="">
-              {games.map((game) => (
+              {games.map(game => (
                 <TableRow className="" key={game.no}>
                   <TableCell className="text-center min-w-15">{game.no}</TableCell>
                   <TableCell className="text-center   font-medium">{game.gameName}</TableCell>
@@ -54,14 +53,6 @@ export default function AdminPanel() {
     </>
   );
 }
-
-const columns = [
-  { name: "NO", uid: "no" },
-  { name: "Gamer Name", uid: "gameName" },
-  { name: "Open Time", uid: "openTime" },
-  { name: "Close Time", uid: "closeTime" },
-  { name: "Status", uid: "status" },
-];
 
 const games = [
   {
