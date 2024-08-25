@@ -24,6 +24,8 @@ export default function Users() {
   const [passwordBox, setPasswordBox] = useState(false);
   const [amountBox, setAmountBox] = useState(false);
 
+  
+  
   const handleOpenChange = (newOpen: boolean) => {
     setOpen(newOpen);
   };

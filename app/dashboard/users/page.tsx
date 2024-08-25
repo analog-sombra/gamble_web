@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import {
   HoverCard,
   HoverCardContent,
@@ -14,21 +15,42 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { HttpMethodType, makeApiRequeest } from "@/lib/api/untils";
+import { BASE_URL } from "@/lib/const";
 import { Divider, Select } from "@nextui-org/react";
 import { Tag } from "antd";
+import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Users() {
-  const route = useRouter();
   const [open, setOpen] = useState(false);
-
-  const [passwordBox, setPasswordBox] = useState(false);
-  const [amountBox, setAmountBox] = useState(false);
+  const [userId, setuserId] = useState();
+  const route = useRouter();
 
   const handleOpenChange = (newOpen: boolean) => {
     setOpen(newOpen);
   };
+
+
+  const searchUserHandler =  () => {
+    try {
+      console.log("searching");
+
+      const responseData =  makeApiRequeest(
+        `${BASE_URL}/api/user/${userId}`,
+        HttpMethodType.GET
+      )
+
+      console.log(responseData);
+
+    } catch (error) {
+
+    }
+
+  }
+
+
   return (
     <main>
       <div className="shadow bg-white p-4 rounded-md">
@@ -37,9 +59,9 @@ export default function Users() {
         <div className="flex gap-2 md:flex-row flex-col">
           <Input placeholder="User Id" className="w-full md:w-60" />
           <Input placeholder="Mobile number" className="w-full md:w-60" />
-          <button className="w-full md:w-32 text-white text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
+          <Button onClick={e=> console.log("searching...")} className="w-full md:w-32 text-white text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
             Search
-          </button>
+          </Button>
           <div className="grow"></div>
         </div>
       </div>

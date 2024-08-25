@@ -4,6 +4,7 @@ import { BASE_URL } from "@/lib/const";
 import { getCookie, setCookie } from "cookies-next";
 import { log } from "console";
 import { jwtDecode } from "jwt-decode";
+import { headers } from "next/headers";
 
 
 
@@ -23,6 +24,7 @@ export enum HttpMethodType {
 interface Options {
     includeToke?: boolean,
     bodyParam?: Object,
+    queryParam?: Object,
     makeNewTokenReq?: boolean,
     ignoreTokenExp?: boolean
 }
@@ -52,6 +54,7 @@ export async function makeApiRequeest(url: string,
     opt: Options = {
         includeToke: true,
         bodyParam: undefined,
+        queryParam: undefined,
         makeNewTokenReq: true,
         ignoreTokenExp: true
     }) {
@@ -77,16 +80,17 @@ export async function makeApiRequeest(url: string,
     const axioConfig: AxiosRequestConfig = { method: HttpMethodType[httpMethod].toString().toLowerCase(), url: url }
 
     if (opt.includeToke) {
-        axioConfig.headers = { Authorization: `Bearer ${token}`, "Content-Type": "application/json" }
+        axioConfig.headers = { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" }
     }
-    if (opt.bodyParam) {
-        axioConfig.data = opt.bodyParam
+    console.log(axioConfig);
+    
+    if (opt.queryParam) {
+        axioConfig.params = opt.queryParam
     }
     if (opt.bodyParam && (httpMethod === HttpMethodType.POST || httpMethod === HttpMethodType.PUT)) {
         axioConfig.data = opt.bodyParam;
     }
     const responsedata = await axios(axioConfig) as AxiosResponse<any>;
-    console.log(responsedata);
 
     return responsedata;
 

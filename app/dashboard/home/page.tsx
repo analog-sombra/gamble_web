@@ -77,7 +77,6 @@ export default function Home() {
               className="flex gap-6 sm:justify-center overflow-auto "
               style={{ scrollbarWidth: "none" }}
             >
-              {/* . . . . . . . . . . . UPI I'D options . . . . . . . . . . .  */}
               {/* Gpay switch Button */}
               <UpiGatewaysCard
                 img="https://cdn-icons-png.flaticon.com/128/6124/6124998.png"
@@ -108,7 +107,6 @@ export default function Home() {
                 height={35}
                 img="https://www.clipartkey.com/mpngs/m/84-841013_bank-png-blue-bank-icon.png" />
 
-              {/* . . . . . . . . . . . QR options . . . . . . . . . . .  */}
               {/* Gpay QR switch Button */}
               <QRGatewaysCard
                 img="https://cdn-icons-png.flaticon.com/128/6124/6124998.png"

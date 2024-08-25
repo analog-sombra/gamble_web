@@ -13,7 +13,8 @@ import {
   file,
   mimeType,
   maxSize,
-  optional,
+  nullish,
+  optional
 } from "valibot";
 // Assuming this is your Role enum definition
 export enum Role {
@@ -26,9 +27,9 @@ export enum Role {
 
 export const demoPaymentGatewaySchema = object({
   name: string(),
-  gatewayType: string(),
+  payment_type: string(),
   status: string(),
-  file: optional<any, string>(file('Please select an image file.'), "no img"),
+  // file: nullish(file()) ,
 
 })
 

@@ -11,18 +11,23 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { ApiErrorType } from "@/models/response";
+import { HttpMethodType, makeApiRequeest } from "@/lib/api/untils";
+import { BASE_URL } from "@/lib/const";
+import { ApiErrorType, ApiResponseType } from "@/models/response";
 import { CreateDemoPayment, demoPaymentGatewaySchema } from "@/schema/create";
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import { useMutation } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
+import { headers } from "next/headers";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 export default function CreateUser() {
     const form = useForm<CreateDemoPayment>({
         resolver: valibotResolver(demoPaymentGatewaySchema),
     });
-    const [imageFile, setImageFile] = useState("")
+    const [imageFile, setImageFile] = useState<File>()
 
     const {
         register,
@@ -33,22 +38,29 @@ export default function CreateUser() {
         reset,
     } = form;
 
-    const watchFile = watch('file');
-
 
     const { mutate } = useMutation({
         mutationKey: ["create_user"],
         mutationFn: async (data: CreateDemoPayment) => {
 
-            // const responsedata = await makeApiRequeest(
-            //     `${BASE_URL}/api/user/create`,
-            //     HttpMethodType.POST,
-            //     { bodyParam: data, includeToke: false, makeNewTokenReq: false, }
-            // )
-            // toast.success("User Create success");
+            const imagePathData = await axios.postForm(`${BASE_URL}/api/upload`,
+                {
+                    file: imageFile,
+                    f_type: "payment_gateway",
+                    userid: 1
+                },
+            )
+
+            await makeApiRequeest(`${BASE_URL}/api/payment_gateway/create`, HttpMethodType.POST, {
+                bodyParam: { ...data, image: imagePathData.data.data.path, created_by: 1 },
+                includeToke: true
+            });
+
+            toast.success("User Create success");
         },
-        onError: (error: ApiErrorType) => {
-            // toast.error(error.response.data.message);
+        onError: (error) => {
+            console.error(error);
+            toast.error(error.message);
         },
     });
 
@@ -80,11 +92,11 @@ export default function CreateUser() {
                         <div className="flex gap-3 items-center">
                             <p className="text-sm font-normal w-20">Photo: </p>
                             <Input
-                                {...register("file")}
+                                // {...register("file")}
                                 type="file"
                                 name="file"
                                 onChange={e => {
-                                    setImageFile(e.target.value)
+                                    setImageFile(e.target.files?.[0])
                                 }}
                                 placeholder="select a img"
                                 className="w-full lg:max-w-sm"
@@ -121,9 +133,9 @@ export default function CreateUser() {
                         <div className="flex  gap-3 items-center justify-center w-72">
                             <p className="text-sm font-normal w-20">User Type: </p>
                             <FormField
-                                {...register("gatewayType")}
+                                {...register("payment_type")}
                                 control={control}
-                                name="gatewayType"
+                                name="payment_type"
                                 render={({ field }) => (
                                     <FormItem>
                                         <Select onValueChange={field.onChange} defaultValue={field.value}>

@@ -83,7 +83,7 @@ const navLinks = [
     role: ["USER", "ADMIN"],
   },
   {
-    name: "Create Demo",
+    name: "Testing page(payment gateway)",
     url: "/dashboard/create-temp",
     icon: <SystemUiconsUserAdd />,
   },
