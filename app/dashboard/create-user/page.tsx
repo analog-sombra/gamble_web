@@ -4,7 +4,7 @@ import { IoShareSocial } from "react-icons/io5";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Modal } from 'antd';
+import { Modal, notification } from 'antd';
 import {
   Select,
   SelectContent,
@@ -28,7 +28,10 @@ import { CopyIcon } from "lucide-react";
 
 export default function CreateUser() {
   const [openDialog, setOpenDialog] = useState(false);
+  const [password, setPassword] = useState('')
+  const [api, contextHolder] = notification.useNotification();
   const apiResponse = useRef<AxiosResponse>();
+
 
   const form = useForm<CreateUserForm>({
     resolver: valibotResolver(CreateUserSchema),
@@ -66,8 +69,17 @@ export default function CreateUser() {
     // mutate(data)
   };
 
+  const openNotification = (value: string) => {
+    api.success({
+      message: `${value} copied !!`,
+      description: "",
+      placement: "top"
+    });
+  };
+
   return (
     <>
+      {contextHolder}
       <Modal
         open={openDialog}
         onOk={e => setOpenDialog(false)}
@@ -79,7 +91,7 @@ export default function CreateUser() {
             Close
           </Button>,
           <Button onClick={e => setOpenDialog(false)} className="ml-3  bg-blue-600 hover:bg-blue-700" variant="default" >
-            <IoShareSocial className="mr-2"/>
+            <IoShareSocial className="mr-2" />
             <span>Share</span>
           </Button>
         ]}
@@ -87,26 +99,32 @@ export default function CreateUser() {
         <h1 className="text-black font-semibold text-xl mb-5">User Created ✅</h1>
 
         <div className="flex items-center justify-start mb-1">
-          <span className="font-semibold mx-2">Email:</span>
+          <span className="font-semibold mx-2">Email :</span>
           <span>{apiResponse.current?.data.data.email}</span>
 
           <div className="grow"></div>
-          <Button type="submit" size="sm" className="px-3 text-black bg-transparent hover:bg-slate-100">
+          <Button onClick={e => {
+            navigator.clipboard.writeText(apiResponse.current?.data.data.email);
+            openNotification("Email")
+          }} type="submit" size="sm" className="px-3 text-black bg-transparent hover:bg-slate-100">
             <span className="sr-only">Copy</span>
             <CopyIcon className="h-4 w-4" />
           </Button>
         </div>
 
-        <p className="flex items-center justify-start mt-1 ">
+        <div className="flex items-center justify-start mt-1 ">
           <span className="font-semibold mx-2">Password:</span>
-          <span className=" w-[80%] overflow-hidden">{apiResponse.current?.data.data.password}</span>
+          <span className=" w-[80%] overflow-hidden">{password}</span>
 
           <div className="grow"></div>
-          <Button type="submit" size="sm" className="px-3 bg-transparent text-black hover:bg-slate-100">
-            <span className="sr-only">Copy</span>
+          <Button onClick={e => {
+            navigator.clipboard.writeText(password);
+            openNotification("Password")
+          }} type="submit" size="sm" className="px-3 bg-transparent text-black hover:bg-slate-100">
+            {/* <span className="sr-only">Copy</span> */}
             <CopyIcon className="h-4 w-4" />
           </Button>
-        </p>
+        </div>
       </Modal>
 
 
@@ -181,6 +199,7 @@ export default function CreateUser() {
                       <Input
                         {...field}
                         {...register("password")}
+                        onChange={e => setPassword(e.target.value)}
                         defaultValue={field.value}
                         type="Enter password"
                         placeholder="Password"

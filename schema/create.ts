@@ -37,7 +37,7 @@ const CreateUserSchema = object({
   name: pipe(
     string(),
     minLength(1, "Please enter your name."),
-    check(isContainSpace, "Name cannot contain space.")
+    // check(isContainSpace, "Name cannot contain space.")
   ),
   email: pipe(
     string(),

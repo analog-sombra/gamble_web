@@ -82,8 +82,6 @@ export async function makeApiRequeest(url: string,
     if (opt.includeToke) {
         axioConfig.headers = { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" }
     }
-    console.log(axioConfig);
-    
     if (opt.queryParam) {
         axioConfig.params = opt.queryParam
     }

@@ -24,8 +24,8 @@ export default function Users() {
   const [passwordBox, setPasswordBox] = useState(false);
   const [amountBox, setAmountBox] = useState(false);
 
-  
-  
+
+
   const handleOpenChange = (newOpen: boolean) => {
     setOpen(newOpen);
   };
@@ -106,10 +106,10 @@ const columns: ColumnDef<Transaction>[] = [
 type Transaction = {
   number: number;
   status:
-    | "Add money successful"
-    | "withdraw successul"
-    | "withdraw processing"
-    | "withdraw failed";
+  | "Add money successful"
+  | "withdraw successul"
+  | "withdraw processing"
+  | "withdraw failed";
   amount: number;
   transactionId: string;
 };

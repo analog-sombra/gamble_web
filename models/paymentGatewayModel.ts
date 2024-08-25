@@ -4,12 +4,12 @@ export interface PaymentGateway {
     id: number;
     name: string;
     image: string;
-    paymentType: string;
+    payment_type: string;
     status: string;
-    createdAt: Date;
-    createdBy?: number | null;
-    updatedAt: Date;
-    updatedBy?: number | null;
-    deletedAt?: Date | null;
-    deletedBy?: number | null;
+    created_at: Date;
+    created_by?: number | null;
+    updated_at: Date;
+    updated_by?: number | null;
+    deleted_at?: Date | null;
+    deleted_by?: number | null;
 }
