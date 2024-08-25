@@ -32,8 +32,8 @@ const ProfitAndLoss = () => {
         </div>
 
         {/* <div className="flex h-10 w-full mb-1 max-w-sm items-center">
-                <Input className="h-full  rounded-none rounded-l-md placeholder:font-semibold" type="text" placeholder="User I'd" />
-                </div> */}
+          <Input className="h-full  rounded-none rounded-l-md placeholder:font-semibold" type="text" placeholder="User I'd" />
+        </div> */}
 
         <Button className="bg-blue-700 mt-4 w-full flex justify-self-start">
           Submit

@@ -45,6 +45,8 @@ import {
 import { IoMdClose } from "react-icons/io";
 import ApproveDailouge from "../DialogeBoxes/approve";
 import RejectDailouge from "../DialogeBoxes/reject";
+import SearchFiedls from "@/components/Dashboard/SearchFiedls";
+import FilterField from "@/components/Dashboard/FilterField";
 
 type Players = {
   userId: number;
@@ -79,73 +81,14 @@ const ApproveResult = () => {
   return (
     <>
       <div className="w-[250px] sm:w-[400px] flex flex-col gap-2 mt-10 items-center">
-        <div className="flex h-10 w-full mb-1 max-w-sm items-center">
-          <Input
-            className="h-full  rounded-none rounded-l-md placeholder:font-semibold"
-            type="text"
-            placeholder="All"
-          />
-          <Button
-            className="h-full bg-blue-500  rounded-none rounded-r-md w-40"
-            type="submit"
-          >
-            Search
-          </Button>
-        </div>
+        <SearchFiedls placeholder="All" />
+        <SearchFiedls placeholder="Enter UTR" />
 
-        <div className="flex h-10 w-full mb-1 max-w-sm items-center">
-          <Input
-            className="h-full  rounded-none rounded-l-md placeholder:font-semibold"
-            type="text"
-            placeholder="Enter UTR"
-          />
-          <Button
-            className="h-full bg-blue-500  rounded-none rounded-r-md w-40"
-            type="submit"
-          >
-            Search
-          </Button>
-        </div>
-        <div className="flex h-10 w-full mb-1 max-w-sm items-center">
-          <Select>
-            <SelectTrigger className="w-[180px] rounded-none rounded-l-md focus:out">
-              <SelectValue defaultValue={"Today"} placeholder="Time" />
-            </SelectTrigger>
-            <SelectContent>
-              {/* <SelectLabel>Date</SelectLabel> */}
-              <SelectItem value="Today">Today</SelectItem>
-              <SelectItem value="Yesterday">Yesterday</SelectItem>
-              <SelectItem value="Last 7 days">Last 7 days</SelectItem>
-              <SelectItem value="Last 30 days">Last 30 days</SelectItem>
-              <SelectItem value="This month">This month</SelectItem>
-              <SelectItem value="Last month">Last month</SelectItem>
-              <SelectItem value="Custom range">Custom range</SelectItem>
-            </SelectContent>
-          </Select>
-          <Input
-            className="h-full  rounded-none placeholder:font-semibold"
-            type="date"
-          />
-          <Button
-            className="h-full bg-blue-500  rounded-none rounded-r-md w-56"
-            type="submit"
-          >
-            Filter
-          </Button>
-        </div>
-        <div className="flex h-10 w-full mb-1 max-w-sm items-center">
-          <Input
-            className="h-full  rounded-none rounded-l-md placeholder:font-semibold"
-            type="text"
-            placeholder="User I'd"
-          />
-          <Button
-            className="h-full bg-blue-500  rounded-none rounded-r-md w-40"
-            type="submit"
-          >
-            Search
-          </Button>
-        </div>
+        <FilterField />
+
+
+        <SearchFiedls placeholder="User I'd" />
+
       </div>
 
       <div className="flex flex-wrap justify-center gap-5 my-5 items-center">
@@ -154,7 +97,7 @@ const ApproveResult = () => {
             <div
               key={index}
               className="flex bg-gray-50 shadow-md flex-col w-full justify-start items-center sm:w-[360px] p-0 rounded-lg">
-                
+
               <div className="min-h-7 bg-zinc-200 w-full flex items-center px-2 justify-start">
                 <span className="mx-1">Approved request</span>
                 (

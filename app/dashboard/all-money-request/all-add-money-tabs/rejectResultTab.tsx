@@ -1,52 +1,16 @@
 import { MdEmail } from "react-icons/md";
-import { FaArrowRight, FaSearch } from "react-icons/fa";
-import { Checkbox } from "@/components/ui/checkbox";
-import { IoPersonSharp } from "react-icons/io5";
+import { FaArrowRight } from "react-icons/fa";
 import { BiSolidUser } from "react-icons/bi";
 import { CiCreditCard2 } from "react-icons/ci";
-import { FiSmartphone } from "react-icons/fi";
 import { FaRegCalendar } from "react-icons/fa6";
 import { MdSmartphone } from "react-icons/md";
-import TransferDailouge from "../DialogeBoxes/transfer";
 
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Drawer, Image } from "antd";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Image } from "antd";
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
-import React, { useState } from "react";
-import { Label } from "@/components/ui/label";
-import { TbReload } from "react-icons/tb";
+import React from "react";
 ("");
 import { Input, Tag } from "antd";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { SwitchThumb } from "@radix-ui/react-switch";
 import { FaMoneyBill } from "react-icons/fa6";
-import {
-  AlertDialog,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { IoMdClose } from "react-icons/io";
-import ApproveDailouge from "../DialogeBoxes/approve";
-import RejectDailouge from "../DialogeBoxes/reject";
 
 type Players = {
   userId: number;

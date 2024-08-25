@@ -44,17 +44,17 @@ const SubAdminPage = () => {
                 <div className="w-full flex-1 rounded-lg ">
                     <Table className='border-2' >
                         <TableHeader className='bg-zinc-100'>
-                            <TableHead className='border-0 border-r-2 text-center'>No</TableHead>
-                            <TableHead className='border-0 border-r-2 text-center'>Online/Offline</TableHead>
-                            <TableHead className='border-0 border-r-2 text-center'>Name</TableHead>
-                            <TableHead className='border-0 border-r-2 text-center'>Email</TableHead>
-                            <TableHead className='border-0 border-r-2 text-center'>Level</TableHead>
-                            <TableHead className='border-0 border-r-2 text-center'>Status</TableHead>
-                            <TableHead className='border-0 border-r-2 text-center'>Direct add money</TableHead>
-                            <TableHead className='border-0 border-r-2 text-center'>Withdrawal limit (₹)</TableHead>
-                            <TableHead className='border-0 border-r-2 text-center'>Add money limit (₹)</TableHead>
-                            <TableHead className='border-0 border-r-2 text-center'>Assign gateways</TableHead>
-                            <TableHead className='border-0 border-r-2 text-center'>gateways detail</TableHead>
+                            <TableHead className='border-0 border-r text-center'>No</TableHead>
+                            <TableHead className='border-0 border-r text-center'>Online/Offline</TableHead>
+                            <TableHead className='border-0 border-r text-center'>Name</TableHead>
+                            <TableHead className='border-0 border-r text-center'>Email</TableHead>
+                            <TableHead className='border-0 border-r text-center'>Level</TableHead>
+                            <TableHead className='border-0 border-r text-center'>Status</TableHead>
+                            <TableHead className='border-0 border-r text-center'>Direct add money</TableHead>
+                            <TableHead className='border-0 border-r text-center'>Withdrawal limit (₹)</TableHead>
+                            <TableHead className='border-0 border-r text-center'>Add money limit (₹)</TableHead>
+                            <TableHead className='border-0 border-r text-center'>Assign gateways</TableHead>
+                            <TableHead className='border-0 border-r text-center'>gateways detail</TableHead>
                             <TableHead className='text-center'>Assign QR</TableHead>
                         </TableHeader>
                         <TableBody className="">
@@ -66,42 +66,42 @@ const SubAdminPage = () => {
                                         <Tag className='w-20 flex justify-center' color="green">{"Widthrawal"}</Tag>
                                         <Tag className='w-20 flex justify-center' color="green">{"Urgent"}</Tag>
                                     </TableCell>
-                                    <TableCell className="border-0 border-r-2 items-center font-medium">{game.gameName}</TableCell>
-                                    <TableCell className="min-w-[120px] items-left border-0 border-r-2">
+                                    <TableCell className="border-0 border-r items-center font-medium">{game.gameName}</TableCell>
+                                    <TableCell className="min-w-[120px] items-left border-0 border-r">
                                         {game.openTime}
                                         <div>+91 ********</div>
                                         <div className='font-semibold text-sm'>User Id: 1</div>
                                     </TableCell>
 
-                                    <TableCell className="min-w-[120px] border-0 border-r-2 texts-center">
+                                    <TableCell className="min-w-[120px] border-0 border-r texts-center">
                                         <Tag className='w-20 flex justify-center' color="gold">Admin</Tag>
                                     </TableCell>
 
-                                    <TableCell className='min-w-[120px] border-0 border-r-2 text-center'>
+                                    <TableCell className='min-w-[120px] border-0 border-r text-center'>
                                         <Tag className='w-20 flex justify-center' color="green">Actived</Tag>
                                     </TableCell>
 
-                                    <TableCell className='border-0 border-r-2 min-w-[120px] text-center'>
+                                    <TableCell className='border-0 border-r min-w-[120px] text-center'>
                                         <div className='text-green-600 font-semibold'>₹ 7,000</div>
                                     </TableCell>
 
-                                    <TableCell className='border-0 border-r-2 min-w-[120px] text-center'>
+                                    <TableCell className='border-0 border-r min-w-[120px] text-center'>
                                         <div className='text-green-600 font-semibold'>₹ 7,000</div>
                                     </TableCell>
 
-                                    <TableCell className='border-0 border-r-2 min-w-[120px] text-center'>
+                                    <TableCell className='border-0 border-r min-w-[120px] text-center'>
                                         <div className='text-green-600 font-semibold'>₹ 7,000</div>
                                     </TableCell>
 
-                                    <TableCell className='border-0 border-r-2 min-w-[120px] text-center'>
+                                    <TableCell className='border-0 border-r min-w-[120px] text-center'>
                                         <Button onClick={e=>route.push("/dashboard/sub-admin/assign-gateway")} className='bg-blue-500 hover:bg-blue-900 py-1 px-2 text-xs'>Assign gateway</Button>
                                     </TableCell>
 
-                                    <TableCell className='border-0 border-r-2 min-w-[120px] text-center'>
+                                    <TableCell className='border-0 border-r min-w-[120px] text-center'>
                                         <Button className='bg-blue-500 hover:bg-blue-900 py-1 px-2 text-xs'>Gateways</Button>
                                     </TableCell>
 
-                                    <TableCell className='border-0 border-r-2 min-w-[120px] text-center'>
+                                    <TableCell className='border-0 border-r min-w-[120px] text-center'>
                                         <Button onClick={e=>route.push("/dashboard/sub-admin/assign-qr-gateway")} className='bg-blue-500 hover:bg-blue-900 py-0 px-2 text-xs'>Assign QR</Button>
                                     </TableCell>
 

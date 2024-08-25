@@ -12,8 +12,8 @@ const TransferDailouge = () => {
     return (
         <>
             <AlertDialog>
-                <AlertDialogTrigger>
-                    <Button className="bg-transparent text-red-500 hover:bg-transparent hover:text-red-700 ">
+                <AlertDialogTrigger className=''>
+                    <Button className="bg-transparent text-red-500 w-full hover:bg-transparent hover:text-red-700 ">
                         {"-> Transfer"}
                     </Button>
                 </AlertDialogTrigger>

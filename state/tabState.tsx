@@ -1,5 +1,9 @@
 "use client"
+
+import dynamic from 'next/dynamic';
 import React, { createContext, useContext, useState, ReactNode } from 'react';
+
+
 
 interface TabContextType {
   currentTab: string;
@@ -12,7 +16,7 @@ export const TabProvider = ({ children }: {children: ReactNode}) => {
   const [currentTab, setCurrentTab] = useState("add");
 
   return (
-    <TabContext.Provider value={{ currentTab, setCurrentTab }}>
+    <TabContext.Provider value={{ currentTab, setCurrentTab }} >
       {children}
     </TabContext.Provider>
   );

@@ -144,11 +144,9 @@ const OCRView = () => {
                 amount: value[" Amount"],
                 uid: value[" UTR ID"],
               };
-
               return mydata;
             });
             setPaymentData(recatoredata);
-
             setIsLoading(false);
           },
           error: (error: any) => {

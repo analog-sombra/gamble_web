@@ -8,14 +8,51 @@ import {
   pipe,
   regex,
   email,
+  maxLength,
+  enum_,
+  file,
+  mimeType,
+  maxSize,
+  nullish,
+  optional
 } from "valibot";
+// Assuming this is your Role enum definition
+export enum Role {
+  SYSTEM = "SYSTEM",
+  ADMIN = "ADMIN",
+  WORKER = "WORKER",
+  USER = "USER",
+}
+
+
+export const demoPaymentGatewaySchema = object({
+  name: string(),
+  payment_type: string(),
+  status: string(),
+  // file: nullish(file()) ,
+
+})
 
 const CreateUserSchema = object({
+  name: pipe(
+    string(),
+    minLength(1, "Please enter your name."),
+    // check(isContainSpace, "Name cannot contain space.")
+  ),
   email: pipe(
     string(),
     email("Enter a valid email address"),
     check(isContainSpace, "Mobile number cannot contain space.")
   ),
+  number: pipe(
+    string(),
+    minLength(1, "Please enter your mobile number."),
+    maxLength(10, "Mobile number must be 10 digits."),
+    check(isContainSpace, "Mobile number cannot contain space.")
+  ),
+
+  role: enum_(Role, "Role is required."),
+  // role: string(),
 
   password: pipe(
     string(),
@@ -33,5 +70,6 @@ const CreateUserSchema = object({
 });
 
 type CreateUserForm = InferInput<typeof CreateUserSchema>;
+type CreateDemoPayment = InferInput<typeof demoPaymentGatewaySchema>;
 
-export { CreateUserSchema, type CreateUserForm };
+export { CreateUserSchema, type CreateUserForm, type CreateDemoPayment };

@@ -1,34 +1,19 @@
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
 
-import { Switch } from "@/components/ui/switch";
 import React, { useState } from 'react'
-import { Label } from "@/components/ui/label";
-import { TbReload } from "react-icons/tb"; ''
-import { Input } from "antd";
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableFooter,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
-import PendingEnteriesResult from "./add-money-tabs/pendingEntriesResultTab";
-import ProcessingResult from "./add-money-tabs/processingResultTab";
-import ApproveResult from "./add-money-tabs/approveResultTab";
-import PendingResult from "./add-money-tabs/pendingResultTab";
-import RejectResult from "./add-money-tabs/rejectResultTab";
+
+//  icons...
+import { IoCloseCircleSharp, IoTimeSharp } from "react-icons/io5";
+import { FaCircleExclamation } from "react-icons/fa6";
+import { FaCheckCircle } from "react-icons/fa";
+import { MdPlaylistAddCheckCircle } from "react-icons/md";
+import SearchFiedls from "@/components/Dashboard/SearchFiedls";
+import PendingRequestCard from "@/components/infoCards/PendingResultCard";
+import ProcessingResultCard from "@/components/infoCards/ProcessingResultCard";
+import ApproveRequestCard from "@/components/infoCards/ApproveRequestCard";
+import FilterField from "@/components/Dashboard/FilterField";
+import EnteriesRequestCard from "@/components/infoCards/EnteriesRequestCard";
+import RejetedRequestCard from "@/components/infoCards/RejetedRequestCard";
 
 export default function AddMoney() {
     const [currentTab, setTab] = useState("add");
@@ -51,50 +36,107 @@ export default function AddMoney() {
                 {/* ---- navigation buttons ---- */}
                 <TabsList className=" mx-auto bg-transparent sm:mb-0 mb-12 flex flex-wrap">
                     <TabsTrigger value="pending" className="bg-gray-100 px-5  mx-0 py-2 rounded-sm text-orange-700 font-semibold text-sm shadow-sm ">
-                        Pending
+                        <IoTimeSharp className="text-base mr-1" />
+                        <span className="pb-[2px]">Pending</span>
                     </TabsTrigger>
                     <TabsTrigger value="processing" className="bg-gray-100 px-5  mx-0 py-2 rounded-sm text-blue-400 font-semibold  text-sm shadow-sm ">
-                        Processing
+                        < FaCircleExclamation className="mr-1" />
+                        <span className="pb-[2px]">Processing</span>
                     </TabsTrigger>
                     <TabsTrigger value="approved" className="bg-gray-100 px-5  mx-0 py-2 rounded-sm  text-green-400 font-semibold text-sm shadow-sm ">
-                        Approved
+                        <FaCheckCircle className="mr-1" />
+                        <span className="pb-[2px]">Approved</span>
                     </TabsTrigger>
                     <TabsTrigger value="entries" className="bg-gray-100 px-5  mx-0 py-2 rounded-sm text-red-400 font-semibold  text-sm shadow-sm ">
+                        < MdPlaylistAddCheckCircle className="text-lg mr-1" />
                         Entries
                     </TabsTrigger>
                     <TabsTrigger value="rejected" className="bg-gray-100 px-5  mx-0 py-2 rounded-sm  text-purple-500 font-semibold text-sm shadow-sm ">
+                        <IoCloseCircleSharp className="text-base mr-1" />
                         Rejected
                     </TabsTrigger>
                 </TabsList>
 
                 {/* ---- pending content ---- */}
                 <TabsContent value="pending" className="flex flex-col w-full justify-center items-center">
-                    <PendingResult />
+                    <div className="w-[250px] sm:w-[350px] flex flex-col gap-2 mt-10 items-center">
+                        <SearchFiedls placeholder="All" />
+                        <SearchFiedls placeholder="User Id" />
+                    </div>
+
+                    <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
+                        {Array.from([1, 2, 3, 4, 5, 6]).map(() => {
+                            return (
+                                <PendingRequestCard showAdminInfo={false} />
+                            );
+                        })
+                        }
+                    </div>
                 </TabsContent>
 
                 {/* ---- Processing content ---- */}
                 <TabsContent value="processing" className="flex flex-col w-full justify-center items-center">
-                    <ProcessingResult />
+                    <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
+                        {Array.from([1, 2, 3, 4, 5, 6]).map(() => {
+                            return (
+                                <ProcessingResultCard showAdminInfo={false} />
+                            );
+                        })
+                        }
+                    </div>
                 </TabsContent>
 
                 {/* ---- approved content ---- */}
                 <TabsContent value="approved" className="flex flex-col w-full m-0 justify-center items-center">
-                    <ApproveResult />
+                    <div className="w-[250px] sm:w-[400px] flex flex-col gap-2 m-2 sm:mt-10 items-center">
+                        <SearchFiedls placeholder="Enter UTR" />
+                        <FilterField />
+                        <SearchFiedls placeholder="User id" />
+                    </div>
+
+                    <div className="flex flex-wrap justify-center gap-5 my-5 items-center">
+                        {Array.from([1, 2, 3, 4, 5, 6]).map(() => {
+                            return (
+                                <ApproveRequestCard showAdminInfo={false} />
+                            );
+                        })}
+                    </div>
                 </TabsContent>
 
                 {/* ---- entries content ---- */}
                 <TabsContent value="entries" className="flex flex-col w-full justify-center items-center">
-                    <PendingEnteriesResult />
+                    <div className="w-[250px] sm:w-[350px] flex flex-col gap-2 mt-10 items-center">
+                        <SearchFiedls placeholder="All" />
+                        <SearchFiedls placeholder="User id" />
+                    </div>
+
+                    <div className="flex flex-wrap justify-center gap-5 my-9">
+                        {Array.from([1, 2, 3, 4, 5, 6]).map(() => {
+                            return (
+                                <EnteriesRequestCard showAdminInfo={false} />
+                            );
+                        })}
+                    </div>
                 </TabsContent>
 
                 {/* ---- Rejected content ---- */}
                 <TabsContent value="rejected" className="flex flex-col w-full justify-center items-center">
-                    <RejectResult />
+                    <div className="w-[250px] sm:w-[350px] flex flex-col gap-2 mt-10 items-center">
+                        <SearchFiedls placeholder="All" />
+                        <SearchFiedls placeholder="User Id" />6
+                    </div>
+
+                    <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
+                        {Array.from([1, 2, 3, 4, 5, 6]).map(() => {
+                            return (
+                                <RejetedRequestCard />
+                            );
+                        })}
+                    </div>
                 </TabsContent>
             </Tabs>
 
         </div>
     )
 }
-
 

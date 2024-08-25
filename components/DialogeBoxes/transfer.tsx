@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { FaSearch } from "react-icons/fa";
 import React from 'react'
 import { IoMdClose } from "react-icons/io";
-import { Input  } from "antd";
+import { Input } from "antd";
 
 
 const TransferDailouge = () => {

@@ -19,6 +19,8 @@ import RejectDailouge from "../DialogeBoxes/reject";
 import TransferDailouge from "../DialogeBoxes/transfer";
 import { FaMoneyBill, FaRegCalendar, FaSearch } from "react-icons/fa";
 import { CiCreditCard2 } from "react-icons/ci";
+import SearchFiedls from "@/components/Dashboard/SearchFiedls";
+import FilterField from "@/components/Dashboard/FilterField";
 
 type Players = {
   userId: number;
@@ -52,88 +54,7 @@ const players = [
 const ApprovedResult = () => {
   return (
     <>
-      <div className="w-[250px] sm:w-[400px] flex flex-col gap-2 mt-10 items-center">
-        <div className="flex h-10 w-full mb-1 max-w-sm items-center">
-          <Input
-            className="h-full  rounded-none rounded-l-md placeholder:font-semibold"
-            type="text"
-            placeholder="All"
-          />
-          <Button
-            className="h-full bg-blue-500  rounded-none rounded-r-md w-40"
-            type="submit"
-          >
-            Search
-          </Button>
-        </div>
-
-        <div className="flex h-10 w-full mb-1 max-w-sm items-center">
-          <Select>
-            <SelectTrigger className="w-[180px] rounded-none rounded-l-md focus:out">
-              <SelectValue placeholder="Time" />
-            </SelectTrigger>
-            <SelectContent>
-              {/* <SelectLabel>Date</SelectLabel> */}
-              <SelectItem value="apple">Today</SelectItem>
-              <SelectItem value="banana">Yesterday</SelectItem>
-              <SelectItem value="blueberry">Last 7 days</SelectItem>
-              <SelectItem value="blueberry">Last 30 days</SelectItem>
-              <SelectItem value="blueberry">This month</SelectItem>
-              <SelectItem value="blueberry">Last month</SelectItem>
-              <SelectItem value="blueberry">Custom range</SelectItem>
-            </SelectContent>
-          </Select>
-          <Input
-            className="h-full  rounded-none placeholder:font-semibold"
-            type="date"
-          />
-          <Button
-            className="h-full bg-blue-500  rounded-none rounded-r-md w-56"
-            type="submit"
-          >
-            Filter
-          </Button>
-        </div>
-
-        <div className="flex h-10 w-full mb-1 max-w-sm items-center">
-          <Input
-            className="h-full  rounded-none rounded-l-md placeholder:font-semibold"
-            type="text"
-            placeholder="User I'd"
-          />
-          <Button
-            className="h-full bg-blue-500  rounded-none rounded-r-md w-40"
-            type="submit"
-          >
-            Search
-          </Button>
-        </div>
-        <div className="flex h-10 w-full mb-3 max-w-sm items-center">
-          <Select>
-            <SelectTrigger className="w-[180px] rounded-none rounded-l-md focus:out">
-              <SelectValue placeholder="ACC" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectItem value="apple">Account number</SelectItem>
-                <SelectItem value="banana">Account holder name</SelectItem>
-                <SelectItem value="blueberry">Amount</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-          <Input
-            className="h-full  rounded-none placeholder:font-semibold"
-            type="text"
-            placeholder="Enter"
-          />
-          <Button
-            className="h-full bg-blue-500  rounded-none rounded-r-md w-56"
-            type="submit"
-          >
-            Search
-          </Button>
-        </div>
-      </div>
+      
 
       <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
         {players.map((user: Players, index: number) => {

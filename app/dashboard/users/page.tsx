@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import {
   HoverCard,
   HoverCardContent,
@@ -14,35 +15,100 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { HttpMethodType, makeApiRequeest } from "@/lib/api/untils";
+import { BASE_URL } from "@/lib/const";
+import { User } from "@/models/UserModel";
 import { Divider, Select } from "@nextui-org/react";
-import { Tag } from "antd";
+import { Pagination, Skeleton, Tag } from "antd";
+import { Axios, AxiosError, AxiosResponse } from "axios";
+import { init } from "next/dist/compiled/webpack/webpack";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { toast } from "react-toastify";
 
 export default function Users() {
-  const route = useRouter();
   const [open, setOpen] = useState(false);
+  const [userId, setuserId] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("")
+  const [allUsers, setAllUsers] = useState<[User] | []>([]);
+  const [searchedUser, setSearcheduser] = useState<[User] | []>([]);
+  const [isLoading, setIsLoading] = useState(false)
+  const pageSize = useRef(10)
+  const route = useRouter();
 
-  const [passwordBox, setPasswordBox] = useState(false);
-  const [amountBox, setAmountBox] = useState(false);
 
-  const handleOpenChange = (newOpen: boolean) => {
-    setOpen(newOpen);
-  };
+  const init = async (page: number, pageSize: number) => {
+    setIsLoading(true);
+    try {
+      const responseData = await makeApiRequeest(
+        `${BASE_URL}/api/user/get`,
+        HttpMethodType.POST,
+        {
+          bodyParam: { skip: (page - 1) * pageSize, take: page * pageSize },
+          // bodyParam: { skip: 0, take: 5 },
+          includeToke: true
+        }
+      )
+      setAllUsers(responseData?.data.data as [User])
+      setIsLoading(false);
+
+    } catch (error) {
+      let errorOfAxio = error as AxiosError;
+      console.error(errorOfAxio);
+      toast.error(errorOfAxio.message)
+    }
+  }
+
+  const userSearchHandler = async () => {
+    try {
+      let responseData: AxiosResponse | undefined;
+      if (userId !== "") {
+        responseData = await makeApiRequeest(
+          `${BASE_URL}/api/user/${userId}`,
+          HttpMethodType.GET,
+        )
+      }
+      else if (mobileNumber !== "") {
+        responseData = await makeApiRequeest(
+          `${BASE_URL}/api/user/number/${mobileNumber}`,
+          HttpMethodType.GET,
+        )
+      } else {
+        toast.error("No value provide for search")
+        return;
+      }
+      console.log(responseData);
+      setSearcheduser([responseData?.data.data])
+
+    } catch (error) {
+      let errorOfAxio = error as AxiosError;
+      console.error(errorOfAxio);
+      toast.error(errorOfAxio.message)
+    }
+  }
+
+  useEffect(() => {
+    init(1, pageSize.current);
+  }, [])
+
+  console.log(searchedUser);
+
+
   return (
     <main>
       <div className="shadow bg-white p-4 rounded-md">
         <h2 className="mx-auto text-lg font-medium text-left">Users</h2>
         <Divider className="my-2" />
         <div className="flex gap-2 md:flex-row flex-col">
-          <Input placeholder="User Id" className="w-full md:w-60" />
-          <Input placeholder="Mobile number" className="w-full md:w-60" />
-          <button className="w-full md:w-32 text-white text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
+          <Input value={userId} onChange={e => setuserId(e.target.value)} placeholder="User Id" className="w-full md:w-60" />
+          <Input value={mobileNumber} onChange={e => setMobileNumber(e.target.value)} placeholder="Mobile number" className="w-full md:w-60" />
+          <Button onClick={userSearchHandler} className="w-full md:w-32 text-white text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
             Search
-          </button>
+          </Button>
           <div className="grow"></div>
         </div>
       </div>
+
       <div className="shadow bg-white p-4 rounded-md mt-4">
         <Table className="border mt-2">
           <TableHeader>
@@ -60,65 +126,89 @@ export default function Users() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow>
-              <TableCell className="p-2 border text-center">
-                <div className="pb-1">+91 943882391</div>
-                <span className="font-bold">{"UserID: \n12377"}</span>
-              </TableCell>
-              <TableCell className="p-2 border text-center">15,000</TableCell>
-              <TableCell className="p-2 border text-center">
-                <Input className="Enter Amount" />
-                <button className="w-full md:w-32 mt-1 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
-                  Submit
-                </button>
-              </TableCell>
-              <TableCell className="p-2 border text-center">
-                <Input className="Enter new passwordS" />
-                <button className="w-full md:w-32 mt-1 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
-                  Submit
-                </button>
-              </TableCell>
-
-              {/* <TableCell className="p-2 border text-center">
-                <Popover
-                  content={
-                    <div className="flex flex-col gap-2">
-                      <button
-                        onClick={() => {
-                          setOpen(false);
-                          setAmountBox(true);
-                        }}
-                        className="text-sm bg-white border hover:border-rose-500 hover:text-rose-500 text-[#172e57] py-1 px-4"
-                      >
-                        Cash Deduction
-                      </button>
-                      <button
-                        className="text-sm bg-white border hover:border-blue-500 hover:text-blue-500 text-[#172e57] py-1 px-4"
-                        onClick={() => {
-                          setOpen(false);
-                          setPasswordBox(true);
-                        }}
-                      >
-                        Set Password
-                      </button>
-                      <button className="text-sm bg-white border hover:border-blue-500 hover:text-blue-500 text-[#172e57] py-1 px-4">
-                        View Profile
-                      </button>
-                    </div>
+            {
+              isLoading
+                ? <>
+                  {
+                    Array.from([1, 2, 3, 4, 5, 6]).map(() => {
+                      return <TableRow>
+                        <TableCell className="text-center border-r">
+                          <Skeleton.Input className="w-52 rounded-full" active />
+                        </TableCell>
+                        <TableCell className="text-center border-r">
+                          <Skeleton.Input className="w-52 rounded-full" active />
+                        </TableCell>
+                        <TableCell className="text-center border-r">
+                          <Skeleton.Input className="w-52 rounded-full" active />
+                        </TableCell>
+                        <TableCell className="text-center border-r">
+                          <Skeleton.Input className="w-52 rounded-full" active />
+                        </TableCell>
+                      </TableRow>
+                    })
                   }
-                  title="Actions"
-                  trigger="click"
-                  open={open}
-                  onOpenChange={handleOpenChange}
-                >
-                  <button className="text-sm bg-white border hover:border-blue-500 hover:text-blue-500 text-[#172e57] py-1 px-4">
-                    Actions
-                  </button>
-                </Popover>
-              </TableCell> */}
-            </TableRow>
+                </>
+                : searchedUser.length !== 0
+                  ? searchedUser.map((user: User, index) => {
+                    return <TableRow key={index}>
+                      <TableCell className="p-2 border text-center">
+                        <div className="pb-1">+91 {user.mobile ?? ""}</div>
+                        <span className="font-bold">{`UserID: \n${user.id}`}</span>
+                      </TableCell>
+                      <TableCell className="p-2 border text-center">{user.wallet}</TableCell>
+                      <TableCell className="p-2 border text-center">
+                        <Input className="Enter Amount" />
+                        <button className="w-full md:w-32 mt-1 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
+                          Submit
+                        </button>
+                      </TableCell>
+                      <TableCell className="p-2 border text-center">
+                        <Input className="Enter new passwordS" />
+                        <button className="w-full md:w-32 mt-1 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
+                          Submit
+                        </button>
+                      </TableCell>
+                    </TableRow>
+                  })
+                  : allUsers.map((user: User, index) => {
+                    return <TableRow key={index}>
+                      <TableCell className="p-2 border text-center">
+                        <div className="pb-1">+91 {user.mobile ?? ""}</div>
+                        <span className="font-bold">{`UserID: \n${user.id}`}</span>
+                      </TableCell>
+                      <TableCell className="p-2 border text-center">{user.wallet}</TableCell>
+                      <TableCell className="p-2 border text-center">
+                        <Input className="Enter Amount" />
+                        <button className="w-full md:w-32 mt-1 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
+                          Submit
+                        </button>
+                      </TableCell>
+                      <TableCell className="p-2 border text-center">
+                        <Input className="Enter new passwordS" />
+                        <button className="w-full md:w-32 mt-1 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
+                          Submit
+                        </button>
+                      </TableCell>
+                    </TableRow>
+                  })
+            }
           </TableBody>
         </Table>
+
+        <div className="flex justify-start items-center">
+          <Pagination
+            className="my-3 mt-5"
+            // current={currentPage}
+            pageSize={pageSize.current}
+            total={12}
+            onChange={(page, pageSize) => {
+              init(page, pageSize);
+            }}
+          />
+          <div className="grow"></div>
+          <div className="flex flex-col font-semibold mr-1 sm:mr-4 gap-2 ">Status:</div>
+          <Tag color="green" className="h-auto">Active</Tag>
+        </div>
 
         <div className="w-full flex justify-start items-center">
           <button
@@ -126,10 +216,6 @@ export default function Users() {
             className="sm:w-full mt-2 md:w-32 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
             Statement option
           </button>
-          <div className="grow"></div>
-          <div className="flex flex-col font-semibold mr-1 sm:mr-4 gap-2 ">Status:</div>
-          <Tag className='w-20 flex justify-center' color="green">Active</Tag>
-          {/* <div className="bg-green-500 py-1 min-h-1 px-3 rounded-md text-white">Active</div> */}
         </div>
 
       </div>

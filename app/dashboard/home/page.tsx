@@ -19,24 +19,49 @@ import {
 } from "@/components/Icon";
 import AddMoney from "./add-money";
 import WithdrawMoney from "./withdraw-money";
-import { useTab } from "@/state/tabState";
+import { Image } from "antd";
+// import { useTab } from "@/state/tabState";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { QRGatewaysCard, UpiGatewaysCard } from "@/components/infoCards/GatewaysCard";
+
 
 export default function Home() {
-  const { currentTab, setCurrentTab } = useTab();
+  // const { currentTab, setCurrentTab } = useTab();
+  const [currentTab, setCurrentTab] = useState("add");
+
+  console.log(currentTab);
+
+  const handleUploadFile = async () => {
+    // const reqUlr = generateUrl('api/payment/login', {}, ParamType.Body)
+    // console.info(reqUlr)
+
+    // const response = await apiRequest(`${BASE_URL}/api/payment/login`, HttpMethodType.POST, {
+    //   bodyParam: {
+    //     "email": "kenkani0408@gmail.com",
+    //     "password": "Doremon@0408",
+    //   },
+    //   includeToke: true,
+    //   makeNewTokenReq: true,
+
+    // })
+    // console.log(response);
+  }
+
 
   return (
     <div className="">
       {/* <LoadingBar progress={50} className="text-blue-600" /> */}
       <div className="">
         <div className="flex gap-2 items-center my-5 flex-row justify-between md:flex-row ">
-          <button className="mr-4 text-white text-sm bg-blue-500 hover:bg-blue-600 h-8 py-1 px-2 rounded-md">
+          <Button className="mr-4 text-white text-sm bg-blue-500 hover:bg-blue-600 h-8 py-1 px-2 rounded-md">
             <TbReload className="text-lg" />
-          </button>
+          </Button>
           {
             currentTab === "add" && (
-              <button className="w-full md:w-32  mr-2 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
+              <Button onClick={handleUploadFile} className="w-full md:w-32  mr-2 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
                 Upload file
-              </button>
+              </Button>
             )
           }
         </div>
@@ -52,200 +77,54 @@ export default function Home() {
               className="flex gap-6 sm:justify-center overflow-auto "
               style={{ scrollbarWidth: "none" }}
             >
-              {/* . . . . . . . . . . . UPI I'D options . . . . . . . . . . .  */}
-              {/* Gpay switch button */}
-              <div className="flex flex-col  gap-3 items-center">
-                <Switch></Switch>
-                <AlertDialog>
-                  <AlertDialogTrigger>
-                    <div className="border text-center flex flex-col py-1 px-3 h-34 rounded-md w-20">
-                      <img
-                        className="w-13 "
-                        src="https://cdn-icons-png.flaticon.com/128/6124/6124998.png"
-                        alt=""
-                      />
-                      <div className="h-[0.5px] bg-black"></div>
-                      <span className="text-center">UPI id</span>
-                    </div>
-                  </AlertDialogTrigger>
+              {/* Gpay switch Button */}
+              <UpiGatewaysCard
+                img="https://cdn-icons-png.flaticon.com/128/6124/6124998.png"
+                width={50}
+                height={45} />
 
-                  {/* Gpay upi options  */}
-                  <AlertDialogContent>
-                    <div className="flex flex-col m-0 p-0">
-                      <div className="flex justify-start items-center">
-                        <span className="font-medium pr-6">
-                          Payment gateway details (GPay)
-                        </span>
-                        {/* <img className="w-10 h-10" src="https://cdn-icons-png.flaticon.com/128/6124/6124998.png" alt="" /> */}
-                        <div className="grow"></div>
+              {/* Paytem switch Button */}
+              <UpiGatewaysCard
+                img="https://cdn.iconscout.com/icon/free/png-256/free-paytm-226448.png?f=webp&w=256"
+                width={50}
+                height={45} />
 
-                        <button className="rounded-md py-1 px-4 bg-red-500 mr-4 text-white">
-                          Clear
-                        </button>
-                        <AlertDialogCancel>
-                          <IoMdClose />
-                        </AlertDialogCancel>
-                      </div>
+              {/* Phonpe switch Button */}
+              <UpiGatewaysCard
+                img="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTo4x8kSTmPUq4PFzl4HNT0gObFuEhivHOFYg&s"
+                width={40}
+                height={40} />
 
-                      <div className="flex justify-start my-7 border border-x-white">
-                        <span className=" pr-12">No.</span>
-                        <div className="grow">UPI I&apos;d</div>
-                        <div className="grow"></div>
-                        <div>Status</div>
-                      </div>
+              {/* UPI switch Button */}
+              <UpiGatewaysCard
+                width={50}
+                height={30}
+                img="https://cdn.icon-icons.com/icons2/2699/PNG/512/upi_logo_icon_169316.png" />
 
-                      <div className="flex mb- justify-start border-x-white">
-                        <span className=" pr-12"> 1.</span>
-                        <div className="grow">paytm@okici</div>
-                        <div className="grow"></div>
-                        <div>Active</div>
-                      </div>
-                    </div>
-                  </AlertDialogContent>
-                </AlertDialog>
-              </div>
+              {/* Bank detail switch Button */}
+              <UpiGatewaysCard
+                width={37}
+                height={35}
+                img="https://www.clipartkey.com/mpngs/m/84-841013_bank-png-blue-bank-icon.png" />
 
-              {/* Paytem switch button */}
-              <div className="flex flex-col gap-3 items-center">
-                <Switch></Switch>
-                <div className="border text-center flex flex-col py-1 px-3 h-34 rounded-md w-20">
-                  <img
-                    className="w-13 "
-                    src="https://cdn.iconscout.com/icon/free/png-256/free-paytm-226448.png?f=webp&w=256"
-                    alt=""
-                  />
-                  <div className="h-[0.5px] bg-black"></div>
-                  <span className="text-center">UPI id</span>
-                </div>
-              </div>
+              {/* Gpay QR switch Button */}
+              <QRGatewaysCard
+                img="https://cdn-icons-png.flaticon.com/128/6124/6124998.png"
+                width={50}
+                height={45} />
 
-              {/* Phonpe switch button */}
-              <div className="flex flex-col gap-3 items-center justify-center">
-                <Switch></Switch>
-                <div className="border flex flex-col py-1 px-3 h-34 rounded-md justify-center item-center w-20">
-                  <img
-                    className="w-11 "
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTo4x8kSTmPUq4PFzl4HNT0gObFuEhivHOFYg&s"
-                    alt=""
-                  />
-                  <div className="h-[1.5px] my-1 bg-black"></div>
-                  <span className="text-center">UPI id</span>
-                </div>
-              </div>
+              {/* Paytem QR switch Button */}
+              <QRGatewaysCard
+                width={50}
+                height={45}
+                img="https://cdn.iconscout.com/icon/free/png-256/free-paytm-226448.png?f=webp&w=256" />
 
-              {/* UPI switch button */}
-              <div className="flex flex-col gap-3 items-center justify-center">
-                <Switch></Switch>
-                <div className="border flex flex-col py-3 px-3 h-34 rounded-md justify-between item-center w-20">
-                  <img
-                    className="w-11 my-1"
-                    src="https://cdn.icon-icons.com/icons2/2699/PNG/512/upi_logo_icon_169316.png"
-                    alt=""
-                  />
-                  <div className="h-[1.5px] my-1 bg-black"></div>
-                  <span className="text-center">UPI id</span>
-                </div>
-              </div>
+              {/* Phonpe  QR switch Button */}
+              <QRGatewaysCard
+                width={40}
+                height={40}
+                img="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTo4x8kSTmPUq4PFzl4HNT0gObFuEhivHOFYg&s" />
 
-              {/* Bank detail switch button */}
-              <div className="flex flex-col gap-3 items-center justify-center">
-                <Switch></Switch>
-                <div className="border flex flex-col py-1 px-3 h-34 rounded-md justify-center item-center w-20">
-                  <img
-                    className="w-10 my-2 flex"
-                    src="https://www.clipartkey.com/mpngs/m/84-841013_bank-png-blue-bank-icon.png"
-                    alt=""
-                  />
-                  <div className="h-[1.5px] my-1 bg-black"></div>
-                  <span className="text-center text-xs">AC detail</span>
-                </div>
-              </div>
-
-              {/* . . . . . . . . . . . QR options . . . . . . . . . . .  */}
-              {/* Gpay QR switch button */}
-              <div className="flex flex-col gap-3 items-center">
-                <Switch></Switch>
-                <AlertDialog>
-                  <AlertDialogTrigger>
-                    <div className="border text-center flex flex-col py-1 px-3 h-34 rounded-md w-20">
-                      <img
-                        className="w-13 "
-                        src="https://cdn-icons-png.flaticon.com/128/6124/6124998.png"
-                        alt=""
-                      />
-                      <div className="h-[0.5px] bg-black"></div>
-                      <span className="text-center text-sm py-1">QR code</span>
-                    </div>
-                  </AlertDialogTrigger>
-
-                  {/* Gpay upi options  */}
-                  <AlertDialogContent>
-                    <div className="flex flex-col m-0 p-0">
-                      <div className="flex justify-start items-center">
-                        <span className="font-medium pr-6">
-                          Payment gateway details (GPay)
-                        </span>
-                        {/* <img className="w-10 h-10" src="https://cdn-icons-png.flaticon.com/128/6124/6124998.png" alt="" /> */}
-                        <div className="grow"></div>
-
-                        <button className="rounded-md py-1 px-4 bg-red-500 mr-4 text-white">
-                          Clear
-                        </button>
-                        <AlertDialogCancel>
-                          <IoMdClose />
-                        </AlertDialogCancel>
-                      </div>
-
-                      <div className="flex justify-start my-7 border border-x-white">
-                        <span className=" pr-12">No.</span>
-                        <div className="grow">UPI I&apos;d</div>
-                        <div className="grow"></div>
-                        <div>Status</div>
-                      </div>
-
-                      <div className="flex mb-3 justify-start items-center border-x-white">
-                        <span className=" pr-12"> 1.</span>
-                        {/* <div className="grow"></div> */}
-                        <img
-                          className=" w-20"
-                          src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg"
-                          alt=""
-                        />
-                        <div className="grow"></div>
-                        <div>Active</div>
-                      </div>
-                    </div>
-                  </AlertDialogContent>
-                </AlertDialog>
-              </div>
-
-              {/* Paytem QR switch button */}
-              <div className="flex flex-col gap-3 items-center">
-                <Switch></Switch>
-                <div className="border text-center flex flex-col py-1 px-3 h-34 rounded-md w-20">
-                  <img
-                    className="w-13 "
-                    src="https://cdn.iconscout.com/icon/free/png-256/free-paytm-226448.png?f=webp&w=256"
-                    alt=""
-                  />
-                  <div className="h-[0.5px] bg-black"></div>
-                  <span className="text-center text-sm py-1">QR code</span>
-                </div>
-              </div>
-
-              {/* Phonpe  QR switch button */}
-              <div className="flex flex-col gap-3 items-center justify-center">
-                <Switch></Switch>
-                <div className="border flex flex-col py-1 px-3 h-34 rounded-md justify-center item-center w-20">
-                  <img
-                    className="w-11 "
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTo4x8kSTmPUq4PFzl4HNT0gObFuEhivHOFYg&s"
-                    alt=""
-                  />
-                  <div className="h-[1.5px] my-1 bg-black"></div>
-                  <span className="text-center text-sm py-1">QR code</span>
-                </div>
-              </div>
             </div>
           )}
 

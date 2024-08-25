@@ -172,9 +172,9 @@ export default function SubmitResult() {
                 className="flex bg-gray-50 shadow-md flex-col justify-start items-center w-36 py-4 px-1 rounded-lg"
               >
                 <img
+                  alt=""
                   className="w-14 rounded-full"
                   src="https://cdn-icons-png.flaticon.com/128/3177/3177440.png"
-                  alt=""
                 />
                 <div className="flex items-center my-2 text-base font-semibold gap-1">
                   <p className="">User Id: </p>

@@ -1,11 +1,15 @@
 "use client";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { FieldErrors, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { setCookie } from "cookies-next";
 import { LoginForm, LoginSchema } from "../../schema/login";
 import { valibotResolver } from "@hookform/resolvers/valibot";
-import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
+import { useMutation } from "@tanstack/react-query";
+import { toast, ToastContent } from "react-toastify";
+import { BASE_URL } from "@/lib/const";
+import { useRouter } from "next/navigation";
+import { ApiErrorType } from "@/models/response";
 
 export default function Login() {
   // complete login
@@ -19,39 +23,50 @@ export default function Login() {
   //   queryKey:"login_data",
   //   queryFn:()=>{}
   // })
+  const route = useRouter();
   const {
     register,
     handleSubmit,
-    watch,
-    control,
-    formState: { errors, isSubmitting },
+    formState: { errors },
     reset,
   } = useForm<LoginForm>({
     resolver: valibotResolver(LoginSchema),
   });
 
-  const onSubmit = async (data: LoginForm) => {
-    console.log(data);
-    const responsedata = await axios.get("http://localhost:5000");
-    console.log(responsedata.data);
-  };
+  // async function getdata() {
+  //   const responsedata = await axios.get("http://localhost:5000");
 
-  const onError = (error: FieldErrors<LoginForm>) => {
-    console.log(error);
-  };
+  //   return [];
+  // }
 
-  async function getdata() {
-    const responsedata = await axios.get("http://localhost:5000");
+  const { mutate } = useMutation({
+    mutationKey: [],
+    mutationFn: async (data: LoginForm) => {
+      const responsedata = await axios.post(`${BASE_URL}/api/auth/login`, {
+        email: data.email,
+        password: data.password,
+      });
+      if (responsedata.data.data.role == "NONE") {
+        return toast.error("Invaled user");
+      }
+      setCookie("session", responsedata.data.data.access_token);
+      setCookie("x-r-t", responsedata.data.data.refresh_token);
 
-    return [];
-  }
-
-  const { data } = useQuery({
-    queryKey: ["initial-users"],
-    queryFn: () => getdata(),
-    initialData: null,
-    staleTime: 5 * 1000,
+      route.push("/dashboard/home");
+      toast.success("Your login process is success");
+    },
+    onError: (error: ApiErrorType) => {
+      toast.error(error.response.data.message);
+    },
   });
+
+  // const queryData = useQuery({
+  //   queryKey: ["initial-users"],
+  //   queryFn: () => getdata(),
+  //   initialData: null,
+  //   retry: 3,
+  //   staleTime: 5 * 1000,
+  // });
 
   return (
     <main className="h-screen bg-[linear-gradient(90deg,#C7C5F4,#776BCC)] flex items-center justify-center overflow-hidden">
@@ -63,7 +78,7 @@ export default function Login() {
                 Sign in to your account
               </h1>
               <form
-                onSubmit={handleSubmit(onSubmit, onError)}
+                onSubmit={handleSubmit((data) => mutate(data))}
                 className="space-y-4 md:space-y-6"
               >
                 <div>
@@ -129,13 +144,7 @@ export default function Login() {
                   Sign in
                 </button>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                  Don’t have an account yet?{" "}
-                  <Link
-                    href="/register"
-                    className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                  >
-                    Sign up
-                  </Link>
+                  Contact admin for your worker account
                 </p>
               </form>
             </div>

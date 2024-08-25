@@ -22,8 +22,8 @@ const RejectDailouge = () => {
     return (
         <>
             <AlertDialog>
-                <AlertDialogTrigger className=''>
-                    <Button className="bg-red-500 hover:bg-red-700 w-full" variant={"destructive"}>
+                <AlertDialogTrigger className='w-full'>
+                    <Button className="bg-red-500 rounded-none rounded-r-lg m-0 hover:bg-red-700 w-full" variant={"destructive"}>
                         Rejected
                     </Button>
                 </AlertDialogTrigger>
