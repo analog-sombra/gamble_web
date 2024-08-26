@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "antd";
 import React from "react";
+
 import CreateAccount from "./dialougeBox/create_account";
 
 const ManageAccount = () => {
@@ -48,10 +49,9 @@ const ManageAccount = () => {
             <Button className="bg-blue-600">Create account</Button>
           </AlertDialogTrigger>
 
-          <AlertDialogContent className=" overflow-auto h-[500px] sm:h-auto">
+          <AlertDialogContent className="overflow-auto h-[500px] sm:h-auto sm:max-h-[90%]">
             <CreateAccount />
           </AlertDialogContent>
-
         </AlertDialog>
 
       </div>

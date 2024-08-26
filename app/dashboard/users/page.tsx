@@ -17,11 +17,11 @@ import {
 } from "@/components/ui/table";
 import { HttpMethodType, makeApiRequeest } from "@/lib/api/untils";
 import { BASE_URL } from "@/lib/const";
+import { ApiResponseType } from "@/models/response";
 import { User } from "@/models/UserModel";
 import { Divider, Select } from "@nextui-org/react";
 import { Pagination, Skeleton, Tag } from "antd";
 import { Axios, AxiosError, AxiosResponse } from "axios";
-import { init } from "next/dist/compiled/webpack/webpack";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
@@ -52,10 +52,9 @@ export default function Users() {
       setAllUsers(responseData?.data.data as [User])
       setIsLoading(false);
 
-    } catch (error) {
-      let errorOfAxio = error as AxiosError;
-      console.error(errorOfAxio);
-      toast.error(errorOfAxio.message)
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error.response?.data.data.message)
     }
   }
 
@@ -80,10 +79,9 @@ export default function Users() {
       console.log(responseData);
       setSearcheduser([responseData?.data.data])
 
-    } catch (error) {
-      let errorOfAxio = error as AxiosError;
-      console.error(errorOfAxio);
-      toast.error(errorOfAxio.message)
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error.response?.data.message)
     }
   }
 

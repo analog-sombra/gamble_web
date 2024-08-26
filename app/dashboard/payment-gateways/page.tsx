@@ -29,11 +29,16 @@ const PaymentGatewayPage = () => {
 
   const updateStatusHandler = async (id: number, status: string) => {
     try {
-      const updated_by = jwtDecode(getCookie('session') as string) as { id: number };
+      const updated_by = getCookie("id");
+      if (updated_by === undefined) {
+        toast.error("Error fetching user id")
+        return;
+      }
+      
       await makeApiRequeest(
         `${BASE_URL}/api/payment_gateway/status`,
         HttpMethodType.POST,
-        { bodyParam: { id, status, updated_by: updated_by.id } }
+        { includeToke: true, bodyParam: { id, status, updated_by: parseInt(updated_by) } }
       )
     } catch (error: any) {
       console.error(error);
@@ -45,10 +50,9 @@ const PaymentGatewayPage = () => {
     setIsLoading(true);
     setTimeout(async () => {
       try {
-
         const responseData = await makeApiRequeest(
           `${BASE_URL}/api/payment_gateway/get`,
-          HttpMethodType.GET,
+          HttpMethodType.POST,
           {
             queryParam: { skip: 0, take: 10 },
             includeToke: true
@@ -58,9 +62,7 @@ const PaymentGatewayPage = () => {
         setStatuses(
           responseData?.data.data.map((gateway: PaymentGateway) => gateway.status)
         )
-
         setIsLoading(false);
-
       } catch (error: any) {
         console.error(error);
         toast.error(error.response?.data.message)
@@ -72,9 +74,6 @@ const PaymentGatewayPage = () => {
   useEffect(() => {
     init();
   }, []);
-
-  console.log(paymentGateways);
-
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-between px-4 py-2">

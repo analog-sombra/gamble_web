@@ -50,7 +50,6 @@ export default function CreateUser() {
                     userid: 1
                 },
             )
-
             await makeApiRequeest(`${BASE_URL}/api/payment_gateway/create`, HttpMethodType.POST, {
                 bodyParam: { ...data, image: imagePathData.data.data.path, created_by: 1 },
                 includeToke: true

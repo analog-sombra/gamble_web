@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-import { setCookie } from "cookies-next";
+import { getCookie, setCookie } from "cookies-next";
 import { LoginForm, LoginSchema } from "../../schema/login";
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import axios, { AxiosError } from "axios";
@@ -10,6 +10,7 @@ import { toast, ToastContent } from "react-toastify";
 import { BASE_URL } from "@/lib/const";
 import { useRouter } from "next/navigation";
 import { ApiErrorType } from "@/models/response";
+import { jwtDecode } from "jwt-decode";
 
 export default function Login() {
   // complete login
@@ -49,8 +50,12 @@ export default function Login() {
       if (responsedata.data.data.role == "NONE") {
         return toast.error("Invaled user");
       }
+      const userInfo = jwtDecode(responsedata.data.data.access_token as string) as { id: number, role: string };
+      
       setCookie("session", responsedata.data.data.access_token);
       setCookie("x-r-t", responsedata.data.data.refresh_token);
+      setCookie("id", userInfo.id);
+      setCookie("role", userInfo.role);
 
       route.push("/dashboard/home");
       toast.success("Your login process is success");

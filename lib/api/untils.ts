@@ -5,6 +5,8 @@ import { getCookie, setCookie } from "cookies-next";
 import { log } from "console";
 import { jwtDecode } from "jwt-decode";
 import { headers } from "next/headers";
+import { toast } from "react-toastify";
+import { CreateWorkerAccountForm } from "@/schema/createWorkerAcountSchema";
 
 
 
@@ -62,9 +64,11 @@ export async function makeApiRequeest(url: string,
     let token = getCookie('session');
 
     if (!token || typeof token !== 'string') {
-        console.error('Invalid or missing session token');
+        console.error('Invalid or missing session');
+        toast.error('Invalid or missing session');
         return;
     }
+
     if (!opt.ignoreTokenExp) {
         if (opt.makeNewTokenReq && isTokenExpired(token)) {
             const refresh_token = getCookie('x-r-t')
@@ -108,3 +112,62 @@ const isTokenExpired = (token: string) => {
         return true;
     }
 };
+
+export const handleAccountParamData = async (
+    data: CreateWorkerAccountForm,
+    worker_id: number,
+    gateway_id: number,
+    qr_image: File | undefined,
+    created_by: number) => {
+
+    let responseData;
+
+    if (data.payment_type === "QR") {
+        if (qr_image === undefined) {
+            toast.error("Select QR image")
+            return;
+        }
+        const imagePathData = await axios.postForm(`${BASE_URL}/api/upload`,
+            {
+                file: qr_image,
+                f_type: "workers_account",
+                userid: 1
+            },
+        )
+        responseData = await makeApiRequeest(
+            `${BASE_URL}/api/account/create`,
+            HttpMethodType.POST,
+            {
+                bodyParam: {
+                    ...data,
+                    worker_id,
+                    gateway_id,
+                    created_by,
+                    qr_image: imagePathData.data.data.path,
+                },
+                includeToke: true
+            }
+        )
+    } else {
+        if (data.payment_type === "UPI" && data.upi_address === undefined) {
+            toast.error("Please provide UPI id")
+            return;
+        }
+
+        responseData = await makeApiRequeest(
+            `${BASE_URL}/api/account/create`,
+            HttpMethodType.POST,
+            {
+                bodyParam: {
+                    ...data,
+                    worker_id,
+                    gateway_id,
+                    created_by
+                },
+                includeToke: true
+            }
+        )
+    }
+
+    return responseData;
+}
