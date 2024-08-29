@@ -27,19 +27,21 @@ const PaymentGatewayPage = () => {
   );
 
 
-  const updateStatusHandler = async (id: number, status: string) => {
+  const updateStatusHandler = async (id: number, status: string, index: number) => {
     try {
       const updated_by = getCookie("id");
       if (updated_by === undefined) {
         toast.error("Error fetching user id")
         return;
       }
-      
       await makeApiRequeest(
         `${BASE_URL}/api/payment_gateway/status`,
         HttpMethodType.POST,
         { includeToke: true, bodyParam: { id, status, updated_by: parseInt(updated_by) } }
       )
+      const updatedStatuses = [...statuses];
+      updatedStatuses[index] = status
+      setStatuses(updatedStatuses);
     } catch (error: any) {
       console.error(error);
       toast.error("Failed to change status")
@@ -153,10 +155,10 @@ const PaymentGatewayPage = () => {
                             key: '1',
                             label: (
                               <span onClick={e => {
-                                const updatedStatuses = [...statuses];
-                                updatedStatuses[--index] = "INACTIVE";
-                                setStatuses(updatedStatuses);
-                                updateStatusHandler(gateway.id, "INACTIVE");
+                                // const updatedStatuses = [...statuses];
+                                // updatedStatuses[--index] = "INACTIVE";
+                                // setStatuses(updatedStatuses);
+                                updateStatusHandler(gateway.id, "INACTIVE", --index);
                               }}>INACTIVE</span>
                             ),
                           },
@@ -164,10 +166,10 @@ const PaymentGatewayPage = () => {
                             key: '2',
                             label: (
                               <span onClick={e => {
-                                const updatedStatuses = [...statuses];
-                                updatedStatuses[--index] = 'ACTIVE';
-                                setStatuses(updatedStatuses);
-                                updateStatusHandler(gateway.id, "ACTIVE");
+                                // const updatedStatuses = [...statuses];
+                                // updatedStatuses[--index] = 'ACTIVE';
+                                // setStatuses(updatedStatuses);
+                                updateStatusHandler(gateway.id, "ACTIVE", --index);
                               }}>ACTIVE</span>
                             ),
                           },

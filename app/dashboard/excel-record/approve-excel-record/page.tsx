@@ -17,10 +17,25 @@ import { FaCopy } from "react-icons/fa6";
 import { MdEmail, MdSmartphone } from "react-icons/md";
 import ApproveDailouge from '../../../../components/DialogeBoxes/approve';
 import RejectDailouge from '../../../../components/DialogeBoxes/reject';
+import ApprovedRequestCard from '@/components/WithdrawlCards/ApprovedRequestCard';
 
 const ApproveExcelReq = () => {
   return (
     <div>
+      <div className='flex flex-col gap-1 my-3 mb-8 bg-slate-100 rounded-md shadow-md w-[300px] p-3'>
+        <div className='flex gap-1'>
+          <span className='font-bold'>Excel: </span>
+          <span>file_name in date (no of req)</span>
+        </div>
+        <div className='flex gap-1'>
+          <span className='font-bold'>Amount: </span>
+          <span>2,000</span>
+        </div>
+        {/* <div className='flex gap-1'>
+          <span className='font-bold'>Amount: </span>
+          <span>2,000</span>
+        </div> */}
+      </div>
       <div className="flex h-10 w-full mb-3 max-w-sm items-center">
         <Select>
           <SelectTrigger className="w-[180px] rounded-none rounded-l-md focus:out">
@@ -52,13 +67,12 @@ const ApproveExcelReq = () => {
           return (
             <div
               key={index}
-              className="flex bg-gray-50 shadow-md flex-col w-full justify-start items-center sm:w-[360px] p-0 rounded-lg">
-              <div className="min-h-7 bg-zinc-200 w-full flex items-center px-2 justify-start">
-                <span className="mx-1">Pending excel Request </span>
+              className="flex bg-gray-50  shadow-md flex-col w-full justify-start items-center sm:w-[360px] p-0 rounded-lg">
+
+              <div className="py-2 min-h-7 bg-zinc-200 w-full flex items-center px-2 justify-start">
+                <span className="mx-1">Approve excel Request </span>
                 ( <BsBank className="mx-1" /> )<div className="grow"></div>
-                <Button className="bg-blue-600 hover:bg-blue-700 ">
-                  {"Excel"}
-                </Button>
+
               </div>
 
               {/* User profile and details */}
@@ -144,56 +158,11 @@ const ApproveExcelReq = () => {
                 </div>
               </div>
 
-              {/* ... ... Admin info ... ... */}
-              <div className="flex px-4 items-center mb-3 w-full justify-between">
-                <span className="font-semibold text-lg">Admin Info</span>
-                <Tag className="px-4 py-[2px]" color="green">
-                  Online
-                </Tag>
-              </div>
-              <div className="px-4 py-2 w-full justify-between items-center flex ">
-                <div className="flex flex-col justify-between items-start gap-2 ">
-                  <div className="flex items-center gap-2">
-                    <span className="font-semibold text-sm">
-                      <MdSmartphone />
-                    </span>
-                    <span>+91 **********</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="font-semibold text-sm">
-                      <MdEmail />
-                    </span>
-                    <span>exampl@gmail.com</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="font-semibold text-sm">
-                      <BiSolidUser />
-                    </span>
-                    <span>Name of admin</span>
-                  </div>
-                </div>
-
-                <div className="flex flex-col my-2 gap-2 justify-between ">
-                  <div className="flex flex-col">
-                    <span className="font-semibold text-sm">
-                      Last approved:-
-                    </span>
-                    <span> one minute ago </span>
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="font-semibold text-sm">
-                      Last rejected:-
-                    </span>
-                    <span> one minute ago </span>
-                  </div>
-                </div>
+              <div className="flex w-full gap-1 m-3 px-4">
+                <Input placeholder='Type "Refund"' type='text' />
+                <Button className='text-sm bg-[#4ca091] hover:bg-[#457f75]'>Refund now</Button>
               </div>
 
-              {/* ... ... Action buttons ... ... */}
-              <div className="flex justify-between pb-4 px-3 gap-0 mt-5 w-full">
-                <ApproveDailouge />
-                <RejectDailouge />
-              </div>
             </div>
           );
         })}

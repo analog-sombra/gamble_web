@@ -106,8 +106,14 @@ const navLinks = [
     role: ["USER", "ADMIN"],
   },
   {
-    name: "X Withdraw Record",
+    name: "Withdraw Record",
     url: "/dashboard/withdraw-record",
+    icon: <MaterialSymbolsManageHistory />,
+    role: ["USER", "ADMIN"],
+  },
+  {
+    name: "Money status",
+    url: "/dashboard/money-status",
     icon: <MaterialSymbolsManageHistory />,
     role: ["USER", "ADMIN"],
   },
@@ -126,6 +132,12 @@ const navLinks = [
   {
     name: "Admin panel",
     url: "/dashboard/admin-panel",
+    icon: <MaterialSymbolsManageHistory />,
+    role: ["USER", "ADMIN"],
+  },
+  {
+    name: "Daily work record",
+    url: "/dashboard/daily-work-record",
     icon: <MaterialSymbolsManageHistory />,
     role: ["USER", "ADMIN"],
   },
@@ -172,7 +184,7 @@ const navLinks = [
     role: ["USER", "ADMIN"],
   },
   {
-    name: "X Create Game",
+    name: "Create Game",
     url: "/dashboard/create-game",
     icon: <MaterialSymbolsManageHistory />,
     role: ["USER", "ADMIN"],
@@ -180,12 +192,6 @@ const navLinks = [
   {
     name: "X Approve gateway",
     url: "/dashboard/approve-gateway",
-    icon: <MaterialSymbolsManageHistory />,
-    role: ["USER", "ADMIN"],
-  },
-  {
-    name: "X Daily in record bonus",
-    url: "/dashboard/daily-in-record-bonus",
     icon: <MaterialSymbolsManageHistory />,
     role: ["USER", "ADMIN"],
   },

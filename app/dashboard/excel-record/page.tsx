@@ -174,14 +174,15 @@ const ExcelRecord = () => {
                                 <TableRow className="" key={index}>
                                     <TableCell className="text-center border-r">{++index}</TableCell>
                                     <TableCell className="text-center gap-1 border-r">
-                                        <Link className="text-blue-500 block font-semibold" href={'/dashboard/excel-record/excel-withrawl-requests'}>{excelInfo.sheetname}</Link>
+                                        <Link className="text-blue-500 block font-semibold" href={`/dashboard/excel-record/${excelInfo.url}`}>{excelInfo.sheetname}</Link>
                                     </TableCell>
                                     <TableCell className="text-center border-r">{excelInfo.totalAmount}</TableCell>
                                     <TableCell className="text-center border-r">
                                         {excelInfo.noOfReqests}
                                     </TableCell>
-                                    <TableCell className="text-left pl-12">
-                                        {excelInfo.transfer}
+                                    <TableCell className="text-center pl-12">
+                                        <span className="font-semibold block mb-2">{excelInfo.benificery}</span>
+                                        <Button className="bg-blue-600 w-full hover:bg-blue-800 py-1 px-2">< FaDownload /></Button>
                                     </TableCell>
                                     <TableCell className="text-center border-r">
                                         <span className="font-semibold block mb-2">{excelInfo.benificery}</span>
@@ -274,11 +275,11 @@ const deleteExcelInfoList: any = [
         sheetname: "example file 1",
         totalAmount: 2,
         noOfReqests: 5,
-        transfer: 5,
+        transfer: "file name",
         benificery: "example file 1",
         status: "Delete",
         createdAt: "24 Jan 2004, 4:00pm",
-        deletedAt: ""
+        deletedAt: "24 Jan 2004, 4:00pm"
     }
 ]
 
@@ -290,9 +291,10 @@ const approveExcelInfoList: any = [
         transfer: 5,
         benificery: "example file 1",
         status: "Approve",
-        remarks: "",
+        remarks: "bank remakrs",
         createdAt: "24 Jan 2004, 4:00pm",
-        approveAt: ""
+        approveAt: "24 Jan 2004, 4:00pm",
+        url: "approve-excel-record"
     }
 ]
 

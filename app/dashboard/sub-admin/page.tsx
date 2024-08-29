@@ -98,7 +98,7 @@ const SubAdminPage = () => {
                                     </TableCell>
 
                                     <TableCell className='border-0 border-r min-w-[120px] text-center'>
-                                        <Button className='bg-blue-500 hover:bg-blue-900 py-1 px-2 text-xs'>Gateways</Button>
+                                        <Button onClick={e=>route.push("/dashboard/sub-admin/gateway")} className='bg-blue-500 hover:bg-blue-900 py-1 px-2 text-xs'>Gateways</Button>
                                     </TableCell>
 
                                     <TableCell className='border-0 border-r min-w-[120px] text-center'>

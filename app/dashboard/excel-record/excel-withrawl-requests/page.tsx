@@ -18,10 +18,26 @@ import { MdEmail, MdSmartphone } from "react-icons/md";
 import ApproveDailouge from '../../../../components/DialogeBoxes/approve';
 import RejectDailouge from '../../../../components/DialogeBoxes/reject';
 import { CiCreditCard2 } from 'react-icons/ci';
+import PendingExcelRequestCard from '@/components/WithdrawlCards/PendingExcelRequestCard';
 
 const WithrawlExcelReq = () => {
   return (
     <div>
+
+      <div className='flex flex-col gap-1 my-3 mb-8 bg-slate-100 rounded-md shadow-md w-[300px] p-3'>
+        <div className='flex gap-1'>
+          <span className='font-bold'>Excel: </span>
+          <span>file_name in date (no of req)</span>
+        </div>
+        <div className='flex gap-1'>
+          <span className='font-bold'>Amount: </span>
+          <span>2,000</span>
+        </div>
+        {/* <div className='flex gap-1'>
+          <span className='font-bold'>Amount: </span>
+          <span>2,000</span>
+        </div> */}
+      </div>
 
       <div className="flex h-10 w-full mb-3 max-w-sm items-center">
         <Select>
@@ -54,13 +70,13 @@ const WithrawlExcelReq = () => {
         {players.map((user: Players, index: number) => {
           return (
             <div
-              key={index}
-              className="flex bg-gray-50  shadow-md flex-col w-full justify-start items-center sm:w-[360px] p-0 rounded-lg">
-
-              <div className="py-2 min-h-7 bg-zinc-200 w-full flex items-center px-2 justify-start">
-                <span className="mx-1">Approve excel Request </span>
+              className="flex bg-gray-50 shadow-md flex-col w-full justify-start items-center sm:w-[360px] p-0 rounded-lg">
+              <div className="min-h-7 bg-zinc-200 w-full flex items-center px-2 justify-start">
+                <span className="mx-1">Pending excel Request </span>
                 ( <BsBank className="mx-1" /> )<div className="grow"></div>
-
+                <Button className="bg-blue-600 text-[12px] px-2 py-1 hover:bg-blue-700 ">
+                  {"Remove from Excel"}
+                </Button>
               </div>
 
               {/* User profile and details */}
@@ -73,22 +89,18 @@ const WithrawlExcelReq = () => {
                   className=""
                   src="https://cdn-icons-png.flaticon.com/128/3177/3177440.png"
                 />
-                <div className="flex flex-col gap-1 my-5 mb-2 w-full items-center">
+                <div className="flex flex-col gap-1 my-5 mb-2 mx-auto items-start ">
                   <div className="flex gap-2 items-center">
-                    {" "}
                     <span className="font-semibold text-sm"> Phone no:</span>
                     <span>+91 **********</span>
                   </div>
                   <div className="flex gap-2 items-center">
-                    {" "}
                     <span className="font-semibold text-sm ">
-                      {" "}
-                      User Id:{" "}
-                    </span>{" "}
+                      User Id:
+                    </span>
                     234
                   </div>
                   <div className="flex gap-2 items-center">
-                    {" "}
                     22 jul 2024, 4:10pm
                   </div>
                 </div>
@@ -105,6 +117,7 @@ const WithrawlExcelReq = () => {
 
                 <div className="h-[0.5px] w-full bg-gray-300 my-1 "></div>
 
+                {/* ... ... Account holder details ... ... */}
                 <div className="flex gap-3 items-center w-full">
                   <span className="font-bold text-sm">Account holder:</span>
                   <span> Name of holder </span>
@@ -114,6 +127,7 @@ const WithrawlExcelReq = () => {
 
                 <div className="h-[0.5px] w-full bg-gray-300 my-1 "></div>
 
+                {/* ... ... Account number  ... ... */}
                 <div className="flex gap-3 items-center w-full">
                   <span className="font-bold text-sm">Account number:</span>
                   <span> number of account</span>
@@ -123,6 +137,7 @@ const WithrawlExcelReq = () => {
 
                 <div className="h-[0.5px] w-full bg-gray-300 my-1 "></div>
 
+                {/* ... ... IFSC code  ... ... */}
                 <div className="flex gap-3 items-center w-full">
                   <span className="font-bold text-sm">IFSC code:</span>
                   <span> ACWE45345D </span>
@@ -132,6 +147,7 @@ const WithrawlExcelReq = () => {
 
                 <div className="h-[0.5px] w-full bg-gray-300 my-1 "></div>
 
+                {/* ... ... Amount details ... ... */}
                 <div className="flex gap-3 items-center w-full">
                   <span className="font-bold text-sm text-zinc-500">
                     Amount:
@@ -146,13 +162,12 @@ const WithrawlExcelReq = () => {
                 </div>
               </div>
 
-              <div className="flex w-full gap-1 m-3 px-4">
-                <Input placeholder='Type "Refund"' type='text' />
-                <Button className='text-sm bg-[#4ca091] hover:bg-[#457f75]'>Refund now</Button>
+              {/* ... ... Action buttons ... ... */}
+              <div className="flex justify-between pb-4 px-3 gap-0 mt-5 w-full">
+                <ApproveDailouge />
+                <RejectDailouge />
               </div>
-
-            </div>
-          );
+            </div>);
         })}
       </div>
 
