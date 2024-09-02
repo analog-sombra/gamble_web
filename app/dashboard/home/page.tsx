@@ -1,52 +1,73 @@
 "use client";
-import { IoMdClose } from "react-icons/io";
-import {
-  AlertDialog,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { TbReload } from "react-icons/tb";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Switch } from "@/components/ui/switch";
-import LoadingBar from "react-top-loading-bar";
-import {
-  MaterialSymbolsAttachMoney,
-  MaterialSymbolsDone,
-  MaterialSymbolsPerson,
-  MaterialSymbolsPersonRaisedHand,
-  MaterialSymbolsWifiRounded,
-} from "@/components/Icon";
 import AddMoney from "./add-money";
 import WithdrawMoney from "./withdraw-money";
-import { Image } from "antd";
+// import { Skeleton } from "antd";
 // import { useTab } from "@/state/tabState";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { QRGatewaysCard, UpiGatewaysCard } from "@/components/infoCards/GatewaysCard";
+import { BankGatewayCard, QRGatewaysCard, UpiGatewaysCard } from "@/components/infoCards/GatewaysCard";
+import { useTab } from "@/state/tabState";
+import { HttpMethodType, makeApiRequeest } from "@/lib/api/untils";
+import { BASE_URL } from "@/lib/const";
+import { toast } from "react-toastify";
+import { PaymentGateway } from "@/models/paymentGatewayModel";
+import { Skeleton } from "@/components/ui/skeleton";
+import { getCookie } from "cookies-next";
+import { WorkersAccount } from "@/models/workerAccountModel";
 
 
 export default function Home() {
-  // const { currentTab, setCurrentTab } = useTab();
-  const [currentTab, setCurrentTab] = useState("add");
-
-  console.log(currentTab);
+  const { currentTab, setCurrentTab } = useTab();
+  const [isLoading, setIsLoading] = useState(false)
+  const [PaymentGateways, setPaymentGateways] = useState<PaymentGateway[]>([])
+  const [workerAccounts, setWorkerAccounts] = useState<WorkersAccount[]>([])
 
   const handleUploadFile = async () => {
-    // const reqUlr = generateUrl('api/payment/login', {}, ParamType.Body)
-    // console.info(reqUlr)
 
-    // const response = await apiRequest(`${BASE_URL}/api/payment/login`, HttpMethodType.POST, {
-    //   bodyParam: {
-    //     "email": "kenkani0408@gmail.com",
-    //     "password": "Doremon@0408",
-    //   },
-    //   includeToke: true,
-    //   makeNewTokenReq: true,
-
-    // })
-    // console.log(response);
   }
+
+  async function init() {
+    setIsLoading(true);
+    const userId = getCookie("id")
+    if (userId === undefined) {
+      toast.error("error fetching user id")
+      return;
+    }
+    try {
+      const responseData = await makeApiRequeest(
+        `${BASE_URL}/api/payment_gateway/get`,
+        HttpMethodType.POST,
+        {
+          queryParam: { skip: 0, take: 10 },
+          includeToke: true,
+          makeNewTokenReq: true
+        }
+      )
+
+      const workerAccountResponse = await makeApiRequeest(
+        `${BASE_URL}/api/account/get_workers_account/${userId}`,
+        HttpMethodType.POST,
+        {
+          queryParam: { skip: 0, take: 10 },
+          includeToke: true,
+          makeNewTokenReq: true
+        }
+      )
+      setWorkerAccounts(workerAccountResponse?.data.data);
+
+      setPaymentGateways(responseData?.data.data)
+      setIsLoading(false);
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error.response?.data.message ?? error.message)
+    }
+  }
+
+  useEffect(() => {
+    init();
+  }, [])
 
 
   return (
@@ -72,61 +93,63 @@ export default function Home() {
                   <TableHead className="border text-center">PayPal QR</TableHead> */}
           {/* <Switch id="toggle-add" /> */}
 
-          {currentTab == "add" && (
-            <div
-              className="flex gap-6 sm:justify-center overflow-auto "
-              style={{ scrollbarWidth: "none" }}
-            >
-              {/* Gpay switch Button */}
-              <UpiGatewaysCard
-                img="https://cdn-icons-png.flaticon.com/128/6124/6124998.png"
-                width={50}
-                height={45} />
+          {currentTab === "add" &&
+            (
+              <div
+                className="flex gap-6 sm:justify-center overflow-auto "
+                style={{ scrollbarWidth: "none" }}
+              >
+                {
+                  isLoading
+                    ? Array.from([12, 3, 4, 5, 6, 7, 8, 0]).map((val, idx) => {
+                      return <>
+                        <Skeleton key={idx} className="h-[95px] w-[85px] bg-[#f0f0f0] rounded-xl" />
+                      </>
+                    })
+                    : PaymentGateways.map((gateway: PaymentGateway, idx) => {
+                      if (gateway.payment_type === "QR") {
+                        const accountList = workerAccounts.filter(acc => acc.gateway_id === gateway.id);
+                        return <>
+                          <QRGatewaysCard
+                            key={idx}
+                            img={`${BASE_URL}/${gateway.image}`}
+                            width={60}
+                            gatewayName={gateway.name}
+                            gatewayId={gateway.id}
+                            accounts={accountList}
+                          />
+                        </>
+                      } else if (gateway.payment_type === "UPI") {
+                        const accountList = workerAccounts.filter(acc => acc.gateway_id === gateway.id);
+                        return <>
+                          <UpiGatewaysCard
+                            key={idx}
+                            img={`${BASE_URL}/${gateway.image}`}
+                            width={45}
+                            gatewayName={gateway.name}
+                            gatewayId={gateway.id}
+                            accounts={accountList}
+                          />
+                        </>
+                      } else {
+                        const accountList = workerAccounts.filter(acc => acc.gateway_id === gateway.id);
+                        return <>
+                          <BankGatewayCard
+                            key={idx}
+                            img={`${BASE_URL}/${gateway.image}`}
+                            width={45}
+                            gatewayName={gateway.name}
+                            gatewayId={gateway.id}
+                            accounts={accountList}
+                          />
+                        </>
+                      }
+                    })
+                }
 
-              {/* Paytem switch Button */}
-              <UpiGatewaysCard
-                img="https://cdn.iconscout.com/icon/free/png-256/free-paytm-226448.png?f=webp&w=256"
-                width={50}
-                height={45} />
-
-              {/* Phonpe switch Button */}
-              <UpiGatewaysCard
-                img="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTo4x8kSTmPUq4PFzl4HNT0gObFuEhivHOFYg&s"
-                width={40}
-                height={40} />
-
-              {/* UPI switch Button */}
-              <UpiGatewaysCard
-                width={50}
-                height={30}
-                img="https://cdn.icon-icons.com/icons2/2699/PNG/512/upi_logo_icon_169316.png" />
-
-              {/* Bank detail switch Button */}
-              <UpiGatewaysCard
-                width={37}
-                height={35}
-                img="https://www.clipartkey.com/mpngs/m/84-841013_bank-png-blue-bank-icon.png" />
-
-              {/* Gpay QR switch Button */}
-              <QRGatewaysCard
-                img="https://cdn-icons-png.flaticon.com/128/6124/6124998.png"
-                width={50}
-                height={45} />
-
-              {/* Paytem QR switch Button */}
-              <QRGatewaysCard
-                width={50}
-                height={45}
-                img="https://cdn.iconscout.com/icon/free/png-256/free-paytm-226448.png?f=webp&w=256" />
-
-              {/* Phonpe  QR switch Button */}
-              <QRGatewaysCard
-                width={40}
-                height={40}
-                img="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTo4x8kSTmPUq4PFzl4HNT0gObFuEhivHOFYg&s" />
-
-            </div>
-          )}
+              </div>
+            )
+          }
 
           {/* ************************** withdraw and add money tabs ************************** */}
           <Tabs
@@ -137,8 +160,7 @@ export default function Home() {
               <TabsTrigger
                 className=" text-lg"
                 value="add"
-                onClick={() => setCurrentTab("add")}
-              >
+                onClick={() => setCurrentTab("add")} >
                 Add Money
               </TabsTrigger>
               <TabsTrigger
@@ -163,173 +185,3 @@ export default function Home() {
     </div>
   );
 }
-
-const cardData = [
-  {
-    name: "ALL users",
-    count: "284739",
-    icon: (
-      <span className="text-red-500 bg-red-500 bg-opacity-20 rounded-full p-2 text-xl mb-2">
-        <MaterialSymbolsPerson />
-      </span>
-    ),
-  },
-  {
-    name: "Total Money",
-    count: "₹20934",
-    icon: (
-      <span className="text-yellow-500 bg-yellow-500 bg-opacity-20 rounded-full p-2 text-xl mb-2">
-        <MaterialSymbolsAttachMoney />
-      </span>
-    ),
-  },
-  {
-    name: "Participant",
-    count: "400+",
-    icon: (
-      <span className="text-teal-500 bg-teal-500 bg-opacity-20 rounded-full p-2 text-xl mb-2">
-        <MaterialSymbolsPersonRaisedHand />
-      </span>
-    ),
-  },
-  {
-    name: "Live today",
-    count: "8",
-    icon: (
-      <span className="text-blue-500 bg-blue-500 bg-opacity-20 rounded-full p-2 text-xl mb-2">
-        <MaterialSymbolsWifiRounded />
-      </span>
-    ),
-  },
-  {
-    name: "Completed",
-    count: "4",
-    icon: (
-      <span className="text-green-500 bg-green-500 bg-opacity-20 rounded-full p-2 text-xl mb-2">
-        <MaterialSymbolsDone />
-      </span>
-    ),
-  },
-];
-
-const users = [
-  {
-    id: 1,
-    name: "Tony Reichert",
-    role: "CEO",
-    team: "Management",
-    status: "active",
-    age: "29",
-    avatar: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
-    email: "tony.reichert@example.com",
-    wallet: 123123,
-    betCompleted: 5,
-  },
-  {
-    id: 2,
-    name: "Zoey Lang",
-    role: "Technical Lead",
-    team: "Development",
-    status: "paused",
-    age: "25",
-    avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704d",
-    email: "zoey.lang@example.com",
-    wallet: 123123,
-    betCompleted: 5,
-  },
-  {
-    id: 3,
-    name: "Jane Fisher",
-    role: "Senior Developer",
-    team: "Development",
-    status: "active",
-    age: "22",
-    avatar: "https://i.pravatar.cc/150?u=a04258114e29026702d",
-    email: "jane.fisher@example.com",
-    wallet: 123123,
-    betCompleted: 5,
-  },
-  {
-    id: 4,
-    name: "William Howard",
-    role: "Community Manager",
-    team: "Marketing",
-    status: "inactive",
-    age: "28",
-    avatar: "https://i.pravatar.cc/150?u=a048581f4e29026701d",
-    email: "william.howard@example.com",
-    wallet: 123123,
-    betCompleted: 5,
-  },
-  {
-    id: 5,
-    name: "Kristen Copper",
-    role: "Sales Manager",
-    team: "Sales",
-    status: "active",
-    age: "24",
-    avatar: "https://i.pravatar.cc/150?u=a092581d4ef9026700d",
-    email: "kristen.cooper@example.com",
-    wallet: 123123,
-    betCompleted: 5,
-  },
-];
-type LiveMatchType = {
-  id: number;
-  key: string;
-  name: string;
-  totalBet: string;
-  status: string;
-};
-
-const liveMatchData: LiveMatchType[] = [
-  {
-    id: 0,
-    key: "123-12-123",
-    name: "Monday Mania",
-    totalBet: "₹50320",
-    status: "active",
-  },
-  {
-    id: 1,
-    key: "123-12-123",
-    name: "Monday Masala",
-    totalBet: "₹2342340",
-    status: "inactive",
-  },
-  {
-    id: 2,
-    key: "123-12-123",
-    name: "Final Frenzy",
-    totalBet: "₹52234",
-    status: "active",
-  },
-  {
-    id: 3,
-    key: "123-12-123",
-    name: "Bracket Buster Bonanza",
-    totalBet: "₹4635343",
-    status: "inactive",
-  },
-  {
-    id: 4,
-    key: "123-12-123",
-    name: "Madness Mayhem",
-    totalBet: "₹59023",
-    status: "active",
-  },
-  {
-    id: 5,
-    key: "123-12-123",
-    name: "Slam Dunk Spectacular",
-    totalBet: "₹20374",
-    status: "inactive",
-  },
-  {
-    id: 6,
-    key: "123-12-123",
-    name: "Court-side Showdown",
-    totalBet: "₹128300",
-    status: "active",
-  },
-];

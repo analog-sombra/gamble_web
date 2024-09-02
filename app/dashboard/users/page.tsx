@@ -73,7 +73,7 @@ export default function Users() {
           HttpMethodType.GET,
         )
       } else {
-        toast.error("No value provide for search")
+        toast.error("Enter mobile number or user id")
         return;
       }
       console.log(responseData);

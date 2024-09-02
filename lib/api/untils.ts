@@ -58,7 +58,7 @@ export async function makeApiRequeest(url: string,
         bodyParam: undefined,
         queryParam: undefined,
         makeNewTokenReq: true,
-        ignoreTokenExp: true
+        ignoreTokenExp: false
     }) {
 
     let token = getCookie('session');
@@ -74,6 +74,8 @@ export async function makeApiRequeest(url: string,
             const refresh_token = getCookie('x-r-t')
             const response = await axios.post(`${BASE_URL}/api/gen-accesss-tokens/${refresh_token}`);
 
+            console.log(response);
+            
             setCookie('session', response.data.data.access_token);
             setCookie('x-r-t', response.data.data.refresh_token);
             makeApiRequeest(url, httpMethod, opt)
@@ -98,7 +100,7 @@ export async function makeApiRequeest(url: string,
 
 }
 
-const isTokenExpired = (token: string) => {
+export const isTokenExpired = (token: string) => {
     try {
         const decodedToken = jwtDecode(token);
         const currentTime = Date.now() / 1000;

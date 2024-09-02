@@ -5,8 +5,13 @@ import { BiSolidUser } from 'react-icons/bi';
 import { FaMoneyBill, FaRegCalendar } from 'react-icons/fa';
 import { CiCreditCard2 } from 'react-icons/ci';
 import { Button } from '../ui/button';
-import ApproveDailouge from '../DialogeBoxes/approve';
-import RejectDailouge from '../DialogeBoxes/reject';
+import dynamic from 'next/dynamic';
+// import ApproveDailouge from '../DialogeBoxes/approve';
+// import RejectDailouge from '../DialogeBoxes/reject';
+
+const ApproveDailouge = dynamic(() => import('@/components/DialogeBoxes/approve'), { ssr: true })
+const RejectDailouge = dynamic(() => import('@/components/DialogeBoxes/reject'), { ssr: true })
+
 
 const PendingRequestCard = (probs: any) => {
     return (
@@ -22,7 +27,6 @@ const PendingRequestCard = (probs: any) => {
                     src="https://cdn.iconscout.com/icon/free/png-256/free-paytm-226448.png?f=webp&w=256"
                 />
                 )<div className="grow"></div>
-                {/* <TransferDailouge /> */}
             </div>
 
             {/* Payment infomation */}

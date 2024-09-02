@@ -57,7 +57,7 @@ const CreateAccount = () => {
                 imageFile,
                 parseInt(userId)
             );
-            console.log(responseData);
+            toast.success("Account created !!")
 
         } catch (error: any) {
             console.error(error);

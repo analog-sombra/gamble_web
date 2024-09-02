@@ -57,7 +57,8 @@ const PaymentGatewayPage = () => {
           HttpMethodType.POST,
           {
             queryParam: { skip: 0, take: 10 },
-            includeToke: true
+            includeToke: true,
+            makeNewTokenReq: true
           }
         )
         setPaymentGateways(responseData?.data.data)

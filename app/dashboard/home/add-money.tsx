@@ -65,9 +65,9 @@ export default function AddMoney() {
                     </div>
 
                     <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
-                        {Array.from([1, 2, 3, 4, 5, 6]).map(() => {
+                        {Array.from([1, 2, 3, 4, 5, 6]).map((val, index) => {
                             return (
-                                <PendingRequestCard showAdminInfo={false} />
+                                <PendingRequestCard key={index} showAdminInfo={false} />
                             );
                         })
                         }
@@ -77,9 +77,9 @@ export default function AddMoney() {
                 {/* ---- Processing content ---- */}
                 <TabsContent value="processing" className="flex flex-col w-full justify-center items-center">
                     <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
-                        {Array.from([1, 2, 3, 4, 5, 6]).map(() => {
+                        {Array.from([1, 2, 3, 4, 5, 6]).map((val, index) => {
                             return (
-                                <ProcessingResultCard showAdminInfo={false} />
+                                <ProcessingResultCard key={index} showAdminInfo={false} />
                             );
                         })
                         }
@@ -95,9 +95,9 @@ export default function AddMoney() {
                     </div>
 
                     <div className="flex flex-wrap justify-center gap-5 my-5 items-center">
-                        {Array.from([1, 2, 3, 4, 5, 6]).map(() => {
+                        {Array.from([1, 2, 3, 4, 5, 6]).map((val, index) => {
                             return (
-                                <ApproveRequestCard showAdminInfo={false} />
+                                <ApproveRequestCard key={index} showAdminInfo={false} />
                             );
                         })}
                     </div>
@@ -111,9 +111,9 @@ export default function AddMoney() {
                     </div>
 
                     <div className="flex flex-wrap justify-center gap-5 my-9">
-                        {Array.from([1, 2, 3, 4, 5, 6]).map(() => {
+                        {Array.from([1, 2, 3, 4, 5, 6]).map((val, index) => {
                             return (
-                                <EnteriesRequestCard showAdminInfo={false} />
+                                <EnteriesRequestCard key={index} showAdminInfo={false} />
                             );
                         })}
                     </div>
@@ -123,13 +123,13 @@ export default function AddMoney() {
                 <TabsContent value="rejected" className="flex flex-col w-full justify-center items-center">
                     <div className="w-[250px] sm:w-[350px] flex flex-col gap-2 mt-10 items-center">
                         <SearchFiedls placeholder="All" />
-                        <SearchFiedls placeholder="User Id" />6
+                        <SearchFiedls placeholder="User Id" />
                     </div>
 
                     <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
-                        {Array.from([1, 2, 3, 4, 5, 6]).map(() => {
+                        {Array.from([1, 2, 3, 4, 5, 6]).map((val, index) => {
                             return (
-                                <RejetedRequestCard />
+                                <RejetedRequestCard key={index} />
                             );
                         })}
                     </div>
