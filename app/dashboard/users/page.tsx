@@ -115,6 +115,9 @@ export default function Users() {
               <TableHead className="border text-center">
                 Wallet Amount (&#x20b9;)
               </TableHead>
+              <TableHead className="border text-center">
+                Status
+              </TableHead>
               <TableHead className="w-28 border text-center">
                 Cash deducation
               </TableHead>
@@ -149,8 +152,8 @@ export default function Users() {
                 : searchedUser.length !== 0
                   ? searchedUser.map((user: User, index) => {
                     return <TableRow key={index}>
-                      <TableCell className="p-2 border text-center">
-                        <div className="pb-1">+91 {user.mobile ?? ""}</div>
+                      <TableCell onClick={() => { route.push("/dashboard/users/profile"); }} className="p-2 cursor-pointer hover:bg-slate-200 border text-center ">
+                        <div className="pb-1" >+91 {user.mobile ?? ""}</div>
                         <span className="font-bold">{`UserID: \n${user.id}`}</span>
                       </TableCell>
                       <TableCell className="p-2 border text-center">{user.wallet}</TableCell>
@@ -170,11 +173,14 @@ export default function Users() {
                   })
                   : allUsers.map((user: User, index) => {
                     return <TableRow key={index}>
-                      <TableCell className="p-2 border text-center">
-                        <div className="pb-1">+91 {user.mobile ?? ""}</div>
+                      <TableCell onClick={() => { route.push("/dashboard/users/profile"); }} className="p-2 cursor-pointer  border text-center ">
+                        <div className="pb-1 hover:text-blue-600">+91 {user.mobile ?? ""}</div>
                         <span className="font-bold">{`UserID: \n${user.id}`}</span>
                       </TableCell>
                       <TableCell className="p-2 border text-center">{user.wallet}</TableCell>
+                      <TableCell className="p-2 border text-center">
+                        <Tag color="green" className="h-auto">ACTIVE</Tag>
+                      </TableCell>
                       <TableCell className="p-2 border text-center">
                         <Input className="Enter Amount" />
                         <button className="w-full md:w-32 mt-1 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
@@ -203,9 +209,6 @@ export default function Users() {
               init(page, pageSize);
             }}
           />
-          <div className="grow"></div>
-          <div className="flex flex-col font-semibold mr-1 sm:mr-4 gap-2 ">Status:</div>
-          <Tag color="green" className="h-auto">Active</Tag>
         </div>
 
         <div className="w-full flex justify-start items-center">

@@ -8,6 +8,7 @@ import { BsBank } from 'react-icons/bs'
 import { FaCopy } from 'react-icons/fa6'
 import { MdSmartphone, MdEmail } from 'react-icons/md'
 import { Button } from '../ui/button'
+import ProcessingDailouge from '../DialogeBoxes/processing'
 
 const PendingRequest = (probs: any) => {
     return (
@@ -152,14 +153,9 @@ const PendingRequest = (probs: any) => {
 
             {/* ... ... Action buttons ... ... */}
             <div className="flex justify-between pb-4 px-3 gap-0 mt-5 w-full">
-                <ApproveDailouge />
-                <Button
-                    className="bg-blue-500 py-2 rounded-none m-0  hover:bg-blue-700 text-white w-full hover:text-white"
-                    variant={"outline"}
-                >
-                    processing
-                </Button>
-                <RejectDailouge />
+                <ApproveDailouge withdraw={true} />
+                <ProcessingDailouge withdraw={true}/>
+                <RejectDailouge withdraw={true} />
             </div>
         </div>
     )

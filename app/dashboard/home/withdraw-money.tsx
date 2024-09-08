@@ -6,7 +6,6 @@ import { FaCheckCircle, FaFileExcel } from "react-icons/fa";
 import { IoCloseCircleSharp, IoTimeSharp } from "react-icons/io5";
 import { FaArrowsRotate, FaCircleExclamation } from "react-icons/fa6";
 import SearchFiedls from "@/components/Dashboard/SearchFiedls";
-import PendingRequestCard from "@/components/infoCards/PendingResultCard";
 import ProcessingRequestCard from "@/components/WithdrawlCards/ProcessingRequestCard";
 import FilterField from "@/components/Dashboard/FilterField";
 import ApprovedRequestCard from "@/components/WithdrawlCards/ApprovedRequestCard";
@@ -22,6 +21,7 @@ import {
 import RejectedRequestCard from "@/components/WithdrawlCards/RejectedRequestCard";
 import RefundRequestCard from "@/components/WithdrawlCards/RefundRequestCard";
 import PendingExcelRequestCard from "@/components/WithdrawlCards/PendingExcelRequestCard";
+import PendingRequestCard from "@/components/WithdrawlCards/PendingRequestCard";
 
 export default function WithdrawMoney() {
     const [currentTab, setTab] = useState("add");

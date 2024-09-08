@@ -18,13 +18,16 @@ import { Input } from "antd";
 import { Input as input } from '@/components/ui/input';
 
 
-const ApproveDailouge = (probs: any) => {
+const ProcessingDailouge = (probs: any) => {
     return (
         <>
             <AlertDialog>
                 <AlertDialogTrigger className='w-full m-0 p-0'>
-                    <Button className="bg-green-500 w-full rounded-none m-0 rounded-l-lg hover:bg-green-700 text-white " variant={"default"}>
-                        Approve
+                    <Button
+                        className="bg-blue-500 py-2 rounded-none m-0  hover:bg-blue-700 text-white w-full hover:text-white"
+                        variant={"outline"}
+                    >
+                        processing
                     </Button>
                 </AlertDialogTrigger>
 
@@ -32,19 +35,19 @@ const ApproveDailouge = (probs: any) => {
                 <AlertDialogContent className='p-0 sm:w-[470px] w-full'>
                     <div className="flex flex-col w-full ">
 
-                        <div className="flex px-4 py-2 justify-start items-center bg-[#e3ffde]">
-                            <span className="font-medium pr-6 text-[#7cb673]">
+                        <div className="flex px-4 py-2 justify-start items-center bg-[#def3ff]">
+                            <span className="font-medium pr-6 text-[#7473b6]">
                                 Enter Transaction ID
                             </span>
                             {/* <img className="w-10 h-10" src="https://cdn-icons-png.flaticon.com/128/6124/6124998.png" alt="" /> */}
                             <div className="grow"></div>
-                            <AlertDialogCancel className="bg-[#9ad897] text-white">
+                            <AlertDialogCancel className="bg-[#a597d8] text-white">
                                 <IoMdClose className="font-bold" />
                             </AlertDialogCancel>
                         </div>
 
                         <div className="flex w-full my-3  mt-7 items-center justify-center  gap-3.5">
-                            <Label className='text-xl' htmlFor="picture">{!probs.withdraw ? "Sending Amount" : "Payment screenshot"}</Label>
+                            <Label className='text-xl' htmlFor="picture">{!probs.withdraw ? "Sending Amount" : "In Processing"}</Label>
                         </div>
 
                         {/* ----------- search result ----------- */}
@@ -53,7 +56,7 @@ const ApproveDailouge = (probs: any) => {
                             {!probs.withdraw &&
                                 <div className="flex w-[70%]">
                                     <Input placeholder={"500.00"} className="rounded-r-none rounded-l-2xl" id="picture" type="text" />
-                                    <Button className="rounded-l-none rounded-r-2xl  flex justify-self-start bg-[#7cb673] px-8">Edit</Button>
+                                    <Button className="rounded-l-none rounded-r-2xl  flex justify-self-start bg-[#a597d8] px-8">Edit</Button>
                                 </div>
                             }
 
@@ -67,17 +70,11 @@ const ApproveDailouge = (probs: any) => {
                                 </div>
                             }
 
-                            <Label className='text-md font-bold mb-2 text-red-600' htmlFor="picture">FIVE HUNDRED</Label>
+                            {/* <Label className='text-md font-bold mb-2 text-red-600' htmlFor="picture">FIVE HUNDRED</Label> */}
 
-                            {probs.withdraw &&
+                            {/* {probs.withdraw &&
                                 <Input readOnly className='w-[70%] placeholder:text-black' placeholder='23,000  holder name' />
-                            }
-
-                            {!probs.withdraw &&
-                                <div className="flex w-[30%]">
-                                    <Input placeholder="Enter transaction ID" className="rounded-full h-11" id="picture" type="text" />
-                                </div>
-                            }
+                            } */}
 
                             {/* <div className="flex w-[70%]">
                                 <Select>
@@ -95,12 +92,10 @@ const ApproveDailouge = (probs: any) => {
                                     </SelectContent>
                                 </Select>
                             </div> */}
-
-
                         </div>
 
                         <div className="flex justify-center my-5">
-                            <Button className="bg-[#7cb673] w-[68%] hover:bg-[#7cb673] rounded-full">Sumbit</Button>
+                            <Button className="bg-[#a597d8] w-[68%] hover:bg-[#ab92db] rounded-full">Sumbit</Button>
                         </div>
 
 
@@ -111,4 +106,4 @@ const ApproveDailouge = (probs: any) => {
     )
 }
 
-export default ApproveDailouge
+export default ProcessingDailouge

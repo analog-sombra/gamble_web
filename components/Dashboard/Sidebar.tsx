@@ -26,13 +26,15 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import { getCookie } from "cookies-next";
+import { toast } from "react-toastify";
 
 const navLinks = [
   {
     name: "Dashboard",
     url: "/dashboard/home",
     icon: <MaterialSymbolsDashboard />,
-    role: ["USER", "ADMIN"],
+    role: ["USER", "ADMIN", "WORKER"],
   },
   {
     name: "Games",
@@ -210,6 +212,9 @@ type SidebarProps = {
 
 export default function Sidebar({ isSidebarOpen, setSidebar }: SidebarProps) {
   const pathname = usePathname();
+  const userRole = getCookie("role")
+
+
 
   return (
     <div>
@@ -303,6 +308,10 @@ export default function Sidebar({ isSidebarOpen, setSidebar }: SidebarProps) {
         </div>
         <div className=" h-[90vh] overflow-scroll" style={{ scrollbarWidth: "none" }} >
           {navLinks.map((item, index) => {
+            // if (!item.role?.includes(userRole!)) {
+            //   return null;
+            // } 
+
             const route = item.url;
             const isActive = pathname === route;
 

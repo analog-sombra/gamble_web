@@ -70,16 +70,13 @@ export async function makeApiRequeest(url: string,
     }
 
     if (!opt.ignoreTokenExp) {
-        if (opt.makeNewTokenReq && isTokenExpired(token)) {
+        if (opt.makeNewTokenReq && isTokenExpired(token)) {            
             const refresh_token = getCookie('x-r-t')
             const response = await axios.post(`${BASE_URL}/api/gen-accesss-tokens/${refresh_token}`);
 
-            console.log(response);
-            
             setCookie('session', response.data.data.access_token);
             setCookie('x-r-t', response.data.data.refresh_token);
             makeApiRequeest(url, httpMethod, opt)
-
         }
     }
 

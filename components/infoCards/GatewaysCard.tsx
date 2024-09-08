@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { MutableRefObject, useEffect, useRef, useState } from 'react'
 import { Image, Tag, Switch } from 'antd';
 import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogTrigger, AlertDialogTitle } from '../ui/alert-dialog'
 import { Button } from '../ui/button';
@@ -14,7 +14,7 @@ import { HttpMethodType, makeApiRequeest } from '@/lib/api/untils';
 import { cookies } from 'next/headers';
 
 
-const userPaymentOfFHandler = async (
+const gatewaySwitchHandler = async (
     val: boolean,
     gatewayId: number,
     statuses: string[],
@@ -23,9 +23,6 @@ const userPaymentOfFHandler = async (
     const userId = getCookie("id")
     if (userId === undefined) {
         toast.error("error fetching user id")
-        return;
-    }
-    if (val) {
         return;
     }
 
@@ -55,6 +52,7 @@ const updateAccountStatusHandler = async (
     statuses: string[],
     index: number,
     gatewayId: number,
+    previousActiveId: MutableRefObject<number>,
     stateFn: (val: boolean) => void,
     setStatuses: (val: any[]) => void) => {
     const userId = getCookie("id")
@@ -63,7 +61,7 @@ const updateAccountStatusHandler = async (
         return;
     }
     try {
-        const responseData = await makeApiRequeest(
+        await makeApiRequeest(
             `${BASE_URL}/api/account/update_account_status`,
             HttpMethodType.POST,
             {
@@ -76,10 +74,15 @@ const updateAccountStatusHandler = async (
                 }
             }
         )
+        //  Memorzing previous active id
+        previousActiveId.current = accountId
+
+        //  making other aacount inactive
         const updatedStatuses = statuses.map(e => "INACTIVE")
         updatedStatuses[index] = newStatus
         setStatuses(updatedStatuses);
 
+        //  Updating switch state based on if active account
         for (let val of updatedStatuses) {
             if (val === "ACTIVE") {
                 stateFn(true);
@@ -87,6 +90,8 @@ const updateAccountStatusHandler = async (
             }
         }
         stateFn(false);
+
+
     } catch (error) {
         console.log(error);
         toast.error("Error turning payment off")
@@ -101,6 +106,8 @@ const UpiGatewaysCard = (probs: any) => {
     const [makePayment, setMakePayment] = useState<boolean>(false)
     const [statuses, setStatuses] = useState(workerAccout.map(val => val.status))
     const [displayGatewayMethod, setDisplayGatewayMethod] = useState<string>("UPI'd")
+
+    const previousActiveId = useRef(-1);
     const height = probs.height ? probs.height : 43;
 
     function findingActiveAccount() {
@@ -122,14 +129,33 @@ const UpiGatewaysCard = (probs: any) => {
             <Switch
                 checked={makePayment}
                 onChange={async value => {
-                    userPaymentOfFHandler(
+                    if (value) {
+                        const newActiveGateway = workerAccout.filter((item, index) => item.id === previousActiveId.current)[0]
+                        await makeApiRequeest(
+                            `${BASE_URL}/api/account/update_account_status`,
+                            HttpMethodType.POST,
+                            {
+                                makeNewTokenReq: true, includeToke: true,
+                                bodyParam: {
+                                    id: newActiveGateway.id,
+                                    worker_id: parseInt(getCookie("id")!),
+                                    gateway_id: newActiveGateway.gateway_id,
+                                    status: "ACTIVE"
+                                }
+                            }
+                        )
+                        setDisplayGatewayMethod(newActiveGateway.upi_address)
+                        setMakePayment(value)
+                        return;
+                    }
+
+                    gatewaySwitchHandler(
                         value,
                         parseInt(probs.gatewayId),
                         statuses,
                         setMakePayment,
                         setStatuses)
                     setDisplayGatewayMethod("UPI'd")
-
                 }}
                 className='bg-gray-200 hover:bg-gray-300' >
             </Switch>
@@ -200,6 +226,7 @@ const UpiGatewaysCard = (probs: any) => {
                                                 statuses,
                                                 --index,
                                                 parseInt(probs.gatewayId),
+                                                previousActiveId,
                                                 setMakePayment, setStatuses);
                                             isSuccess
                                                 ? setDisplayGatewayMethod(account.upi_address)
@@ -217,7 +244,7 @@ const UpiGatewaysCard = (probs: any) => {
                     </div>
                 </AlertDialogContent>
             </AlertDialog>
-        </div>
+        </div >
     )
 }
 
@@ -226,6 +253,7 @@ const QRGatewaysCard = (probs: any) => {
     const [makePayment, setMakePayment] = useState<boolean>(false)
     const workerAccout = probs.accounts as WorkersAccount[];
     const [statuses, setStatuses] = useState(workerAccout.map(val => val.status))
+    const previousActiveId = useRef(-1);
 
     useEffect(() => {
         for (let val of workerAccout) {
@@ -238,7 +266,28 @@ const QRGatewaysCard = (probs: any) => {
     return (
         <div>
             <div className="flex flex-col gap-3 items-center">
-                <Switch checked={makePayment} onChange={e => userPaymentOfFHandler(e, parseInt(probs.gatewayId), statuses, setMakePayment, setStatuses)} className='bg-gray-200 hover:bg-gray-300' ></Switch>
+                <Switch
+                    checked={makePayment}
+                    onChange={async value => {
+                        if (value) {
+                            const newActiveGateway = workerAccout.filter((item, index) => {
+                                const updatedStatuses = statuses.map(e => "INACTIVE")
+                                updatedStatuses[index] = "ACTIVE"
+                                setStatuses(updatedStatuses);
+                                return item.id === previousActiveId.current;
+                            })[0]
+                            setMakePayment(value)
+                            return;
+                        }
+
+                        gatewaySwitchHandler(
+                            value,
+                            parseInt(probs.gatewayId),
+                            statuses,
+                            setMakePayment,
+                            setStatuses)
+                    }}
+                    className='bg-gray-200 hover:bg-gray-300' ></Switch>
                 <AlertDialog>
                     <AlertDialogTrigger>
                         <div className="border text-center flex items-center flex-col justify-start py-1 px-3 h-24 rounded-md w-20">
@@ -276,7 +325,7 @@ const QRGatewaysCard = (probs: any) => {
                             <div className="flex justify-start my-7 border border-x-white">
                                 <span className=" pr-12">No.</span>
                                 <div className="grow">QRs</div>
-                                <div className="grow"></div>
+                                <div className="grow">Name</div>
                                 <div>Status</div>
                             </div>
 
@@ -294,6 +343,7 @@ const QRGatewaysCard = (probs: any) => {
                                             alt=""
                                         />
                                         <div className="grow"></div>
+                                        <div className="grow">QR name</div>
                                         <Tag
                                             onClick={e => updateAccountStatusHandler(
                                                 currentStatus === "ACTIVE" ? "INACTIVE" : "ACTIVE",
@@ -301,6 +351,7 @@ const QRGatewaysCard = (probs: any) => {
                                                 statuses,
                                                 --index,
                                                 parseInt(probs.gatewayId),
+                                                previousActiveId,
                                                 setMakePayment, setStatuses)}
                                             color={currentStatus === "ACTIVE" ? `green` : `red`}
                                             className=' cursor-pointer'
@@ -323,6 +374,8 @@ const BankGatewayCard = (probs: any) => {
     const [makePayment, setMakePayment] = useState<boolean>(false)
     const workerAccout = probs.accounts as WorkersAccount[];
     const [statuses, setStatuses] = useState(workerAccout.map(val => val.status))
+    const previousActiveId = useRef(-1);
+
     useEffect(() => {
         for (let val of workerAccout) {
             if (val.status === "ACTIVE") {
@@ -335,7 +388,27 @@ const BankGatewayCard = (probs: any) => {
     return (
         <div>
             <div className="flex flex-col gap-3 items-center">
-                <Switch checked={makePayment} onChange={e => userPaymentOfFHandler(e, parseInt(probs.gatewayId), statuses, setMakePayment, setStatuses)} className='bg-gray-200 hover:bg-gray-300' ></Switch>
+                <Switch checked={makePayment}
+                    onChange={async value => {
+                        if (value) {
+                            workerAccout.filter((item, index) => {
+                                const updatedStatuses = statuses.map(e => "INACTIVE")
+                                updatedStatuses[--index] = "ACTIVE"
+                                setStatuses(updatedStatuses);
+                                return item.id === previousActiveId.current;
+                            })[0]
+                            setMakePayment(value)
+                            return;
+                        }
+
+                        gatewaySwitchHandler(
+                            value,
+                            parseInt(probs.gatewayId),
+                            statuses,
+                            setMakePayment,
+                            setStatuses)
+                    }}
+                    className='bg-gray-200 hover:bg-gray-300' ></Switch>
                 <AlertDialog>
                     <AlertDialogTrigger>
                         <div className="border text-center flex items-center flex-col justify-start py-1 px-3 h-24 rounded-md w-20">
@@ -408,6 +481,7 @@ const BankGatewayCard = (probs: any) => {
                                                         statuses,
                                                         --index,
                                                         parseInt(probs.gatewayId),
+                                                        previousActiveId,
                                                         setMakePayment, setStatuses)}
                                                     color={currentStatus === "ACTIVE" ? `green` : `red`}
                                                     className=' cursor-pointer'

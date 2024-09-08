@@ -18,7 +18,7 @@ import { Input } from "antd";
 // import { Input } from '@/components/ui/input';
 
 
-const RejectDailouge = () => {
+const RejectDailouge = (probs: any) => {
     return (
         <>
             <AlertDialog>
@@ -64,7 +64,15 @@ const RejectDailouge = () => {
                                 </Select>
                             </div>
 
-
+                            {
+                                probs.withdraw &&
+                                <div className="flex   w-[70%]">
+                                    <Input
+                                        type="file"
+                                        placeholder="Upload QR code"
+                                    />
+                                </div>
+                            }
                         </div>
 
                         <div className="flex justify-center my-5">
