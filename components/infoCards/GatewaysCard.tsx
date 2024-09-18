@@ -290,12 +290,12 @@ const QRGatewaysCard = (probs: any) => {
                     className='bg-gray-200 hover:bg-gray-300' ></Switch>
                 <AlertDialog>
                     <AlertDialogTrigger>
-                        <div className="border text-center flex items-center flex-col justify-start py-1 px-3 h-24 rounded-md w-20">
+                        <div className="border text-center overflow-hidden flex items-center flex-col justify-start py-1 px-3 h-24 rounded-md w-20">
                             <Image
                                 width={probs.width}
                                 height={probs.width}
                                 preview={false}
-                                className="my-2 flex "
+                                className="my-2 flex w-30 "
                                 src={probs.img}
                                 alt=""
 
@@ -416,7 +416,7 @@ const BankGatewayCard = (probs: any) => {
                                 width={probs.width}
                                 height={probs.width}
                                 preview={false}
-                                className="my-2 flex object-cover object-right"
+                                className="my-2 flex"
                                 src={probs.img}
                                 alt=""
 

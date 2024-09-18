@@ -64,7 +64,7 @@ export default function Users() {
               <TableHead className="text-center">{"Statement /Status"}</TableHead>
               <TableHead className="text-center">Amount</TableHead>
               {/* <TableHead className="text-center">Status</TableHead> */}
-              <TableHead className="text-center">TXN Id</TableHead>
+              <TableHead className="text-center">Txn id</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody className="">

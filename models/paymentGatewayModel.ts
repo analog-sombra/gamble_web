@@ -4,6 +4,7 @@ export interface PaymentGateway {
     id: number;
     name: string;
     image: string;
+    short_image: string;
     payment_type: string;
     status: string;
     created_at: Date;

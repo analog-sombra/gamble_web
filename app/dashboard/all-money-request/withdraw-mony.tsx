@@ -10,13 +10,13 @@ import { FaCheckCircle } from "react-icons/fa";
 import { FaFileExcel } from "react-icons/fa";
 import SearchFiedls from "@/components/Dashboard/SearchFiedls";
 import ProcessingRequestCard from "@/components/WithdrawlCards/ProcessingRequestCard";
-import PendingRequestCard from "@/components/WithdrawlCards/PendingRequestCard";
 import FilterField from "@/components/Dashboard/FilterField";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import ApprovedRequestCard from "@/components/WithdrawlCards/ApprovedRequestCard";
 import RejectedRequestCard from "@/components/WithdrawlCards/RejectedRequestCard";
 import RefundRequestCard from "@/components/WithdrawlCards/RefundRequestCard";
 import PendingExcelRequestCard from "@/components/WithdrawlCards/PendingExcelRequestCard";
+import { PendingRequestCard } from "@/components/WithdrawlCards/PendingRequestCard";
 
 export default function WithdrawMoney() {
     const [currentTab, setTab] = useState("add");
@@ -75,12 +75,13 @@ export default function WithdrawMoney() {
                     </div>
 
                     <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
-                        {Array.from([1, 2, 3, 4, 5, 6]).map(() => {
+                        {/* {Array.from([1, 2, 3, 4, 5, 6]).map(() => {
                             return (
-                                <PendingRequestCard showAdminInfo={true} />
+                                <PendingRequestCard  showAdminInfo={true} />
                             );
-                        })}
-                    </div>                </TabsContent>
+                        })} */}
+                    </div>
+                </TabsContent>
 
                 {/* ---- processing content ---- */}
                 <TabsContent value="processing" className="flex flex-col w-full justify-center items-center">

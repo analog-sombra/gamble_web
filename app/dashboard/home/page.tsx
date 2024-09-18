@@ -46,6 +46,8 @@ export default function Home() {
         }
       )
 
+      console.log(responseData?.data.data);
+      
       const workerAccountResponse = await makeApiRequeest(
         `${BASE_URL}/api/account/get_workers_account/${userId}`,
         HttpMethodType.POST,
@@ -56,7 +58,6 @@ export default function Home() {
         }
       )
       setWorkerAccounts(workerAccountResponse?.data.data);
-
       setPaymentGateways(responseData?.data.data)
       setIsLoading(false);
     } catch (error: any) {
@@ -112,7 +113,7 @@ export default function Home() {
                         return <>
                           <QRGatewaysCard
                             key={idx}
-                            img={`${BASE_URL}/${gateway.image}`}
+                            img={`${BASE_URL}/${gateway.short_image}`}
                             width={60}
                             gatewayName={gateway.name}
                             gatewayId={gateway.id}

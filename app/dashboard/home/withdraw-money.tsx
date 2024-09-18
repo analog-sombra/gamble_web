@@ -1,6 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Input } from "antd";
 import { FaCheckCircle, FaFileExcel } from "react-icons/fa";
 import { IoCloseCircleSharp, IoTimeSharp } from "react-icons/io5";
@@ -21,10 +21,46 @@ import {
 import RejectedRequestCard from "@/components/WithdrawlCards/RejectedRequestCard";
 import RefundRequestCard from "@/components/WithdrawlCards/RefundRequestCard";
 import PendingExcelRequestCard from "@/components/WithdrawlCards/PendingExcelRequestCard";
-import PendingRequestCard from "@/components/WithdrawlCards/PendingRequestCard";
+import { HttpMethodType, makeApiRequeest } from "@/lib/api/untils";
+import { BASE_URL } from "@/lib/const";
+import { toast } from "react-toastify";
+import { getCookie } from "cookies-next";
+import { GetWithdrawalRequestSchema } from "@/models/WithdrawalModel";
+import { PendingRequestCard, PendingRequestLoader } from "@/components/WithdrawlCards/PendingRequestCard";
 
 export default function WithdrawMoney() {
     const [currentTab, setTab] = useState("add");
+    const [isLoading, setIsLoading] = useState(false);
+    const [withdrawalRequests, setWithdrawalRequests] = useState<GetWithdrawalRequestSchema[]>([]);
+
+    const init = async () => {
+        setIsLoading(true);
+        const userId = getCookie("id")
+        if (userId === undefined) {
+            toast.error("error fetching user id")
+            return;
+        }
+        try {
+            const responseData = await makeApiRequeest(
+                `${BASE_URL}/api/withdraw/get_workers_requests/${parseInt(userId)}`,
+                HttpMethodType.POST,
+                {
+                    includeToke: true,
+                    makeNewTokenReq: true
+                }
+            )
+            setWithdrawalRequests(responseData?.data.data);
+            setIsLoading(false);
+        } catch (error: any) {
+            console.error(error);
+            toast.error(error.response?.data.message ?? error.message)
+        }
+    }
+
+    useEffect(() => {
+        init()
+        return;
+    }, [])
 
     return (
         <div className="flex flex-col items-center">
@@ -88,12 +124,22 @@ export default function WithdrawMoney() {
                         <SearchFiedls placeholder="User Id" />
                     </div>
 
-                    <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
-                        {Array.from([1, 2, 3, 4, 5, 6]).map(() => {
-                            return (
-                                <PendingRequestCard showAdminInfo={false} />
-                            );
-                        })}
+                    <div className="flex flex-wrap justify-start w-full gap-5 my-9 items-center">
+                        {
+                            isLoading
+                                ? Array.from([1, 2, 3]).map(_ => {
+                                    return (
+                                        <>
+                                            <PendingRequestLoader />
+                                        </>
+                                    )
+                                })
+                                : withdrawalRequests.map((withdrawalRequest: GetWithdrawalRequestSchema) => {
+                                    return (
+                                        <PendingRequestCard pendingWithdrawalRequest={withdrawalRequest} showAdminInfo={false} />
+                                    );
+                                })
+                        }
                     </div>
                 </TabsContent>
 

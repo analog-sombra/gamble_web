@@ -28,6 +28,7 @@ export default function CreateUser() {
         resolver: valibotResolver(demoPaymentGatewaySchema),
     });
     const [imageFile, setImageFile] = useState<File>()
+    const [shortImage, setshortImage] = useState<File>()
 
     const {
         register,
@@ -50,8 +51,26 @@ export default function CreateUser() {
                     userid: 1
                 },
             )
+
+            const bodyParam: any = {
+                ...data,
+                image: imagePathData.data.data.path, 
+                created_by: 1
+            }
+
+            if (shortImage && shortImage.size > 0) {
+                const shortImagePathData = await axios.postForm(`${BASE_URL}/api/upload`,
+                    {
+                        file: shortImage,
+                        f_type: "payment_gateway",
+                        userid: 1
+                    },
+                );
+                bodyParam["short_image"] = shortImagePathData.data.data.path;
+            }
+
             await makeApiRequeest(`${BASE_URL}/api/payment_gateway/create`, HttpMethodType.POST, {
-                bodyParam: { ...data, image: imagePathData.data.data.path, created_by: 1 },
+                bodyParam: bodyParam,
                 includeToke: true
             });
 
@@ -66,6 +85,7 @@ export default function CreateUser() {
     const errorfn = async (data: any) => {
         console.log(data);
         console.log(imageFile);
+        console.log(shortImage);
     };
 
     return (
@@ -89,13 +109,26 @@ export default function CreateUser() {
                             />
                         </div>
                         <div className="flex gap-3 items-center">
-                            <p className="text-sm font-normal w-20">Photo: </p>
+                            <p className="text-sm font-normal w-20">Image: </p>
                             <Input
                                 // {...register("file")}
                                 type="file"
                                 name="file"
                                 onChange={e => {
                                     setImageFile(e.target.files?.[0])
+                                }}
+                                placeholder="select a img"
+                                className="w-full lg:max-w-sm"
+                            />
+                        </div>
+                        <div className="flex gap-3 items-center">
+                            <p className="text-sm font-normal w-20">Short Image: </p>
+                            <Input
+                                // {...register("file")}
+                                type="file"
+                                name="file"
+                                onChange={e => {
+                                    setshortImage(e.target.files?.[0])
                                 }}
                                 placeholder="select a img"
                                 className="w-full lg:max-w-sm"

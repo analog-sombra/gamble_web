@@ -51,6 +51,8 @@ export function generateUrl(path: string, parameters: ParamInput = {}, paramType
     }
 }
 
+
+
 export async function makeApiRequeest(url: string,
     httpMethod: HttpMethodType,
     opt: Options = {
@@ -170,3 +172,5 @@ export const handleAccountParamData = async (
 
     return responseData;
 }
+
+
