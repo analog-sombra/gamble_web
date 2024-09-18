@@ -131,8 +131,8 @@ export default function Users() {
               isLoading
                 ? <>
                   {
-                    Array.from([1, 2, 3, 4, 5, 6]).map(() => {
-                      return <TableRow>
+                    Array.from([1, 2, 3, 4, 5, 6]).map((val, index) => {
+                      return <TableRow key={index}>
                         <TableCell className="text-center border-r">
                           <Skeleton.Input className="w-52 rounded-full" active />
                         </TableCell>

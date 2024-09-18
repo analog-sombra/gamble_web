@@ -75,9 +75,9 @@ export default function WithdrawMoney() {
                     </div>
 
                     <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
-                        {/* {Array.from([1, 2, 3, 4, 5, 6]).map(() => {
+                        {/* {Array.from([1, 2, 3, 4, 5, 6]).map((val, index) => {
                             return (
-                                <PendingRequestCard  showAdminInfo={true} />
+                                <PendingRequestCard  key={index} showAdminInfo={true} />
                             );
                         })} */}
                     </div>
@@ -92,9 +92,9 @@ export default function WithdrawMoney() {
                     </div>
 
                     <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
-                        {Array.from([1, 2, 3, 4, 6, 5]).map(() => {
+                        {Array.from([1, 2, 3, 4, 6, 5]).map((val, index) => {
                             return (
-                                <ProcessingRequestCard showAdminInfo={true} />
+                                <ProcessingRequestCard key={index} showAdminInfo={true} />
                             );
                         })}
                     </div>
@@ -124,9 +124,9 @@ export default function WithdrawMoney() {
                     </div>
 
                     <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
-                        {Array.from([1, 2, 3, 4, 5, 6]).map(() => {
+                        {Array.from([1, 2, 3, 4, 5, 6]).map((val, index) => {
                             return (
-                                <ApprovedRequestCard showAdminInfo={true} />
+                                <ApprovedRequestCard key={index} showAdminInfo={true} />
                             );
                         })}
                     </div>
@@ -140,9 +140,9 @@ export default function WithdrawMoney() {
                     </div>
 
                     <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
-                        {Array.from([1, 2, 3, 4, 5, 6]).map(() => {
+                        {Array.from([1, 2, 3, 4, 5, 6]).map((val, index) => {
                             return (
-                                <RejectedRequestCard showAdminInfo={true} />
+                                <RejectedRequestCard key={index} showAdminInfo={true} />
                             );
                         })}
                     </div>
@@ -156,9 +156,9 @@ export default function WithdrawMoney() {
                     </div>
 
                     <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
-                        {Array.from([1, 2, 3, 4, 5, 6]).map(() => {
+                        {Array.from([1, 2, 3, 4, 5, 6]).map((val, index) => {
                             return (
-                                <RefundRequestCard showAdminInfo={true} />
+                                <RefundRequestCard key={index} showAdminInfo={true} />
                             );
                         })}
                     </div>
@@ -172,9 +172,9 @@ export default function WithdrawMoney() {
                     </div>
 
                     <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
-                        {Array.from([1, 2, 3, 4, 5, 6]).map(() => {
+                        {Array.from([1, 2, 3, 4, 5, 6]).map((val, index) => {
                             return (
-                                <PendingExcelRequestCard showAdminInfo={true} />
+                                <PendingExcelRequestCard key={index} showAdminInfo={true} />
                             );
                         })}
                     </div>

@@ -87,10 +87,10 @@ export default function CreateUser() {
         centered
         closable={false}
         footer={[
-          <Button onClick={e => setOpenDialog(false)} className="border hover:bg-slate-200" variant="secondary">
+          <Button key={1} onClick={e => setOpenDialog(false)} className="border hover:bg-slate-200" variant="secondary">
             Close
           </Button>,
-          <Button onClick={e => setOpenDialog(false)} className="ml-3  bg-blue-600 hover:bg-blue-700" variant="default" >
+          <Button key={2} onClick={e => setOpenDialog(false)} className="ml-3  bg-blue-600 hover:bg-blue-700" variant="default" >
             <IoShareSocial className="mr-2" />
             <span>Share</span>
           </Button>

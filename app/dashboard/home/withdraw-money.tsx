@@ -127,16 +127,16 @@ export default function WithdrawMoney() {
                     <div className="flex flex-wrap justify-start w-full gap-5 my-9 items-center">
                         {
                             isLoading
-                                ? Array.from([1, 2, 3]).map(_ => {
+                                ? Array.from([1, 2, 3]).map((val, index) => {
                                     return (
                                         <>
                                             <PendingRequestLoader />
                                         </>
                                     )
                                 })
-                                : withdrawalRequests.map((withdrawalRequest: GetWithdrawalRequestSchema) => {
+                                : withdrawalRequests.map((withdrawalRequest: GetWithdrawalRequestSchema, index: number) => {
                                     return (
-                                        <PendingRequestCard pendingWithdrawalRequest={withdrawalRequest} showAdminInfo={false} />
+                                        <PendingRequestCard pendingWithdrawalRequest={withdrawalRequest} key={index} showAdminInfo={false} />
                                     );
                                 })
                         }
@@ -151,9 +151,9 @@ export default function WithdrawMoney() {
                     </div>
 
                     <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
-                        {Array.from([1, 2, 3, 4, 5, 6]).map(() => {
+                        {Array.from([1, 2, 3, 4, 5, 6]).map((val, index) => {
                             return (
-                                <ProcessingRequestCard showAdminInfo={false} />
+                                <ProcessingRequestCard key={index} showAdminInfo={false} />
                             );
                         })}
                     </div>
@@ -182,9 +182,9 @@ export default function WithdrawMoney() {
                     </div>
 
                     <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
-                        {Array.from([1, 2, 3, 4, 5, 6]).map(() => {
+                        {Array.from([1, 2, 3, 4, 5, 6]).map((val, index) => {
                             return (
-                                <ApprovedRequestCard showAdminInfo={false} />
+                                <ApprovedRequestCard key={index} showAdminInfo={false} />
                             );
                         })}
                     </div>
@@ -198,9 +198,9 @@ export default function WithdrawMoney() {
                     </div>
 
                     <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
-                        {Array.from([1, 2, 3, 4, 5, 6]).map(() => {
+                        {Array.from([1, 2, 3, 4, 5, 6]).map((val, index) => {
                             return (
-                                <RejectedRequestCard showAdminInfo={false} />
+                                <RejectedRequestCard key={index} showAdminInfo={false} />
                             );
                         })}
                     </div>
@@ -214,9 +214,9 @@ export default function WithdrawMoney() {
                     </div>
 
                     <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
-                        {Array.from([1, 2, 3, 4, 5, 6]).map(() => {
+                        {Array.from([1, 2, 3, 4, 5, 6]).map((val, index) => {
                             return (
-                                <RefundRequestCard showAdminInfo={false} />
+                                <RefundRequestCard key={index} showAdminInfo={false} />
                             );
                         })}
                     </div>
@@ -230,9 +230,9 @@ export default function WithdrawMoney() {
                     </div>
 
                     <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
-                        {Array.from([1, 2, 3, 4, 5, 6]).map(() => {
+                        {Array.from([1, 2, 3, 4, 5, 6]).map((val, index) => {
                             return (
-                                <PendingExcelRequestCard showAdminInfo={false} />
+                                <PendingExcelRequestCard key={index} showAdminInfo={false} />
                             );
                         })}
                     </div>

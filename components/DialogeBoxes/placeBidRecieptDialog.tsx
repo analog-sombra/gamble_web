@@ -77,7 +77,7 @@ const PlaceBidReciept = (probs: any) => {
                         </div>
                         <div className="grid grid-cols-5 grid-rows-5 gap-1 p-1">
                             {Array.from({ length: 25 }, (_, i) => (
-                                <div className="flex items-center text-sm justify-center p-2  bg-zinc-100" >
+                                <div key={i} className="flex items-center text-sm justify-center p-2  bg-zinc-100" >
                                     {`${++i} = `}
                                     <span className='text-green-500'>  10 ₹</span>
                                 </div>
@@ -90,7 +90,7 @@ const PlaceBidReciept = (probs: any) => {
                         </div>
                         <div className="grid grid-cols-5 gap-1 p-1">
                             {Array.from({ length: 5 }, (_, i) => (
-                                <div className="flex items-center text-sm justify-center p-2  bg-zinc-100" >
+                                <div key={i} className="flex items-center text-sm justify-center p-2  bg-zinc-100" >
                                     {`${++i} = `}
                                     <span className='text-green-500'>  10 ₹</span>
                                 </div>
@@ -103,7 +103,7 @@ const PlaceBidReciept = (probs: any) => {
                         </div>
                         <div className="grid grid-cols-5 gap-1 p-1">
                             {Array.from({ length: 5 }, (_, i) => (
-                                <div className="flex items-center text-sm justify-center p-2  bg-zinc-100" >
+                                <div key={i} className="flex items-center text-sm justify-center p-2  bg-zinc-100" >
                                     {`${++i} = `}
                                     <span className='text-green-500'>  10 ₹</span>
                                 </div>

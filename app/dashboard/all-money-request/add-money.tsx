@@ -86,9 +86,9 @@ export default function AddMoney() {
                     </div>
 
                     <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
-                        {Array.from([1, 2, 3, 4, 5, 6]).map(() => {
+                        {Array.from([1, 2, 3, 4, 5, 6]).map((val, index) => {
                             return (
-                                <PendingRequestCard showAdminInfo={true} />
+                                <PendingRequestCard key={index} showAdminInfo={true} />
                             );
                         })
                         }
@@ -103,9 +103,9 @@ export default function AddMoney() {
                     </div>
 
                     <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
-                        {Array.from([1, 2, 3, 4, 5, 6]).map(() => {
+                        {Array.from([1, 2, 3, 4, 5, 6]).map((val, index) => {
                             return (
-                                <ProcessingResultCard showAdminInfo={true} />
+                                <ProcessingResultCard key={index} showAdminInfo={true} />
                             );
                         })
                         }
@@ -121,9 +121,9 @@ export default function AddMoney() {
                         <SearchFiedls placeholder="User I'd" />
                     </div>
                     <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
-                        {Array.from([1, 2, 3, 4, 5, 6]).map(() => {
+                        {Array.from([1, 2, 3, 4, 5, 6]).map((val, index) => {
                             return (
-                                <ApproveRequestCard showAdminInfo={true} />
+                                <ApproveRequestCard key={index} showAdminInfo={true} />
                             );
                         })
                         }
@@ -139,9 +139,9 @@ export default function AddMoney() {
                     </div>
 
                     <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
-                        {Array.from([1, 2, 3, 4, 5, 6]).map(() => {
+                        {Array.from([1, 2, 3, 4, 5, 6]).map((val, index) => {
                             return (
-                                <EnteriesRequestCard showAdminInfo={true} />
+                                <EnteriesRequestCard key={index} showAdminInfo={true} />
                             );
                         })
                         }
@@ -156,9 +156,9 @@ export default function AddMoney() {
                     </div>
 
                     <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
-                        {Array.from([1, 2, 3, 4, 5, 6]).map(() => {
+                        {Array.from([1, 2, 3, 4, 5, 6]).map((val, index) => {
                             return (
-                                <PendingEntriesRequestCard showAdminInfo={true} />
+                                <PendingEntriesRequestCard key={index} showAdminInfo={true} />
                             );
                         })
                         }
@@ -173,9 +173,9 @@ export default function AddMoney() {
                     </div>
 
                     <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
-                        {Array.from([1, 2, 3, 4, 5, 6]).map(() => {
+                        {Array.from([1, 2, 3, 4, 5, 6]).map((val, index) => {
                             return (
-                                <RejectedRequestCard showAdminInfo={true} />
+                                <RejectedRequestCard key={index} showAdminInfo={true} />
                             );
                         })
                         }
@@ -190,9 +190,9 @@ export default function AddMoney() {
                     </div>
 
                     <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
-                        {Array.from([1, 2, 3, 4, 5, 6]).map(() => {
+                        {Array.from([1, 2, 3, 4, 5, 6]).map((val, index) => {
                             return (
-                                <HightToLowCard showAdminInfo={true} />
+                                <HightToLowCard key={index} showAdminInfo={true} />
                             );
                         })
                         }
