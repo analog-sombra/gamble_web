@@ -7,9 +7,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 const page = () => {
     return (
         <div className="flex flex-col items-start w-full h-full bg-white rounded-md">
-
             <h1 className="m-auto font-bold text-xl my-3">Daily work record</h1>
-
             <div className='flex flex-col mt-3'>
                 <div className='flex w-[500px]  flex-col gap-4'>
                     <Label>Select date</Label>

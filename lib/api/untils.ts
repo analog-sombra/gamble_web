@@ -107,6 +107,7 @@ export const isTokenExpired = (token: string) => {
         if (!decodedToken.exp) {
             return null;
         }
+
         return decodedToken.exp < currentTime;
     } catch (error) {
         console.error('Error decoding token:', error);

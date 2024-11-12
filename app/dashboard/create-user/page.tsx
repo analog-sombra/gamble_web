@@ -25,26 +25,17 @@ import { toast } from "react-toastify";
 import { useRef, useState } from "react";
 import { Label } from "@/components/ui/label";
 import { CopyIcon } from "lucide-react";
-
 export default function CreateUser() {
   const [openDialog, setOpenDialog] = useState(false);
-  const [password, setPassword] = useState('')
+  const [password, setPassword] = useState('');
   const [api, contextHolder] = notification.useNotification();
   const apiResponse = useRef<AxiosResponse>();
-
 
   const form = useForm<CreateUserForm>({
     resolver: valibotResolver(CreateUserSchema),
   });
 
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = form;
-
-
+  const { register, handleSubmit, control, formState: { errors } } = form;
   const { mutate } = useMutation({
     mutationKey: ["create_user"],
     mutationFn: async (data: CreateUserForm) => {
@@ -52,11 +43,9 @@ export default function CreateUser() {
         `${BASE_URL}/api/user/create`,
         HttpMethodType.POST,
         { bodyParam: data, includeToke: false, makeNewTokenReq: false, }
-      )
-      console.log(form.getValues("email"));
+      );
       apiResponse.current = responsedata;
-
-      setOpenDialog(true)
+      setOpenDialog(true);
       form.reset();
       toast.success("User Create success");
     },
@@ -64,10 +53,6 @@ export default function CreateUser() {
       toast.error(error.response.data.message);
     },
   });
-
-  const errorfn = async (data: any) => {
-    // mutate(data)
-  };
 
   const openNotification = (value: string) => {
     api.success({
@@ -82,182 +67,103 @@ export default function CreateUser() {
       {contextHolder}
       <Modal
         open={openDialog}
-        onOk={e => setOpenDialog(false)}
-        onCancel={e => setOpenDialog(false)}
+        onOk={() => setOpenDialog(false)}
+        onCancel={() => setOpenDialog(false)}
         centered
         closable={false}
         footer={[
-          <Button key={1} onClick={e => setOpenDialog(false)} className="border hover:bg-slate-200" variant="secondary">
+          <Button key="close" onClick={() => setOpenDialog(false)} className="border hover:bg-slate-200" variant="secondary">
             Close
           </Button>,
-          <Button key={2} onClick={e => setOpenDialog(false)} className="ml-3  bg-blue-600 hover:bg-blue-700" variant="default" >
+          <Button key="share" onClick={() => setOpenDialog(false)} className="ml-3 bg-blue-600 hover:bg-blue-700" variant="default">
             <IoShareSocial className="mr-2" />
             <span>Share</span>
           </Button>
         ]}
       >
         <h1 className="text-black font-semibold text-xl mb-5">User Created ✅</h1>
-
-        <div className="flex items-center justify-start mb-1">
+        <div className="flex items-center justify-between mb-1">
           <span className="font-semibold mx-2">Email :</span>
           <span>{apiResponse.current?.data.data.email}</span>
-
-          <div className="grow"></div>
-          <Button onClick={e => {
+          <Button onClick={() => {
             navigator.clipboard.writeText(apiResponse.current?.data.data.email);
-            openNotification("Email")
-          }} type="submit" size="sm" className="px-3 text-black bg-transparent hover:bg-slate-100">
-            <span className="sr-only">Copy</span>
+            openNotification("Email");
+          }} size="sm" className="px-3 text-black bg-transparent hover:bg-slate-100">
             <CopyIcon className="h-4 w-4" />
           </Button>
         </div>
-
-        <div className="flex items-center justify-start mt-1 ">
+        <div className="flex items-center justify-between mt-1">
           <span className="font-semibold mx-2">Password:</span>
-          <span className=" w-[80%] overflow-hidden">{password}</span>
-
-          <div className="grow"></div>
-          <Button onClick={e => {
+          <span className="truncate">{password}</span>
+          <Button onClick={() => {
             navigator.clipboard.writeText(password);
-            openNotification("Password")
-          }} type="submit" size="sm" className="px-3 bg-transparent text-black hover:bg-slate-100">
-            {/* <span className="sr-only">Copy</span> */}
+            openNotification("Password");
+          }} size="sm" className="px-3 bg-transparent text-black hover:bg-slate-100">
             <CopyIcon className="h-4 w-4" />
           </Button>
         </div>
       </Modal>
 
-
       <div className="p-3 bg-white rounded-md w-full flex flex-col items-start gap-3">
         <h1 className="text-2xl font-semibold">Create User</h1>
         <Form {...form}>
           <form
-            onSubmit={handleSubmit((createUserData) => mutate(createUserData), errorfn)}
-            className=" md:space-y-6 mt-3"
+            onSubmit={handleSubmit(e => mutate(e))}
+            className="space-y-6 mt-3 w-full"
           >
 
-            <div className="flex gap-5">
-              <div className=" gap-3 items-center">
-                <p className="text-sm  font-medium text-gray-600 w-20 mb-1 ">Name</p>
-                <Input
-                  id="name"
-                  type="Enter text"
-                  placeholder="Name"
-                  {...register("name")}
-                  className="w-[400px] h-10 lg:max-w-sm"
-                />
-                {errors.name && (
-                  <p className="text-xs text-red-500 mt-1">
-                    {errors.name.message?.toString()}
-                  </p>
-                )}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:w-[612px] w-full">
+              <div className="flex flex-col">
+                <Label htmlFor="name" className="text-sm font-medium text-gray-600 mb-1">Name</Label>
+                <Input id="name" placeholder="Name" {...register("name")} className="h-10" />
+                {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name.message?.toString()}</p>}
               </div>
-
-              <div className="  gap-3 items-center">
-                <p className="text-sm  font-medium text-gray-600 w-20 mb-1 ">Emali</p>
-                <Input
-                  type="Enter email"
-                  placeholder="Email"
-                  {...register("email")}
-                  className="w-[400px] h-10 lg:max-w-sm"
-
-                />
-                {errors.email && (
-                  <p className="text-xs text-red-500 mt-1">
-                    {errors.email.message?.toString()}
-                  </p>
-                )}
+              <div className="flex flex-col">
+                <Label htmlFor="email" className="text-sm font-medium text-gray-600 mb-1">Email</Label>
+                <Input id="email" placeholder="Email" {...register("email")} className="h-10" />
+                {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email.message?.toString()}</p>}
+              </div>
+              <div className="flex flex-col">
+                <Label htmlFor="number" className="text-sm font-medium text-gray-600 mb-1">Number</Label>
+                <Input id="number" placeholder="Number" {...register("number")} className="h-10" />
+                {errors.number && <p className="text-xs text-red-500 mt-1">{errors.number.message?.toString()}</p>}
+              </div>
+              <div className="flex flex-col">
+                <Label htmlFor="password" className="text-sm font-medium text-gray-600 mb-1">Password</Label>
+                <Input id="password" type="password" placeholder="Password" {...register("password")} onChange={(e) => setPassword(e.target.value)} className="h-10" />
+                {errors.password && <p className="text-xs text-red-500 mt-1">{errors.password.message?.toString()}</p>}
               </div>
             </div>
 
-
-            <div className="flex gap-5">
-              <div className="  gap-3 items-center">
-                <p className="text-sm  font-medium text-gray-600 w-20 mb-1 ">Number</p>
-                <Input
-                  type="Enter tel"
-                  placeholder="Number"
-                  {...register("number")}
-                  className="w-[400px] h-10 lg:max-w-sm"
-
-                />
-                {errors.number && (
-                  <p className="text-xs text-red-500 mt-1">
-                    {errors.number.message?.toString()}
-                  </p>
-                )}
-              </div>
-
-              <div className=" gap-3 items-center">
-                <FormField
-                  {...register("password")}
-                  control={control}
-                  name="password"
-                  render={({ field }) => <>
-                    <p className="text-sm  font-medium text-gray-600 w-20 mb-1 ">Password</p>
-                    <FormItem>
-                      <Input
-                        {...field}
-                        {...register("password")}
-                        onChange={e => setPassword(e.target.value)}
-                        defaultValue={field.value}
-                        type="Enter password"
-                        placeholder="Password"
-                        className="w-[400px] h-10 lg:max-w-sm"
-                      />
-                      {errors.password && (
-                        <p className="text-xs text-red-500">
-                          {errors.password.message?.toString()}
-                        </p>
-                      )}
-                    </FormItem>
-                  </>}
-                />
-
-              </div>
-            </div>
-
-            <div className="  gap-3 items-center justify-center w-72">
-              <p className="text-sm  font-medium text-gray-600 w-20 mb-1 ">User Type</p>
+            <div className="flex flex-col sm:w-[300px] w-full">
+              <Label htmlFor="role" className="text-sm font-medium text-gray-600 mb-1">User Type</Label>
               <FormField
-                {...register("role")}
                 control={control}
                 name="role"
-                render={({ field }) =>
-                  <>
-                    <FormItem>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                          <SelectTrigger className="w-[380px]">
-                            <SelectValue placeholder="Select role" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectGroup>
-                            {userType.map((user: string, index: number) => (
-                              <SelectItem value={user} key={index}>
-                                {user.replace(user.slice(1, user.length), user.slice(1, user.length).toLowerCase())}
-                              </SelectItem>
-                            ))}
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    </FormItem>
-                    {errors.role && (
-                      <p className="text-xs text-red-500">
-                        {errors.role.message?.toString()}
-                      </p>
-                    )}
-                  </>}
+                render={({ field }) => (
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select role" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectGroup>
+                        {userType.map((user, index) => (
+                          <SelectItem key={index} value={user}>
+                            {user.charAt(0).toUpperCase() + user.slice(1).toLowerCase()}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                )}
               />
+              {errors.role && <p className="text-xs text-red-500">{errors.role.message?.toString()}</p>}
             </div>
-
-            <div className="flex w-full justify-start">
-              <Button className="w-[130px] mt-5" type="submit">Create</Button>
-            </div>
-
+            <Button type="submit" className="w-full sm:w-[130px] mt-5">Create</Button>
           </form>
-        </Form >
+        </Form>
       </div>
     </>
   );

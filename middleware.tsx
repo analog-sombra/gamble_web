@@ -12,12 +12,12 @@ export function middleware(request: NextRequest) {
   }
 
   if (
-    session && isTokenExpired(refreshToken.value) &&
+    session && !isTokenExpired(refreshToken.value) &&
     (request.nextUrl.pathname.startsWith("/login") ||
       request.nextUrl.pathname.startsWith("/register"))
   ) {
-    return NextResponse.redirect(new URL("dashboard/home", request.url));
-  } else if (!session && request.nextUrl.pathname.startsWith("/dashboard")) {
+    return NextResponse.redirect(new URL("/dashboard/home", request.url));
+  } else if ((!session || isTokenExpired(refreshToken.value)) && request.nextUrl.pathname.startsWith("/dashboard")) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 }

@@ -43,22 +43,30 @@ export default function Login() {
   const { mutate } = useMutation({
     mutationKey: [],
     mutationFn: async (data: LoginForm) => {
+      console.log("login function running...");
+      
       const responsedata = await axios.post(`${BASE_URL}/api/auth/login`, {
         email: data.email,
         password: data.password,
       });
+      
+      console.log("Backend response", responsedata);
       if (responsedata.data.data.role == "NONE") {
         return toast.error("Invaled user");
       }
+
       const userInfo = jwtDecode(responsedata.data.data.access_token as string) as { id: number, role: string };
-      
+      console.log("Login session", userInfo);
+
       setCookie("session", responsedata.data.data.access_token);
       setCookie("x-r-t", responsedata.data.data.refresh_token);
       setCookie("id", userInfo.id);
       setCookie("role", userInfo.role);
+      console.log("set sesion in cookei");
 
-      route.push("/dashboard/home");
+      route.replace("/dashboard/home");
       toast.success("Your login process is success");
+      console.log("redirecting to home");
     },
     onError: (error: ApiErrorType) => {
       toast.error(error.response.data.message);
@@ -83,7 +91,15 @@ export default function Login() {
                 Sign in to your account
               </h1>
               <form
-                onSubmit={handleSubmit((data) => mutate(data))}
+                onSubmit={handleSubmit(async (data) => {
+                  try {
+                    await mutate(data);
+                    // toast.success("Login successful");
+                  } catch (error) {
+                    console.error("Login error:", error);
+                    toast.error("An error occurred during login");
+                  }
+                })}
                 className="space-y-4 md:space-y-6"
               >
                 <div>
@@ -96,9 +112,8 @@ export default function Login() {
                   <input
                     type="email"
                     id="email"
-                    className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500  ${
-                      errors.email ? "border-red-500" : "hover:border-blue-500"
-                    }`}
+                    className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500  ${errors.email ? "border-red-500" : "hover:border-blue-500"
+                      }`}
                     placeholder="Email address"
                     {...register("email")}
                   />
@@ -120,11 +135,10 @@ export default function Login() {
                     id="password"
                     placeholder="Password"
                     {...register("password")}
-                    className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${
-                      errors.password
+                    className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${errors.password
                         ? "border-red-500"
                         : "hover:border-blue-500"
-                    }`}
+                      }`}
                   />
                   {errors.password && (
                     <p className="text-xs text-red-500">

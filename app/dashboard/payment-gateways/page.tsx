@@ -257,8 +257,8 @@ const tableValues = [
     gatewayName: "Google pay qr",
     logoPath: "",
     imagePath: "/gpay qr.png",
-    width: 160,
-    height: 40,
+    width: 50,
+    height: 50,
     status: "Active",
   },
   {

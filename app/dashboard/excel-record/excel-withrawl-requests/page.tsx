@@ -22,7 +22,7 @@ import PendingExcelRequestCard from '@/components/WithdrawlCards/PendingExcelReq
 
 const WithrawlExcelReq = () => {
   return (
-    <div>
+    <div className='px-3'>
 
       <div className='flex flex-col gap-1 my-3 mb-8 bg-slate-100 rounded-md shadow-md w-[300px] p-3'>
         <div className='flex gap-1'>

@@ -41,9 +41,10 @@ export default function DashboardLayout({
     <div className="w-full flex bg-[#efefef] h-screen">
       <Sidebar isSidebarOpen={isSidebarOpen} setSidebar={setSidebar} />
 
-      <div className="w-full p-1 sm:p-5 py-0 flex flex-col h-full overflow-auto bg-white m-0">
-        <div className=" bg-white sticky top-0 z-50 py-4 pb-1 ">
-          <div className=" mb-3 flex flex-col bg-[#341c8c] xp-4 px-6 py-3 rounded-md">
+      <div className="w-full p-1 sm:pb-5 py-0 flex flex-col h-full overflow-auto bg-white m-0">
+        <div className=" bg-white sticky top-0 z-50 md:py-4 py-1 lg:px-4 px-0 lg:pb-1 pb-0 ">
+
+          <div className=" lg:mb-3 mb-0 flex flex-col bg-[#341c8c] p-4 md:px-6 px-3 py-3 rounded-md">
             <div className="flex mb-4 justify-between">
               <div className="flex items-center  space-x-2">
                 <Label

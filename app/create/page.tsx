@@ -53,11 +53,9 @@ export default function Login() {
   //   const responsedata = await axios.get(
   //     "http://localhost:5000/api/auth/login"
   //   );
-
   //   // const users = (await res.json()) as User[];
   //   return responsedata;
   // }
-
   // const { data } = useQuery({
   //   queryKey: ["create-users"],
   //   queryFn: () => getdata(),
