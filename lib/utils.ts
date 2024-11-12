@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from "clsx";
+import { FieldErrors, FieldValues } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -207,3 +208,25 @@ const getEnumData = <T extends object>(
 };
 
 export { getEnumData };
+
+const onFormError = <T extends FieldValues>(error: FieldErrors<T>) => {
+  const firstErrorMessage = Object.values(error)[0]?.message;
+
+  setTimeout(() => {
+    if (firstErrorMessage) {
+      const errorElement = Array.from(document.querySelectorAll("p")).find(
+        (el) => el.textContent == firstErrorMessage
+      );
+      if (errorElement) {
+        // Scroll to the error message element
+        errorElement.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+          inline: "start",
+        });
+      }
+    }
+  }, 1000);
+};
+
+export { onFormError };

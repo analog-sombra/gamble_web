@@ -19,7 +19,7 @@ const ProfitAndLoss = () => {
     <div className="flex flex-col items-center justify-start w-full mt-3 bg-white rounded-md">
       <h1 className="m-auto font-bold text-xl my-8">Profit & Loss</h1>
 
-      <div className="flex flex-col w-[400px] items-start justify-center h-full">
+      <div className="flex flex-col lg:w-[400px] w-full items-start justify-center h-full">
         {/* <div className="flex h-10 w-full mb-1 max-w-sm items-center">
                 <Input className="h-full  rounded-none rounded-l-md placeholder:font-semibold" type="text" placeholder="Enter UTR" />
                 </div> */}
