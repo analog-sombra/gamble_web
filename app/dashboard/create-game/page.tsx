@@ -12,6 +12,8 @@ import {
   MaterialSymbolsLightDeleteRounded,
   MaterialSymbolsLightEdit,
 } from "@/components/Icon";
+import { BASE_URL } from "@/lib/const";
+import { HttpMethodType, makeApiRequeest } from "@/lib/api/untils";
 
 // const Page = () => {
 //   const route = useRouter();
@@ -85,24 +87,20 @@ const Page = () => {
   const { isPending, error, data } = useQuery({
     queryKey: ["getAllCreatedGames", currentPage],
     queryFn: async () => {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/game`,
-        {
-          params: {
-            take: pageSize,
-            skip: (currentPage - 1) * pageSize,
-          },
-        }
+      const response = await makeApiRequeest(
+        `${BASE_URL}/api/game`,
+        HttpMethodType.GET,
+        { queryParam: {take: pageSize, skip: (currentPage - 1) * pageSize,} }
       );
-      if (response.data) setGameData(response.data?.data?.result ?? []);
-      return response.data.data ? response.data.data : response.data;
+      if (response?.data) setGameData(response.data?.data?.result ?? []);
+      return response?.data.data ? response.data.data : response?.data;
     },
     staleTime: 0,
   });
 
-  if (isPending) {
-    return <div>Loading...</div>;
-  }
+  // if (isPending) {
+  //   return <div>Loading...</div>;
+  // }
 
   const columns: TableProps<DataType>["columns"] = [
     {
@@ -183,7 +181,7 @@ const Page = () => {
         dataSource={gameData}
         rowKey={"uid"}
         pagination={{
-          total: data.count,
+          total: data?.count ?? 0,
           pageSize: pageSize,
           current: currentPage,
           onChange: async (newPage) => {

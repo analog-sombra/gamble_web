@@ -16,7 +16,7 @@ import {
 import { AxiosResponse } from "axios";
 import { HttpMethodType, makeApiRequeest } from "@/lib/api/untils";
 import { BASE_URL } from "@/lib/const";
-import { ApiErrorType } from "@/models/response";
+import { ApiErrorType } from "@/models/responseModel";
 import { CreateUserForm, CreateUserSchema } from "@/schema/create";
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import { useMutation } from "@tanstack/react-query";

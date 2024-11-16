@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/select";
 import { HttpMethodType, makeApiRequeest } from "@/lib/api/untils";
 import { BASE_URL } from "@/lib/const";
-import { ApiErrorType, ApiResponseType } from "@/models/response";
+import { ApiErrorType, ApiResponseType } from "@/models/responseModel";
 import { CreateDemoPayment, demoPaymentGatewaySchema } from "@/schema/create";
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import { useMutation } from "@tanstack/react-query";

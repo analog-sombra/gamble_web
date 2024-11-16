@@ -1,4 +1,7 @@
-export function dateTimeFormater(timeStamp: string | Date | number) {
+export function dateTimeFormatter(date: Date): string {
+
+  
+  
   const formattedDate = new Intl.DateTimeFormat("en-US", {
     day: "numeric",
     month: "short",
@@ -6,9 +9,23 @@ export function dateTimeFormater(timeStamp: string | Date | number) {
     hour: "2-digit",
     minute: "2-digit",
     hour12: true,
-  }).format(new Date(timeStamp));
+    timeZone: "Asia/Kolkata", // Converts to IST
+  }).format(addTime(date, 5, 30));
 
   return formattedDate;
+}
+
+function addTime(date: Date, hours: number, minutes: number): Date {
+  const newDate = new Date(date); // Create a copy to avoid mutating the original
+  newDate.setHours(newDate.getHours() + hours);
+  newDate.setMinutes(newDate.getMinutes() + minutes);
+  return newDate;
+}
+
+
+function addTimeToDate(date: Date, milliseconds: number): Date {
+  const newDate = new Date(date.getTime() + milliseconds);
+  return newDate;
 }
 
 /**
@@ -27,3 +44,4 @@ const capitalcase = (value: string): string => {
 };
 
 export { capitalcase };
+

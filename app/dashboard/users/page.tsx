@@ -15,9 +15,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { HttpMethodType, makeApiRequeest } from "@/lib/api/untils";
+import { encryptURLData, HttpMethodType, makeApiRequeest } from "@/lib/api/untils";
 import { BASE_URL } from "@/lib/const";
-import { ApiResponseType } from "@/models/response";
+import { ApiResponseType } from "@/models/responseModel";
 import { User } from "@/models/UserModel";
 import { Divider, Select } from "@nextui-org/react";
 import { Pagination, Skeleton, Tag } from "antd";
@@ -159,13 +159,15 @@ export default function Users() {
                 return (
                   <TableRow key={index}>
                     <TableCell
-                      onClick={() => {
-                        route.push("/dashboard/users/profile");
-                      }}
-                      className="p-2 cursor-pointer hover:bg-slate-200 border text-center "
-                    >
-                      <div className="pb-1">+91 {user.mobile ?? ""}</div>
-                      <span className="font-bold">{`UserID: \n${user.id}`}</span>
+                      className="p-2 cursor-pointer hover:bg-slate-200 border text-center ">
+                        <button    onClick={() => {
+                        console.log("go to statmenst");
+                        route.push(`/dashboard/users/profile?userId=${encryptURLData(user.id.toString())}`);
+                      }} >
+
+                        <div className="pb-1">+91 {user.mobile ?? ""}</div>
+                        <span className="font-bold">{`UserID: \n${user.id}`}</span>
+                      </button>
                     </TableCell>
                     <TableCell className="p-2 border text-center">
                       {user.wallet}
@@ -190,12 +192,13 @@ export default function Users() {
                 return (
                   <TableRow key={index}>
                     <TableCell
-                      onClick={() => {
-                        route.push("/dashboard/users/profile");
-                      }}
                       className="p-2 cursor-pointer  border text-center "
+                      onClick={() => {
+                        console.log("go to statmenst");
+                        route.push(`/dashboard/users/profile?userId=${encryptURLData(user.id.toString())}`);
+                       }} 
                     >
-                      <div className="pb-1 hover:text-blue-600">
+                      <div     className="pb-1 hover:text-blue-600">
                         +91 {user.mobile ?? ""}
                       </div>
                       <span className="font-bold">{`UserID: \n${user.id}`}</span>

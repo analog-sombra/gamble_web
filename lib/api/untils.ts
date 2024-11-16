@@ -7,6 +7,8 @@ import { jwtDecode } from "jwt-decode";
 import { headers } from "next/headers";
 import { toast } from "react-toastify";
 import { CreateWorkerAccountForm } from "@/schema/createWorkerAcountSchema";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import CryptoJS from 'crypto-js';
 
 
 
@@ -61,7 +63,7 @@ export async function makeApiRequeest(url: string,
         queryParam: undefined,
         makeNewTokenReq: true,
         ignoreTokenExp: false
-    }) {
+    }): Promise<AxiosResponse | undefined> {
 
     let token = getCookie('session');
 
@@ -72,7 +74,7 @@ export async function makeApiRequeest(url: string,
     }
 
     if (!opt.ignoreTokenExp) {
-        if (opt.makeNewTokenReq && isTokenExpired(token)) {            
+        if (opt.makeNewTokenReq && isTokenExpired(token)) {
             const refresh_token = getCookie('x-r-t')
             const response = await axios.post(`${BASE_URL}/api/gen-accesss-tokens/${refresh_token}`);
 
@@ -93,10 +95,9 @@ export async function makeApiRequeest(url: string,
     if (opt.bodyParam && (httpMethod === HttpMethodType.POST || httpMethod === HttpMethodType.PUT)) {
         axioConfig.data = opt.bodyParam;
     }
-    const responsedata = await axios(axioConfig) as AxiosResponse<any>;
+    const responsedata: AxiosResponse = await axios(axioConfig) as AxiosResponse<any>;
 
     return responsedata;
-
 }
 
 export const isTokenExpired = (token: string) => {
@@ -175,3 +176,33 @@ export const handleAccountParamData = async (
 }
 
 
+const secretKey = "knf92fg#G$%2Ij309pwkn4gf#WTF#WCc2@#$WTfwe4jfieowjiogFVD";
+
+// Helper functions for URL-safe Base64 encoding and decoding
+const toBase64Url = (str: string): string =>
+    str.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+
+const fromBase64Url = (str: string): string =>
+    str.replace(/-/g, "+").replace(/_/g, "/") + "==".slice(str.length % 4 || 4);
+
+export const encryptURLData = (data: string): string => {
+    console.log(data);
+    const encryptedData = CryptoJS.AES.encrypt(data, secretKey).toString();
+    console.log(encryptedData);
+    
+    return toBase64Url(encryptedData);
+};
+
+export const decryptURLData = (
+    cipherText: string,
+    router: AppRouterInstance
+): string => {
+    try {
+        const decodedCipherText = fromBase64Url(cipherText); // Convert back from URL-safe Base64
+        const bytes = CryptoJS.AES.decrypt(decodedCipherText, secretKey);
+        return bytes.toString(CryptoJS.enc.Utf8);
+    } catch (e) {
+        router.back();
+        return "";
+    }
+};

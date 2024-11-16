@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
     Select,
     SelectContent,
@@ -17,12 +17,38 @@ import { IoMdClose } from "react-icons/io";
 import { Input } from "antd";
 import { Input as input } from '@/components/ui/input';
 import { Separator } from '@radix-ui/react-select';
+import { BidNumber, UserPlayStatment } from '@/models/StatementModel';
+import { dateTimeFormatter } from '@/lib/utilsMethod';
+import { BidNumberType } from '@/models/UserBetModels';
+import { AlertDialogTitle } from '@radix-ui/react-alert-dialog';
+import { user } from '@nextui-org/react';
 
 
-const PlaceBidReciept = (probs: any) => {
+const PlaceBidReciept = (probs: { userBetStatement: UserPlayStatment }) => {
+    const { userBetStatement } = probs;
+    const jodiBidNumber = useRef<BidNumber[]>([])
+    const anderBidNumber = useRef<BidNumber[]>([])
+    const baherBidNumber = useRef<BidNumber[]>([])
+
+
+    useEffect(() => {
+        
+        jodiBidNumber.current = userBetStatement.biddingNumbers.filter((numbers: BidNumber) => numbers.numberType == "JODI");
+        baherBidNumber.current = userBetStatement.biddingNumbers.filter((numbers: BidNumber) => numbers.numberType == "BAHER");
+        anderBidNumber.current = userBetStatement.biddingNumbers.filter((numbers: BidNumber) => numbers.numberType == "ANDER");
+        
+        console.log("--------- ", userBetStatement.gameName, " -----------");
+        
+        console.log("Jodi  =>", jodiBidNumber);
+        console.log("Ander  =>", anderBidNumber);
+        console.log("Baher  =>", baherBidNumber);
+        
+    }, []);
+    
+    
     return (
         <>
-            <AlertDialog>
+            <AlertDialog> 
                 <AlertDialogTrigger className='w-full m-0 p-0'>
                     <span className="text-blue-500 text-md hover:text-blue-700 cursor-pointer">View Detail</span>
 
@@ -42,19 +68,21 @@ const PlaceBidReciept = (probs: any) => {
                                 <IoMdClose className="font-bold" />
                             </AlertDialogCancel>
                         </div>
+                    <AlertDialogTitle></AlertDialogTitle>
+
 
                         <div className="flex w-full my-3  mt-7 items-center justify-center  gap-3.5">
-                            <Label className='text-xl' htmlFor="picture">Silver guru play</Label>
+                            <Label className='text-xl' htmlFor="picture">{userBetStatement.gameName}</Label>
                         </div>
 
                         <div className='flex  justify-between mx-8 items-center'>
                             <div className='flex flex-col'>
                                 <span className='font-semibold'>Game name:</span>
-                                <span>Silver guru</span>
+                                <span>{userBetStatement.gameName}</span>
                             </div>
                             <div className='flex flex-col items-end'>
                                 <span className='font-semibold '>Total bidding ammount:</span>
-                                <span>2,000</span>
+                                <span>₹ {userBetStatement.totalAmount.toFixed(2)}</span>
                             </div>
                         </div>
 
@@ -62,54 +90,71 @@ const PlaceBidReciept = (probs: any) => {
                         <div className='flex  justify-between mx-8 items-center'>
                             <div className='flex flex-col'>
                                 <span className='font-semibold'>Playe Date:</span>
-                                <span>09 sept 2024</span>
+                                <span>{dateTimeFormatter(userBetStatement.dateTime)}</span>
                             </div>
                             <div className='flex flex-col items-start'>
                                 <span className='font-semibold'>Txn ID:</span>
-                                <span>3248732342</span>
+                                <span>{3248732342}</span>
                             </div>
                         </div>
 
 
-
-                        <div className="flex w-full  text-md my-3  mt-7 items-center justify-center  gap-3.5">
-                            <Label className='text-md font-semibold' htmlFor="picture">Numbers</Label>
-                        </div>
-                        <div className="grid grid-cols-5 grid-rows-5 gap-1 p-1">
-                            {Array.from({ length: 25 }, (_, i) => (
-                                <div key={i} className="flex items-center text-sm justify-center p-2  bg-zinc-100" >
-                                    {`${++i} = `}
-                                    <span className='text-green-500'>  10 ₹</span>
-                                </div>
-                            ))}
-                        </div>
+                        {/*  -------- Game title: Jodi ---------- */}
+                        { jodiBidNumber.current.length !== 0 &&
+                        <>
+                            <div className="flex w-full  text-md my-3  mt-7 items-center justify-center  gap-3.5">
+                                {<Label className='text-md font-semibold' htmlFor="picture">Numbers</Label>}
+                            </div>
+                            <div className="grid grid-cols-5 gap-1 p-1 max-h-64 overflow-y-auto auto-rows-min">
+                                {jodiBidNumber.current.map( (value: BidNumber, i) => {
+                                    return (
+                                        <div key={i} className="flex items-center text-sm justify-center p-2  bg-zinc-100" >
+                                            {`${value.bidNumber} = `}
+                                            <span className='text-green-500'>  {value.amount} ₹</span>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        </>
+                        }
 
                         {/*  -------- Game title: Ander ---------- */}
-                        <div className="flex w-full font-semibold text-md my-3 mt-5 items-center justify-center  gap-3.5">
-                            <Label className='text-md font-semibold' htmlFor="picture">Ander A</Label>
-                        </div>
-                        <div className="grid grid-cols-5 gap-1 p-1">
-                            {Array.from({ length: 5 }, (_, i) => (
-                                <div key={i} className="flex items-center text-sm justify-center p-2  bg-zinc-100" >
-                                    {`${++i} = `}
-                                    <span className='text-green-500'>  10 ₹</span>
-                                </div>
-                            ))}
-                        </div>
+                        { anderBidNumber.current.length !== 0 && 
+                        <>
+                            <div className="flex w-full font-semibold text-md my-3 mt-5 items-center justify-center  gap-3.5">
+                                {<Label className='text-md font-semibold' htmlFor="picture">Ander A</Label>}
+                            </div>
+                            <div className="grid grid-cols-5 gap-1 p-1 max-h-64 overflow-y-auto auto-rows-min">
+                                {anderBidNumber.current.map( (value: BidNumber, i) =>  {
+                                    return (
+                                        <div key={i} className="flex items-center text-sm justify-center p-2  bg-zinc-100" >
+                                            {`${value.bidNumber} = `}
+                                            <span className='text-green-500'>  {value.amount} ₹</span>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        </>
+                        }
 
                         {/*  -------- Game title: Bahar ---------- */}
-                        <div className="flex w-full  text-md my-2 mt-5 items-center justify-center  gap-3.5">
+                        { baherBidNumber.current.length !== 0 && 
+                        <>
+                          <div className="flex w-full  text-md my-2 mt-5 items-center justify-center  gap-3.5">
                             <Label className='text-md font-semibold' htmlFor="picture">Bahar B</Label>
-                        </div>
-                        <div className="grid grid-cols-5 gap-1 p-1">
-                            {Array.from({ length: 5 }, (_, i) => (
-                                <div key={i} className="flex items-center text-sm justify-center p-2  bg-zinc-100" >
-                                    {`${++i} = `}
-                                    <span className='text-green-500'>  10 ₹</span>
-                                </div>
-                            ))}
-                        </div>
-
+                            </div>
+                            <div className="grid grid-cols-5 gap-1 p-1 max-h-64 overflow-y-auto auto-rows-min">
+                                {baherBidNumber.current.map( (value: BidNumber, i) => {
+                                    return (
+                                        <div key={i} className="flex items-center text-sm justify-center p-2  bg-zinc-100" >
+                                            {`${value.bidNumber} = `}
+                                            <span className='text-green-500'>  {value.amount} ₹</span>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        </>
+                        }
                     </div>
                 </AlertDialogContent>
             </AlertDialog>

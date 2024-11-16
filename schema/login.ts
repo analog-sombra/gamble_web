@@ -1,5 +1,6 @@
 import { isContainSpace } from "@/lib/utils";
-import {
+import { message } from "antd";
+import  {
   check,
   InferInput,
   minLength,
@@ -8,12 +9,13 @@ import {
   pipe,
   regex,
   email,
-} from "valibot";
+}  from "valibot";
+import * as v from 'valibot';
 
 const LoginSchema = object({
   email: pipe(
     string(),
-    email("Enter a valid email address"),
+    // v.length(requirement: 10, message: "Mobile number is not valid"),
     check(isContainSpace, "Mobile number cannot contain space.")
   ),
 
