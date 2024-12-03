@@ -17,9 +17,13 @@ import { IoMdClose } from "react-icons/io";
 import { Input } from "antd";
 import { Input as input } from '@/components/ui/input';
 import { Separator } from '@radix-ui/react-select';
+import { StatementScheme } from '@/models/StatementModel';
+import { dateTimeFormatter } from '@/lib/utilsMethod';
 
 
-const RecieptDialoge = (probs: any) => {
+const RecieptDialoge = (probs: {statement: StatementScheme}) => {
+    const { statement } = probs;
+    
     return (
         <>
             <AlertDialog>
@@ -44,7 +48,7 @@ const RecieptDialoge = (probs: any) => {
                         </div>
 
                         <div className="flex w-full my-3  mt-7 items-center justify-center  gap-3.5">
-                            <Label className='text-xl' htmlFor="picture">Silver guru win</Label>
+                            <Label className='text-xl' htmlFor="picture">Silver guru {statement.game_result?.result}</Label>
                         </div>
 
                         <div className='flex  justify-between mx-8 items-center'>
@@ -54,7 +58,7 @@ const RecieptDialoge = (probs: any) => {
                             </div>
                             <div className='flex flex-col items-end'>
                                 <span className='font-semibold '>Amount:</span>
-                                <span>2,000</span>
+                                <span>{statement.game_result?.amount}</span>
                             </div>
                         </div>
                         <div className="w-full h-[0.4px] my-3 bg-zinc-300"></div>
@@ -62,7 +66,7 @@ const RecieptDialoge = (probs: any) => {
                         <div className='flex  justify-between mx-8 items-center'>
                             <div className='flex flex-col'>
                                 <span className='font-semibold'>Status:</span>
-                                <span>CREDIT</span>
+                                <span>{statement.game_result?.result == "WIN" ? "CREDIT" : "DEBIT"}</span>
                             </div>
                             <div className='flex flex-col items-end'>
                                 <span className='font-semibold'>Txn ID:</span>
@@ -78,7 +82,7 @@ const RecieptDialoge = (probs: any) => {
                             </div>
                             <div className='flex flex-col items-end'>
                                 <span className='font-semibold'>Win time:</span>
-                                <span className='text-sm'>09 sept 2024, 11:44pm</span>
+                                <span className='text-sm'>{dateTimeFormatter(new Date(statement.game_result?.created_at ?? ""))}</span>
                             </div>
                         </div>
 

@@ -1,16 +1,9 @@
 "use client";
 
 import SearchFiedls from "@/components/Dashboard/SearchFiedls";
-import AddMoneyRecpiet from "@/components/DialogeBoxes/AddMoneyRecpiet";
-import MoneyDeductedRepeit from "@/components/DialogeBoxes/MoneyDeductedRepiet";
 import PlaceBidReciept from "@/components/DialogeBoxes/placeBidRecieptDialog";
 import ProcessingRecpiet from "@/components/DialogeBoxes/ProcessingRecpiet";
 import RecieptDialoge from "@/components/DialogeBoxes/RecieptDialogBox";
-import RefferalRacpiet from "@/components/DialogeBoxes/ReferralRacpiet";
-import RejectMoneyrecpiet from "@/components/DialogeBoxes/RejectMoneyRecpiet";
-import WithrawalMoneyRecpiet from "@/components/DialogeBoxes/WithrawalMoneyRacpiet";
-import WithrawalReffundedMoneyrecpiet from "@/components/DialogeBoxes/WithrawalRefundedRecpiet";
-import WithrawalRejectMoneyrecpiet from "@/components/DialogeBoxes/WithrawalRejectedRecpiet";
 import { Button } from "@/components/ui/button";
 import {
   HoverCard,
@@ -28,12 +21,11 @@ import {
 import { decryptURLData, HttpMethodType, makeApiRequeest } from "@/lib/api/untils";
 import { BASE_URL } from "@/lib/const";
 import { dateTimeFormatter } from "@/lib/utilsMethod";
-import { StatementScheme, StatmentType, UserPlayStatment } from "@/models/StatementModel";
+import { StatementScheme, UserPlayStatment } from "@/models/StatementModel";
 import { BidNumberType } from "@/models/UserBetModels";
-import { user } from "@nextui-org/react";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
-import { Divider, Input, Modal, Pagination, Popover, Select, Tag } from "antd";
+import { Input, Modal, Pagination } from "antd";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
@@ -59,22 +51,16 @@ export default function Users() {
     let otherStatements: StatementScheme[] = [];
 
     for (const statement of statements) {
-      // console.log(statement);
-    
       if (statement.user == undefined) break;
+      
       if (statement.statement_type === "PLAY") {
-        
           if (statement.user_bet == undefined) break;
           if (statement.game == undefined) break;
-
           const existingPlay = playStatements.find(playStatment =>
             playStatment.gameId === statement.daily_game_id  && 
             playStatment.dateTime.toDateString() === new Date(statement.user_bet?.created_at ?? "").toDateString()
           );
-
           if (!existingPlay) {
-            // console.log("not existed adding to userBetStatement");
-            
               playStatements.push({
                   gameName: statement.game.name ?? "",
                   gameId: statement.daily_game_id ?? 0,
@@ -90,11 +76,8 @@ export default function Users() {
               setUserBetStatment(playStatements)
             continue;
           }
-
-          // console.log("already existed updating userBetStatement", existingPlay);
           const indexToremove = playStatements.indexOf(existingPlay);
           playStatements = playStatements.filter((e, i) => i !== indexToremove);
-
           existingPlay.totalAmount += parseFloat(statement.user_bet.amount ?? "0.0")
           existingPlay.closingBalance = statement.user.wallet 
           existingPlay.dateTime = new Date(statement.user_bet.created_at)
@@ -109,13 +92,8 @@ export default function Users() {
           setUserBetStatment(playStatements)
           continue;
       }
-
-      // Push non-PLAY statements to otherStatements array
       otherStatements.push(statement);
     }
-
-    // console.log(playStatements);
-    // Update your state or perform further processing
     setStatement(otherStatements);
 }
 
@@ -132,7 +110,8 @@ export default function Users() {
     },
     staleTime: 0,
   });
-  // console.log(userBetStatment);
+  console.log(userBetStatment);
+  console.log(Statement);
   
   return (
     <main>
@@ -166,7 +145,7 @@ export default function Users() {
               return <TableRow key={index} className="">
                 <TableCell className="text-center min-w-15">{1}</TableCell>
                 <TableCell className="text-center ">
-                  <div className="font-semibold text-green-600">{statmen.gameName ?? ""} win</div>
+                  <div className="font-semibold text-green-600">{statmen.gameName ?? ""} Play</div>
                   <div> {dateTimeFormatter(statmen.dateTime)}</div>
                 </TableCell>
                 <TableCell className="text-center  min-w-28">
@@ -180,9 +159,29 @@ export default function Users() {
           }
           {
             Statement.map((statmen: StatementScheme, index: number) => {
+              if (statmen.statement_type == "GAME") {
+                if (statmen.game_result == undefined) return;
+                return   <TableRow key={index} className="">
+                <TableCell className="text-center min-w-15">{5}</TableCell>
+                <TableCell className="text-center ">
+                  <div className="font-semibold text-black-500 ">{statmen.game?.name} Result</div>
+                  <div>{dateTimeFormatter(new Date(statmen.game_result.created_at))}</div>
+                </TableCell>
+                <TableCell className="text-center  min-w-28">
+                  <div className="text-black-500 font-semibold">* ₹ {statmen.game_result.amount}</div>
+                  <RecieptDialoge statement={statmen} />
+                  <div><span className="font-semibold">Closing Bal</span>: ₹ {statmen.user?.wallet}</div>
+                </TableCell>
+                <TableCell className="text-center  min-w-28">{"12345678901234"}</TableCell>
+              </TableRow>
+              }
+            })
+          }
+          {
+            Statement.map((statmen: StatementScheme, index: number) => {
               if (statmen.statement_type == "WITHDRAW") {
                 if (statmen.withdraw_request == undefined) return;
-                return   <TableRow className="">
+                return   <TableRow key={index} className="">
                 <TableCell className="text-center min-w-15">{5}</TableCell>
                 <TableCell className="text-center ">
                   <div className="font-semibold text-yellow-500 ">Withdraw money processing</div>
@@ -198,19 +197,6 @@ export default function Users() {
               }
             })
           }
-             {/* <TableRow className="">
-              <TableCell className="text-center min-w-15">{2}</TableCell>
-              <TableCell className="text-center ">
-                <div className="font-semibold text-green-600 ">Silver guru Play</div>
-                <div> 03 sept 2024, 11:22AM</div>
-              </TableCell>
-              <TableCell className="text-center  min-w-28">
-                <div className="text-green-600 font-semibold">-₹ 300.00</div>
-                <PlaceBidReciept />
-                <div><span className="font-semibold">Closing Bal</span>: ₹ 2,000</div>
-              </TableCell>
-              <TableCell className="text-center  min-w-28">{"12345678901234"}</TableCell>
-            </TableRow> */}
 
 
          {/*  <TableRow className="">

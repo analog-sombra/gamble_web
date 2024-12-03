@@ -16,7 +16,7 @@ import { HttpMethodType, makeApiRequeest } from '@/lib/api/untils'
 import { getCookie } from 'cookies-next'
 import { GetWithdrawalRequestSchema } from '@/models/WithdrawalModel'
 import { numberToWords } from 'amount-to-words';
-import { dateTimeFormater } from '@/lib/utilsMethod'
+import { dateTimeFormatter } from '@/lib/utilsMethod'
 
 interface probType {
     showAdminInfo: boolean
@@ -59,7 +59,7 @@ const PendingRequestCard = (probs: probType) => {
                     </div>
                     <div className="flex gap-2 items-center">
                         {/* 22 jul 2024, 4:10pm */}
-                        {dateTimeFormater(pendingWithdrawalRequest.created_at)}
+                        {dateTimeFormatter(pendingWithdrawalRequest.created_at)}
                     </div>
                 </div>
             </div>

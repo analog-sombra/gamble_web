@@ -82,7 +82,7 @@ const Page = () => {
   const [gameData, setGameData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const pageSize = 1;
+  const pageSize = 6;
 
   const { isPending, error, data } = useQuery({
     queryKey: ["getAllCreatedGames", currentPage],

@@ -96,7 +96,6 @@ export async function makeApiRequeest(url: string,
         axioConfig.data = opt.bodyParam;
     }
     const responsedata: AxiosResponse = await axios(axioConfig) as AxiosResponse<any>;
-
     return responsedata;
 }
 

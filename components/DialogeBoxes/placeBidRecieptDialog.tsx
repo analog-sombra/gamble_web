@@ -26,16 +26,22 @@ import { user } from '@nextui-org/react';
 
 const PlaceBidReciept = (probs: { userBetStatement: UserPlayStatment }) => {
     const { userBetStatement } = probs;
-    const jodiBidNumber = useRef<BidNumber[]>([])
-    const anderBidNumber = useRef<BidNumber[]>([])
-    const baherBidNumber = useRef<BidNumber[]>([])
+    const [jodiBidNumber, setJodiNumber] = useState<BidNumber[]>([])
+    const [anderBidNumber, setAnderBidNumber] = useState<BidNumber[]>([])
+    const [baherBidNumber, setBaherBidNumber] = useState<BidNumber[]>([])
 
 
     useEffect(() => {
         
-        jodiBidNumber.current = userBetStatement.biddingNumbers.filter((numbers: BidNumber) => numbers.numberType == "JODI");
-        baherBidNumber.current = userBetStatement.biddingNumbers.filter((numbers: BidNumber) => numbers.numberType == "BAHER");
-        anderBidNumber.current = userBetStatement.biddingNumbers.filter((numbers: BidNumber) => numbers.numberType == "ANDER");
+        setJodiNumber(userBetStatement.biddingNumbers.
+            filter((numbers: BidNumber) => numbers.numberType == "JODI")
+        )
+        setAnderBidNumber( userBetStatement.biddingNumbers.filter(
+            (numbers: BidNumber) => numbers.numberType == "BAHER"
+        ))
+        setBaherBidNumber(  userBetStatement.biddingNumbers.filter(
+            (numbers: BidNumber) => numbers.numberType == "ANDER"
+        ))
         
         console.log("--------- ", userBetStatement.gameName, " -----------");
         
@@ -100,13 +106,13 @@ const PlaceBidReciept = (probs: { userBetStatement: UserPlayStatment }) => {
 
 
                         {/*  -------- Game title: Jodi ---------- */}
-                        { jodiBidNumber.current.length !== 0 &&
+                        { jodiBidNumber.length !== 0 &&
                         <>
                             <div className="flex w-full  text-md my-3  mt-7 items-center justify-center  gap-3.5">
                                 {<Label className='text-md font-semibold' htmlFor="picture">Numbers</Label>}
                             </div>
                             <div className="grid grid-cols-5 gap-1 p-1 max-h-64 overflow-y-auto auto-rows-min">
-                                {jodiBidNumber.current.map( (value: BidNumber, i) => {
+                                {jodiBidNumber.map( (value: BidNumber, i) => {
                                     return (
                                         <div key={i} className="flex items-center text-sm justify-center p-2  bg-zinc-100" >
                                             {`${value.bidNumber} = `}
@@ -119,13 +125,13 @@ const PlaceBidReciept = (probs: { userBetStatement: UserPlayStatment }) => {
                         }
 
                         {/*  -------- Game title: Ander ---------- */}
-                        { anderBidNumber.current.length !== 0 && 
+                        { anderBidNumber.length !== 0 && 
                         <>
                             <div className="flex w-full font-semibold text-md my-3 mt-5 items-center justify-center  gap-3.5">
                                 {<Label className='text-md font-semibold' htmlFor="picture">Ander A</Label>}
                             </div>
                             <div className="grid grid-cols-5 gap-1 p-1 max-h-64 overflow-y-auto auto-rows-min">
-                                {anderBidNumber.current.map( (value: BidNumber, i) =>  {
+                                {anderBidNumber.map( (value: BidNumber, i) =>  {
                                     return (
                                         <div key={i} className="flex items-center text-sm justify-center p-2  bg-zinc-100" >
                                             {`${value.bidNumber} = `}
@@ -138,13 +144,13 @@ const PlaceBidReciept = (probs: { userBetStatement: UserPlayStatment }) => {
                         }
 
                         {/*  -------- Game title: Bahar ---------- */}
-                        { baherBidNumber.current.length !== 0 && 
+                        { baherBidNumber.length !== 0 && 
                         <>
                           <div className="flex w-full  text-md my-2 mt-5 items-center justify-center  gap-3.5">
                             <Label className='text-md font-semibold' htmlFor="picture">Bahar B</Label>
                             </div>
                             <div className="grid grid-cols-5 gap-1 p-1 max-h-64 overflow-y-auto auto-rows-min">
-                                {baherBidNumber.current.map( (value: BidNumber, i) => {
+                                {baherBidNumber.map( (value: BidNumber, i) => {
                                     return (
                                         <div key={i} className="flex items-center text-sm justify-center p-2  bg-zinc-100" >
                                             {`${value.bidNumber} = `}

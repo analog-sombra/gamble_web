@@ -25,7 +25,7 @@ export default function Home() {
   const [workerAccounts, setWorkerAccounts] = useState<WorkersAccount[]>([])
 
   const handleUploadFile = async () => {
-
+    
   }
 
   async function init() {

@@ -4,7 +4,7 @@ export interface UserBet {
     daily_game_id: number;
     user_id: number;
     game_type?: string | null; // JODI, ANDER, BAHER represented as a string or null
-    bid_number: number;
+    bid_number: string;
     status: string; // PENDING, ACTIVE, COMPLETED, CANCELLED
     amount?: string ; // Can be null or default to 0
     created_by: number;

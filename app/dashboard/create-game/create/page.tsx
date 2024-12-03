@@ -76,9 +76,9 @@ const Page = () => {
     try {
       mutate(data);
       toast.success("successfully created game, redirecting...");
-      setTimeout(() => {
-        window.location.replace("/dashboard/create-game");
-      }, 3000);
+      // setTimeout(() => {
+      //   window.location.replace("/dashboard/create-game");
+      // }, 3000);
     } catch (error) {
       console.log(error);
     }

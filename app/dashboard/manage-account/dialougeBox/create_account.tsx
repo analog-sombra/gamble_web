@@ -81,6 +81,7 @@ const CreateAccount = () => {
                 HttpMethodType.POST,
                 { includeToke: true, queryParam: { skip: 0, take: 10 } }
             )
+            
             setWorkers(workersData?.data.data as [User])
             setPaymentGateways(paymentGatewayData?.data.data as [PaymentGateway])
 
