@@ -20,6 +20,8 @@ import { stringify } from "querystring";
 import { string } from "valibot";
 import { UserBet } from "@/models/UserBetModels";
 import { User } from "@/models/UserModel";
+import { DailyGame } from "@/models/DailyGameModel";
+import { Dayjs } from "dayjs";
 
 type Players = {
   userId: number;
@@ -71,11 +73,24 @@ export default function SubmitResult() {
       const response = await makeApiRequeest(
         `${BASE_URL}/api/user_bet/search`,
         HttpMethodType.GET,
-        {
-          queryParam: parms
-        }
+        { queryParam: parms }
       );
       return response?.data.data as UserBet[]
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error.response?.data.message ?? error.message)
+      return []
+    } 
+  }
+
+  async function getDailyGame(parms: any): Promise<DailyGame[]> {
+    try { 
+      const response = await makeApiRequeest(
+        `${BASE_URL}/api/daily_game/search`,
+        HttpMethodType.GET,
+        { queryParam: parms }
+      );
+      return response?.data.data as DailyGame[]
     } catch (error: any) {
       console.error(error);
       toast.error(error.response?.data.message ?? error.message)
@@ -136,14 +151,19 @@ export default function SubmitResult() {
 
   async function handleSetGameResult() {
     try { 
-      const response = await makeApiRequeest(
-        `${BASE_URL}/api/daily_game/result/${currentGame.current?.id}`,
+      const selectedDate = form.getFieldValue("date");
+      const dayJsDateTime: Dayjs = selectedDate as Dayjs
+      const dateWithoutTime = `${dayJsDateTime.year()}-${dayJsDateTime.month()}-${dayJsDateTime.day()}`
+      const selectedGame: DailyGame[] = await getDailyGame({ 
+        game_id: currentGame.current?.id ?? 0 ,
+        created_at: dateWithoutTime
+      }); 
+      if (selectedGame.length === 0) {toast.error("No game found"); return;}
+       await makeApiRequeest(
+        `${BASE_URL}/api/daily_game/result/${selectedGame[0]?.id}`,
         HttpMethodType.POST,
-        {bodyParam: { 
-          result: winningNumber
-        }}
+        { bodyParam: { result: winningNumber } }
       );
-      console.log(response);
       toast.success("Result has been set for this game")
     } catch (error: any) {
       console.error(error);
@@ -184,9 +204,16 @@ export default function SubmitResult() {
               />
             </Form.Item>
 
-            <Form.Item name="game_result_number" rules={[{ required: true}]} className="m-0 mb-4">
+            <Form.Item name="game_result_number" rules={[{ required: true }]} className="m-0 mb-4">
               {/* <InputNumber controls={false} placeholder="Enter game number"  style={{ width: '100%' }} /> */}
-              <Input placeholder="Enter game number" />
+              <Input  onChange={e=> {
+                e.target.value.length == 1
+                  ? form.setFieldValue("game_result_number", `0${e.target.value}`)
+                  : e.target.value.length > 1 
+                    ? form.setFieldValue("game_result_number", e.target.value.slice(e.target.value.length - 2, e.target.value.length))
+                    : null
+
+              }} placeholder="Enter game number" />
             </Form.Item>
 
             <button

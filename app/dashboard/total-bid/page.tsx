@@ -61,6 +61,7 @@ export default function TotalBidAmount() {
   async function getDailyGame(parms: any): Promise<DailyGame[]> {
     // const selectedGame: Game = JSON.parse(values.game)
     try { 
+      
       const response = await makeApiRequeest(
         `${BASE_URL}/api/daily_game/search`,
         HttpMethodType.GET,
@@ -97,43 +98,36 @@ export default function TotalBidAmount() {
 
   async function handleSubmit() {
     if (selectedGame == undefined) return;
-  //  const dailyGame = await getDailyGame({
-  //   game_id: selectedGame?.id,
-  //  });
+    const usersBet = await getUserbet({
+      game_id: selectedGame?.id,
+      created_at: date?.toJSON().split("T")[0]
+    })
+    usersBet.sort((a, b) => parseInt(a.bid_number) - parseInt(b.bid_number))
+    const groupedBets = usersBet.reduce<Record<string, UserBet>>((acc, bet) => {
+      const uniqueSearchKey = bet.bid_number + ` ${bet.game_type}`;
+      // const uniqueSearchKey = bet.bid_number;
+      const amount = parseFloat(bet.amount ?? "0.0"); 
+      if (!acc[uniqueSearchKey]) {
+        acc[uniqueSearchKey] = { ...bet, amount: amount.toString() };
+      } else {
+        acc[uniqueSearchKey].amount = (amount + parseFloat(acc[uniqueSearchKey].amount ?? "0.0")).toString();
+      }
+      return acc;
+    }, {});
+    const intoUserBets = Object.values(groupedBets)
+    intoUserBets.sort((a, b) => parseInt(a.bid_number) - parseInt(b.bid_number))
+    setTotalUserBets(intoUserBets)
+    setSumbit(true)
+  }
 
-  //  if (dailyGame.length === 0) return;
-  //  console.log(dailyGame);
-
-   const usersBet = await getUserbet({
-    game_id: selectedGame?.id,
-    created_at: date?.toJSON().split("T")[0]
-   })
-   usersBet.sort((a, b) => parseInt(a.bid_number) - parseInt(b.bid_number))
-  const groupedBets = usersBet.reduce<Record<string, UserBet>>((acc, bet) => {
-    const uniqueSearchKey = bet.bid_number + ` ${bet.game_type}`;
-    // const uniqueSearchKey = bet.bid_number;
-    const amount = parseFloat(bet.amount ?? "0.0"); 
-    if (!acc[uniqueSearchKey]) {
-      acc[uniqueSearchKey] = { ...bet, amount: amount.toString() };
-    } else {
-      acc[uniqueSearchKey].amount = (amount + parseFloat(acc[uniqueSearchKey].amount ?? "0.0")).toString();
-    }
-    return acc;
-  }, {});
-
-  const intoUserBets = Object.values(groupedBets)
-  intoUserBets.sort((a, b) => parseInt(a.bid_number) - parseInt(b.bid_number))
-  setTotalUserBets(intoUserBets)
-  setSumbit(true)
-}
-console.log(totalUserBets);
+  console.log(totalUserBets);
 
   return (
     <>
       {/* <div className="flex bg-white p-3 rounded-md lg:items-end flex-col lg:flex-row gap-3 "> */}
         <Form className="flex px-3 mt-5 rounded-md lg:items-center flex-col lg:flex-row gap-3">
           <Form.Item name="date" rules={[{ required: true }]} className="m-0 ">
-            <DatePicker className="w-52 h-10" onChange={setDate} />
+            <DatePicker className="w-52 h-10" onChange={date=> form.setFieldValue("date", date)} />
           </Form.Item>
           
           <Form.Item name="game" rules={[{ required: true }]} className="m-0">
@@ -212,7 +206,7 @@ console.log(totalUserBets);
           {/* ......... Baher ....... */}
           <div className="bg-white p-3 rounded-md mt-3 flex flex-col overflow-auto sm:items-center justify-center">
 
-            <h1 className="flex w-full text-lg justify-center mt-6 font-bold">Baher / B</h1>
+            {sumbit && <h1 className="flex w-full text-lg justify-center mt-6 font-bold">Baher / B</h1>}
             <table className="borde flex">
               {sumbit &&  Array.from({ length: 10 }).map((_, index: number) => {
                 const bidNumber = index + 1 === 10 ? "0" : (index + 1).toString().length === 1 ? `0${(index + 1).toString()}` : (index + 1).toString();
