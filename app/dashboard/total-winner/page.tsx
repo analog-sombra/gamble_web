@@ -7,35 +7,119 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { HttpMethodType, makeApiRequeest } from "@/lib/api/untils";
+import { BASE_URL } from "@/lib/const";
 import { cn } from "@/lib/utils";
+import { DailyGame } from "@/models/DailyGameModel";
+import { Game } from "@/models/GameModel";
+import { GameResult, UserGameResult } from "@/models/GameResultModel";
 import { Divider } from "@nextui-org/react";
+import { useQuery } from "@tanstack/react-query";
+import { Select } from "antd";
 import { format } from "date-fns";
+import dayjs, { Dayjs } from "dayjs";
 import { Calendar as CalendarIcon } from "lucide-react";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { use, useRef, useState } from "react";
+import { toast } from "react-toastify";
 
 export default function TotalWinner() {
   const [date, setDate] = useState<Date>();
   const [game, setGame] = useState("");
   const [submit, setSubmit] = useState(false);
-  const [userData, setUserData] = useState<UserGameType[]>([]);
+  const [searchedGame, setSearchedGame] = useState<DailyGame>();
+  const [gameWinners, setGameWinners] = useState<UserGameResult[]>([]);
+  const [games, setGames] = useState<Game[]>([])
+  const [totalWinners, setTotalWinners] = useState(0)
+  const [currentPage, setCurrentPage] = useState(1);
+  const currentGame = useRef<Game>()
 
   const getGameData = () => {
-    setUserData(userGameFetchedData);
+    // setUserData(userGameFetchedData);
     setSubmit(true);
   };
 
+  
+  const pageSize = 1;
+  const route = useRouter();
+
+  const { isPending, error, data } = useQuery({
+    queryKey: ["getAllCreatedGames", currentPage],
+    queryFn: async () => {
+     try {
+        const response = await makeApiRequeest(
+          `${BASE_URL}/api/game`,
+          HttpMethodType.GET,
+          { queryParam: {take: 6, skip: 0} }
+        );
+        if (response?.data) setGames(response.data?.data?.result ?? []);
+        return response?.data.data ? response.data.data : response?.data;
+      } catch (error: any) {
+        console.error(error);
+        toast.error(error.response?.data.message ?? error.message)
+      }
+    },
+    staleTime: 0,
+  });
+    
+  async function getDailyGame(parms: any) {
+    if (currentGame.current === undefined || date === undefined) {
+      return;
+    }
+    if (typeof date === 'string') return []
+    let dateWithoutTime = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
+    
+    try { 
+      const response = await makeApiRequeest(
+        `${BASE_URL}/api/daily_game/search`,
+        HttpMethodType.GET,
+        {queryParam: { 
+          game_id: currentGame.current?.id ?? 0 ,
+          created_at: dateWithoutTime
+        }}
+      );
+      console.log(response);
+      setSearchedGame(response?.data.data[0] as DailyGame);
+      getGameWinners(response?.data.data[0].id)
+      return;
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error.response?.data.message ?? error.message)
+      return;
+    } 
+  }
+
+  async function getGameWinners(dailyGameId: number) {
+    try { 
+      const response = await makeApiRequeest(
+        `${BASE_URL}/api/game_result/search`,
+        HttpMethodType.GET,
+        {queryParam: { 
+          daily_game_id: dailyGameId ,
+          result: "WIN"
+        }}
+      );
+      console.log(response);
+      const fetchedWinners = response?.data.data as UserGameResult[]
+      let totalWinAmount: number = 0;
+      for (const winner of fetchedWinners) {
+        totalWinAmount = totalWinAmount + (parseInt(winner.amount) - parseInt(winner.user_bet.amount ?? "0"))
+      }
+      setTotalWinners(totalWinAmount)
+      setGameWinners(fetchedWinners);
+      return;
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error.response?.data.message ?? error.message)
+      return;
+    } 
+  }
+  // console.log(gameWinners);
+  
+
   return (
     <>
-      <div className="bg-white w-full rounded-md p-3 ">
+      <div className="bg-white w-full rounded-md p-3 px-6 ">
         <h1>Winners Record</h1>
         <Divider />
 
@@ -67,44 +151,44 @@ export default function TotalWinner() {
 
         <div className="flex gap-3 items-center">
           <p className="w-24">Select Game: </p>
-          <Select>
-            <SelectTrigger className="w-full lg:max-w-sm">
-              <SelectValue placeholder="Select a Game" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Games</SelectLabel>
-                {gamesData.map((game) => (
-                  <SelectItem value={game.key} key={game.key}>
-                    {game.name}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+          <Select
+            placeholder="Select a game"
+            onChange={e=>currentGame.current = JSON.parse(e)}
+            className="w-1/4"
+            options={
+              games.map((game: Game) => {
+                return { label: game.name, value: JSON.stringify(game) }
+              })
+            }
+          />
         </div>
 
         <div className="flex items-center justify-end">
           <Button
             variant="default"
             className="bg-blue-600 hover:bg-blue-700"
-            onClick={getGameData}
+            onClick={async e=>{
+              await getDailyGame({}); 
+              // setTimeout(async ()=> , 1000)
+            }}
           >
             Fetch
           </Button>
         </div>
 
-        {submit && (
+        {searchedGame && (
           <div className="border border-indigo-600 rounded-md p-3 my-3 bg-indigo-600 mb-6 text-white ">
-            <p>Winning Number: 5</p>
-            <p>Total Winner: 1</p>
-            <p>Total Winning amount: 23423423</p>
+            <p>Winning Number: {searchedGame.result ?? "__"}</p>
+            <p>Total Winner: {gameWinners.length}</p>
+            <p>Total Winning amount: {totalWinners}</p>
           </div>
         )}
 
-        {submit && (
+        {searchedGame && (
           <div className="flex flex-wrap justify-start gap-5 items-center">
-            {players.map((user: Players, index: number) => {
+            {gameWinners.map((user: UserGameResult, index: number) => {
+              const creditAmount = parseInt(user.amount ?? "0") - parseInt(user.user_bet.amount ?? "0") ;
+              // console.log(`${parseInt(user.amount ?? "0")} - ${parseInt(user.user_bet.amount ?? "0")}`);
               return (
                 <div
                   key={index}
@@ -117,17 +201,17 @@ export default function TotalWinner() {
                   />
                   <div className="flex items-center my-2 text-base font-semibold gap-1">
                     <p className="">User Id: </p>
-                    <div>{user.userId}</div>
+                    <div>{user.user_id}</div>
                   </div>
 
                   <div className="flex flex-wrap justify-center my-1 text-gray-400 text-xs gap-1">
                     <div className="  font-bold">Bidding Amt:</div>
-                    <span className="font-semibold">{user.bidAmount}</span>
+                    <span className="font-semibold">{user.user_bet.bid_number}</span>
                   </div>
 
                   <div className="flex flex-wrap justify-center text-gray-400 text-xs gap-1">
                     <div className="  font-bold">Credit Amt:</div>
-                    <span className="font-semibold">{user.winAmount}</span>
+                    <span className="font-semibold">{creditAmount}</span>
                   </div>
                 </div>
               );

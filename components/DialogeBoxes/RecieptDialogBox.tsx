@@ -36,8 +36,9 @@ const RecieptDialoge = (probs: {statement: StatementScheme}) => {
                 <AlertDialogContent className='p-0 pb-12 sm:w-[470px]'>
                     <div className="flex flex-col w-full ">
 
-                        <div className="flex px-4 py-2 justify-start items-center bg-[#e3ffde]">
-                            <span className="font-medium pr-6 text-[#7cb673]">
+                       { statement.game_result?.result === "WIN" 
+                        ? <div className="flex px-4 py-2 justify-start items-center bg-[#e3ffde]">
+                            <span className={`font-medium pr-6 text-[#7cb673]`}>
                                 Reciept
                             </span>
                             {/* <img className="w-10 h-10" src="https://cdn-icons-png.flaticon.com/128/6124/6124998.png" alt="" /> */}
@@ -46,6 +47,17 @@ const RecieptDialoge = (probs: {statement: StatementScheme}) => {
                                 <IoMdClose className="font-bold" />
                             </AlertDialogCancel>
                         </div>
+                        : <div className="flex px-4 py-2 justify-start items-center bg-red-100">
+                            <span className={`font-medium pr-6 text-red-500`}>
+                                Reciept
+                            </span>
+                            {/* <img className="w-10 h-10" src="https://cdn-icons-png.flaticon.com/128/6124/6124998.png" alt="" /> */}
+                            <div className="grow"></div>
+                            <AlertDialogCancel className="bg-[#d87397] text-white">
+                                <IoMdClose className="font-bold" />
+                            </AlertDialogCancel>
+                        </div>
+                       }
 
                         <div className="flex w-full my-3  mt-7 items-center justify-center  gap-3.5">
                             <Label className='text-xl' htmlFor="picture">Silver guru {statement.game_result?.result}</Label>

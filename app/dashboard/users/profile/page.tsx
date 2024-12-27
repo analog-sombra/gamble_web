@@ -46,7 +46,7 @@ export default function Users() {
   };
 
 
-   function dataRefactoring(statements: StatementScheme[]) {
+  function dataRefactoring(statements: StatementScheme[]) {
     let playStatements: UserPlayStatment[] = [];
     let otherStatements: StatementScheme[] = [];
 
@@ -61,19 +61,19 @@ export default function Users() {
             playStatment.dateTime.toDateString() === new Date(statement.user_bet?.created_at ?? "").toDateString()
           );
           if (!existingPlay) {
-              playStatements.push({
-                  gameName: statement.game.name ?? "",
-                  gameId: statement.daily_game_id ?? 0,
-                  dateTime: new Date(statement.user_bet.created_at),
-                  totalAmount: parseFloat(statement.user_bet.amount ?? "0.0"), 
-                  closingBalance: statement.user.wallet, 
-                  biddingNumbers:  [{
-                    bidNumber: statement.user_bet.bid_number , 
-                    amount: statement.user_bet.amount ?? "0.0",
-                    numberType: statement.user_bet.game_type as BidNumberType,
-                  }] , 
-              });
-              setUserBetStatment(playStatements)
+            playStatements.push({
+                gameName: statement.game.name ?? "",
+                gameId: statement.daily_game_id ?? 0,
+                dateTime: new Date(statement.user_bet.created_at),
+                totalAmount: parseFloat(statement.user_bet.amount ?? "0.0"), 
+                closingBalance: statement.user.wallet, 
+                biddingNumbers:  [{
+                  bidNumber: parseInt(statement.user_bet.bid_number ?? "0"), 
+                  amount: statement.user_bet.amount ?? "0.0",
+                  numberType: statement.user_bet.game_type as BidNumberType,
+                }] , 
+            });
+            setUserBetStatment(playStatements)
             continue;
           }
           const indexToremove = playStatements.indexOf(existingPlay);
@@ -81,13 +81,11 @@ export default function Users() {
           existingPlay.totalAmount += parseFloat(statement.user_bet.amount ?? "0.0")
           existingPlay.closingBalance = statement.user.wallet 
           existingPlay.dateTime = new Date(statement.user_bet.created_at)
-          existingPlay.biddingNumbers.push(
-            {
-              bidNumber: statement.user_bet.bid_number ?? 0, 
-              amount: statement.user_bet.amount ?? "0.0",
-              numberType: statement.user_bet.game_type as BidNumberType,
-            },
-          )
+          existingPlay.biddingNumbers.push({
+            bidNumber: parseInt(statement.user_bet.bid_number ?? "0"), 
+            amount: statement.user_bet.amount ?? "0.0",
+            numberType: statement.user_bet.game_type as BidNumberType,
+          })
           playStatements.splice(indexToremove, 0, existingPlay)
           setUserBetStatment(playStatements)
           continue;
@@ -95,7 +93,7 @@ export default function Users() {
       otherStatements.push(statement);
     }
     setStatement(otherStatements);
-}
+  }
 
   const { isPending, error, data } = useQuery({
     queryKey: ["getAllCreatedGames"],
@@ -366,99 +364,54 @@ export default function Users() {
   );
 }
 
-const columns: ColumnDef<Transaction>[] = [
-  {
-    accessorKey: "number",
-    header: "No.",
-  },
-  {
-    accessorKey: "status",
-    header: "Status",
-  },
-  {
-    accessorKey: "amount",
-    header: "Amount",
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
-      return (
-        <div className="flex flex-col gap-1">
-          <p>{amount}</p>
-          <p>
-            <HoverCard>
-              <HoverCardTrigger className="text-blue-700 cursor-pointer">
-                View Details
-              </HoverCardTrigger>
-              <HoverCardContent>
-                <p>Game: Moday dhamaka</p>
-                <p>Bet number: 2, 34</p>
-                <p>Winning Number: 99</p>
-                <p>Bet amount: 2334</p>
-              </HoverCardContent>
-            </HoverCard>
-          </p>
-          <p><span className="font-semibold">closing bal</span>ance: {Math.ceil(amount * 2 - 5 / 3)}</p>
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "transactionId",
-    header: "Transaction Id",
-  },
-];
+// const columns: ColumnDef<Transaction>[] = [
+//   {
+//     accessorKey: "number",
+//     header: "No.",
+//   },
+//   {
+//     accessorKey: "status",
+//     header: "Status",
+//   },
+//   {
+//     accessorKey: "amount",
+//     header: "Amount",
+//     cell: ({ row }) => {
+//       const amount = parseFloat(row.getValue("amount"));
+//       return (
+//         <div className="flex flex-col gap-1">
+//           <p>{amount}</p>
+//           <p>
+//             <HoverCard>
+//               <HoverCardTrigger className="text-blue-700 cursor-pointer">
+//                 View Details
+//               </HoverCardTrigger>
+//               <HoverCardContent>
+//                 <p>Game: Moday dhamaka</p>
+//                 <p>Bet number: 2, 34</p>
+//                 <p>Winning Number: 99</p>
+//                 <p>Bet amount: 2334</p>
+//               </HoverCardContent>
+//             </HoverCard>
+//           </p>
+//           <p><span className="font-semibold">closing bal</span>ance: {Math.ceil(amount * 2 - 5 / 3)}</p>
+//         </div>
+//       );
+//     },
+//   },
+//   {
+//     accessorKey: "transactionId",
+//     header: "Transaction Id",
+//   },
+// ];
 
-type Transaction = {
-  number: number;
-  status:
-  | "Add money successful"
-  | "withdraw successul"
-  | "withdraw processing"
-  | "withdraw failed";
-  amount: number;
-  transactionId: string;
-};
-
-const users = [
-  {
-    amount: 23,
-    number: 1,
-    status: "Add money successful",
-    transactionId: "12345678901234",
-  },
-  {
-    amount: 23,
-    number: 2,
-    status: "Add money successful",
-    transactionId: "12345678901234",
-  },
-  {
-    amount: 23,
-    number: 3,
-    status: "Add money successful",
-    transactionId: "12345678901234",
-  },
-  {
-    amount: 23,
-    number: 4,
-    status: "Add money successful",
-    transactionId: "12345678901234",
-  },
-  {
-    amount: 23,
-    number: 5,
-    status: "Add money successful",
-    transactionId: "12345678901234",
-  },
-  {
-    amount: 23,
-    number: 6,
-    status: "Add money successful",
-    transactionId: "12345678901234",
-  },
-  {
-    amount: 23,
-    number: 7,
-    status: "Add money successful",
-    transactionId: "12345678901234",
-  },
-];
+// type Transaction = {
+//   number: number;
+//   status:
+//   | "Add money successful"
+//   | "withdraw successul"
+//   | "withdraw processing"
+//   | "withdraw failed";
+//   amount: number;
+//   transactionId: string;
+// };
