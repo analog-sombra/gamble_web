@@ -23,7 +23,7 @@ import { Divider, Select } from "@nextui-org/react";
 import { Pagination, Skeleton, Tag } from "antd";
 import { Axios, AxiosError, AxiosResponse } from "axios";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 
 export default function Users() {
@@ -88,171 +88,174 @@ export default function Users() {
   console.log(searchedUser);
 
   return (
-    <main>
-      <div className="shadow bg-white p-4 rounded-md">
-        <h2 className="mx-auto text-lg font-medium text-left">Users</h2>
-        <Divider className="my-2" />
-        <div className="flex gap-2 md:flex-row flex-col">
-          <Input
-            value={userId}
-            onChange={(e) => setuserId(e.target.value)}
-            placeholder="User Id"
-            className="w-full md:w-60"
-          />
-          <Input
-            value={mobileNumber}
-            onChange={(e) => setMobileNumber(e.target.value)}
-            placeholder="Mobile number"
-            className="w-full md:w-60"
-          />
-          <Button
-            onClick={userSearchHandler}
-            className="w-full md:w-32 text-white text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md"
-          >
-            Search
-          </Button>
-          <div className="grow"></div>
-        </div>
-      </div>
+    <Suspense>
 
-      <div className="shadow bg-white p-4 rounded-md mt-4">
-        <Table className="border mt-2">
-          <TableHeader>
-            <TableRow className="bg-gray-100">
-              <TableHead className="border text-center">Mobile</TableHead>
-              <TableHead className="border text-center">
-                Wallet Amount (&#x20b9;)
-              </TableHead>
-              <TableHead className="border text-center">Status</TableHead>
-              <TableHead className="w-28 border text-center">
-                Cash deducation
-              </TableHead>
-              <TableHead className="w-28 border text-center">
-                Set Password
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {isLoading ? (
-              <>
-                {Array.from([1, 2, 3, 4, 5, 6]).map((val, index) => {
+      <main>
+        <div className="shadow bg-white p-4 rounded-md">
+          <h2 className="mx-auto text-lg font-medium text-left">Users</h2>
+          <Divider className="my-2" />
+          <div className="flex gap-2 md:flex-row flex-col">
+            <Input
+              value={userId}
+              onChange={(e) => setuserId(e.target.value)}
+              placeholder="User Id"
+              className="w-full md:w-60"
+            />
+            <Input
+              value={mobileNumber}
+              onChange={(e) => setMobileNumber(e.target.value)}
+              placeholder="Mobile number"
+              className="w-full md:w-60"
+            />
+            <Button
+              onClick={userSearchHandler}
+              className="w-full md:w-32 text-white text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md"
+            >
+              Search
+            </Button>
+            <div className="grow"></div>
+          </div>
+        </div>
+
+        <div className="shadow bg-white p-4 rounded-md mt-4">
+          <Table className="border mt-2">
+            <TableHeader>
+              <TableRow className="bg-gray-100">
+                <TableHead className="border text-center">Mobile</TableHead>
+                <TableHead className="border text-center">
+                  Wallet Amount (&#x20b9;)
+                </TableHead>
+                <TableHead className="border text-center">Status</TableHead>
+                <TableHead className="w-28 border text-center">
+                  Cash deducation
+                </TableHead>
+                <TableHead className="w-28 border text-center">
+                  Set Password
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {isLoading ? (
+                <>
+                  {Array.from([1, 2, 3, 4, 5, 6]).map((val, index) => {
+                    return (
+                      <TableRow key={index}>
+                        <TableCell className="text-center border-r">
+                          <Skeleton.Input className="w-52 rounded-full" active />
+                        </TableCell>
+                        <TableCell className="text-center border-r">
+                          <Skeleton.Input className="w-52 rounded-full" active />
+                        </TableCell>
+                        <TableCell className="text-center border-r">
+                          <Skeleton.Input className="w-52 rounded-full" active />
+                        </TableCell>
+                        <TableCell className="text-center border-r">
+                          <Skeleton.Input className="w-52 rounded-full" active />
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                </>
+              ) : searchedUser.length !== 0 ? (
+                searchedUser.map((user: User, index) => {
                   return (
                     <TableRow key={index}>
-                      <TableCell className="text-center border-r">
-                        <Skeleton.Input className="w-52 rounded-full" active />
+                      <TableCell
+                        className="p-2 cursor-pointer hover:bg-slate-200 border text-center ">
+                        <button onClick={() => {
+                          console.log("go to statmenst");
+                          route.push(`/dashboard/users/profile/${encryptURLData(user.id.toString())}`);
+                        }} >
+
+                          <div className="pb-1">+91 {user.mobile ?? ""}</div>
+                          <span className="font-bold">{`UserID: \n${user.id}`}</span>
+                        </button>
                       </TableCell>
-                      <TableCell className="text-center border-r">
-                        <Skeleton.Input className="w-52 rounded-full" active />
+                      <TableCell className="p-2 border text-center">
+                        {user.wallet}
                       </TableCell>
-                      <TableCell className="text-center border-r">
-                        <Skeleton.Input className="w-52 rounded-full" active />
+                      <TableCell className="p-2 border text-center">
+                        <Input className="Enter Amount" />
+                        <button className="w-full md:w-32 mt-1 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
+                          Submit
+                        </button>
                       </TableCell>
-                      <TableCell className="text-center border-r">
-                        <Skeleton.Input className="w-52 rounded-full" active />
+                      <TableCell className="p-2 border text-center">
+                        <Input className="Enter new passwordS" />
+                        <button className="w-full md:w-32 mt-1 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
+                          Submit
+                        </button>
                       </TableCell>
                     </TableRow>
                   );
-                })}
-              </>
-            ) : searchedUser.length !== 0 ? (
-              searchedUser.map((user: User, index) => {
-                return (
-                  <TableRow key={index}>
-                    <TableCell
-                      className="p-2 cursor-pointer hover:bg-slate-200 border text-center ">
-                        <button    onClick={() => {
-                        console.log("go to statmenst");
-                        route.push(`/dashboard/users/profile?userId=${encryptURLData(user.id.toString())}`);
-                      }} >
-
-                        <div className="pb-1">+91 {user.mobile ?? ""}</div>
+                })
+              ) : (
+                allUsers.map((user: User, index) => {
+                  return (
+                    <TableRow key={index}>
+                      <TableCell
+                        className="p-2 cursor-pointer  border text-center "
+                        onClick={() => {
+                          console.log("go to statmenst");
+                          route.push(`/dashboard/users/profile/${encryptURLData(user.id.toString())}`);
+                        }}
+                      >
+                        <div className="pb-1 hover:text-blue-600">
+                          +91 {user.mobile ?? ""}
+                        </div>
                         <span className="font-bold">{`UserID: \n${user.id}`}</span>
-                      </button>
-                    </TableCell>
-                    <TableCell className="p-2 border text-center">
-                      {user.wallet}
-                    </TableCell>
-                    <TableCell className="p-2 border text-center">
-                      <Input className="Enter Amount" />
-                      <button className="w-full md:w-32 mt-1 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
-                        Submit
-                      </button>
-                    </TableCell>
-                    <TableCell className="p-2 border text-center">
-                      <Input className="Enter new passwordS" />
-                      <button className="w-full md:w-32 mt-1 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
-                        Submit
-                      </button>
-                    </TableCell>
-                  </TableRow>
-                );
-              })
-            ) : (
-              allUsers.map((user: User, index) => {
-                return (
-                  <TableRow key={index}>
-                    <TableCell
-                      className="p-2 cursor-pointer  border text-center "
-                      onClick={() => {
-                        console.log("go to statmenst");
-                        route.push(`/dashboard/users/profile?userId=${encryptURLData(user.id.toString())}`);
-                       }} 
-                    >
-                      <div     className="pb-1 hover:text-blue-600">
-                        +91 {user.mobile ?? ""}
-                      </div>
-                      <span className="font-bold">{`UserID: \n${user.id}`}</span>
-                    </TableCell>
-                    <TableCell className="p-2 border text-center">
-                      {user.wallet}
-                    </TableCell>
-                    <TableCell className="p-2 border text-center">
-                      <Tag color="green" className="h-auto">
-                        ACTIVE
-                      </Tag>
-                    </TableCell>
-                    <TableCell className="p-2 border text-center">
-                      <Input className="Enter Amount" />
-                      <button className="w-full md:w-32 mt-1 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
-                        Submit
-                      </button>
-                    </TableCell>
-                    <TableCell className="p-2 border text-center">
-                      <Input className="Enter new passwordS" />
-                      <button className="w-full md:w-32 mt-1 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
-                        Submit
-                      </button>
-                    </TableCell>
-                  </TableRow>
-                );
-              })
-            )}
-          </TableBody>
-        </Table>
+                      </TableCell>
+                      <TableCell className="p-2 border text-center">
+                        {user.wallet}
+                      </TableCell>
+                      <TableCell className="p-2 border text-center">
+                        <Tag color="green" className="h-auto">
+                          ACTIVE
+                        </Tag>
+                      </TableCell>
+                      <TableCell className="p-2 border text-center">
+                        <Input className="Enter Amount" />
+                        <button className="w-full md:w-32 mt-1 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
+                          Submit
+                        </button>
+                      </TableCell>
+                      <TableCell className="p-2 border text-center">
+                        <Input className="Enter new passwordS" />
+                        <button className="w-full md:w-32 mt-1 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md">
+                          Submit
+                        </button>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })
+              )}
+            </TableBody>
+          </Table>
 
-        <div className="flex justify-start items-center">
-          <Pagination
-            className="my-3 mt-5"
-            // current={currentPage}
-            pageSize={pageSize.current}
-            total={12}
-            onChange={(page, pageSize) => {
-              init(page, pageSize);
-            }}
-          />
-        </div>
+          <div className="flex justify-start items-center">
+            <Pagination
+              className="my-3 mt-5"
+              // current={currentPage}
+              pageSize={pageSize.current}
+              total={12}
+              onChange={(page, pageSize) => {
+                init(page, pageSize);
+              }}
+            />
+          </div>
 
-        <div className="w-full flex justify-start items-center">
-          <button
-            onClick={() => {
-              route.push("/dashboard/users/profile");
-            }}
-            className="sm:w-full mt-2 md:w-32 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md"
-          >
-            Statement option
-          </button>
+          <div className="w-full flex justify-start items-center">
+            <button
+              onClick={() => {
+                route.push("/dashboard/users/profile");
+              }}
+              className="sm:w-full mt-2 md:w-32 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md"
+            >
+              Statement option
+            </button>
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </Suspense>
   );
 }
