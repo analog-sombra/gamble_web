@@ -44,7 +44,7 @@ export default function AdminPanel() {
     const fetchedGames =  (response.data?.data?.result ?? []) as Game[];
 
     for (const games of fetchedGames) {
-      const response = await makeApiRequeest( `http://192.168.1.69:5000/api/daily_game/status/${games.id}`, HttpMethodType.GET, )
+      const response = await makeApiRequeest( `${BASE_URL}/api/daily_game/status/${games.id}`, HttpMethodType.GET, )
       let liveStatus: string = response?.data;
       listOfGames.push({
         no: games.id,

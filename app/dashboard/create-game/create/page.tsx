@@ -1,10 +1,8 @@
 "use client";
 
-import dayjs, { Dayjs } from "dayjs";
+
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { DateSelect } from "@/components/forms/inputfileds/dateselect";
 import { TextInput } from "@/components/forms/inputfileds/textinput";
 import { NumberInput } from "@/components/forms/inputfileds/numberinput";
 import { TimeSelect } from "@/components/forms/inputfileds/timeselect";
@@ -14,6 +12,7 @@ import { onFormError } from "@/lib/utils";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import { BASE_URL } from "@/lib/const";
 
 const Page = () => {
   const methods = useForm<CreateGameForm>({
@@ -47,7 +46,7 @@ const Page = () => {
     dataToPost.end_time.setDate(dataToPost.end_time.getDate() + 1);
 
     const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/game`,
+      `${BASE_URL}/api/game`,
       dataToPost
     );
     return response.data;

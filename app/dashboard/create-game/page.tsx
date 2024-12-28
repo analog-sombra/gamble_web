@@ -151,7 +151,7 @@ const Page = () => {
                   onOk() {
                     return new Promise(async (resolve, reject) => {
                       const response = await axios.delete(
-                        `${process.env.NEXT_PUBLIC_API_URL}/api/game/${id}`,
+                        `${BASE_URL}/api/game/${id}`,
                         {
                           params: {
                             deleted_by: 1, // TODO: add genuine user
