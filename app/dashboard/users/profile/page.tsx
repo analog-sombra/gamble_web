@@ -26,8 +26,10 @@ import { BidNumberType } from "@/models/UserBetModels";
 import { useQuery } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import { Input, Modal, Pagination } from "antd";
+import { AxiosError } from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export default function Users() {
   const [open, setOpen] = useState(false);
@@ -36,9 +38,10 @@ export default function Users() {
   const router = useRouter()
   const params = useSearchParams()
   const [isLoading, setIsLoading] = useState(false);
-  const playerUserId = decryptURLData(params.get("userId") ?? "", router);
   const [Statement, setStatement] = useState<StatementScheme[]>([])
   const [userBetStatment, setUserBetStatment] = useState<UserPlayStatment[]>([])
+  const [searchId, setSearchId] = useState<string>()
+  let playerUserId: string = ""
   
 
   const handleOpenChange = (newOpen: boolean) => {
@@ -63,6 +66,7 @@ export default function Users() {
           if (!existingPlay) {
             playStatements.push({
                 gameName: statement.game.name ?? "",
+                id: statement.id,
                 gameId: statement.daily_game_id ?? 0,
                 dateTime: new Date(statement.user_bet.created_at),
                 totalAmount: parseFloat(statement.user_bet.amount ?? "0.0"), 
@@ -95,21 +99,73 @@ export default function Users() {
     setStatement(otherStatements);
   }
 
-  const { isPending, error, data } = useQuery({
-    queryKey: ["getAllCreatedGames"],
-    queryFn: async () => {
+  async function init() {
+    try {
+      console.log( { userId: playerUserId, skip: 0, take: 100 } );
       const response = await makeApiRequeest(
         `${BASE_URL}/api/statement`,
         HttpMethodType.GET,
         { queryParam: { userId: playerUserId, skip: 0, take: 100 } }
       );
+      console.log(response);
       dataRefactoring(response?.data.data ? response.data.data : response?.data)
       return response?.data.data ? response.data.data : response?.data;
-    },
+    } catch (error) {
+      const axioError = error as AxiosError
+      toast.error(axioError.message)
+      console.error(error); 
+    }
+  }
+
+  const { isPending, error, data } = useQuery({
+    queryKey: ["getAllCreatedGames"],
+    queryFn: async () => init(),
     staleTime: 0,
   });
-  console.log(userBetStatment);
-  console.log(Statement);
+
+
+  async function getStatementByDate(searchDate: Date) {
+    const formatedDate = `${searchDate.getFullYear()}-${searchDate.getMonth() + 1}-${searchDate.getDate()}`
+    console.log(formatedDate);
+    setStatement([])
+    setUserBetStatment([])
+    const response = await makeApiRequeest(
+      `${BASE_URL}/api/statement`,
+      HttpMethodType.GET,
+      { queryParam: { created_at: formatedDate, skip: 0, take: 100 } }
+    );
+    dataRefactoring(response?.data.data ? response.data.data : response?.data)
+    return response?.data.data ? response.data.data : response?.data;
+  }
+
+  async function handleStatementSearch() {
+    if (!searchId || isNaN(Number(searchId)) || Number(searchId) === 0) {
+        console.error("Invalid search ID: must be a non-zero number");
+        return;
+    }
+    setStatement([])
+    setUserBetStatment([])
+    try {
+      const response = await makeApiRequeest(
+        `${BASE_URL}/api/statement`,
+        HttpMethodType.GET,
+        { queryParam: { id: Number(searchId), skip: 0, take: 100 } }
+      );
+      console.log(response);
+      
+      dataRefactoring(response?.data.data ? response.data.data : response?.data)
+      return response?.data.data ? response.data.data : response?.data;
+    } catch (error) {
+      const axioError = error as AxiosError
+      toast.error(axioError.message)
+      console.error(error); 
+    }
+  } 
+
+  useEffect(() => {
+    playerUserId = decryptURLData(params.get("userId") ?? "", router); 
+    return;
+  });
   
   return (
     <main>
@@ -120,16 +176,21 @@ export default function Users() {
             <h1 className=" font-bold text-lg ">Transication History (transactionId)</h1>
             <span className="font-semibold">User Id: 23 </span>
             <span className="font-semibold">Available balance: 23,000 </span>
-            <Input type="date" className="" />
-            <Button className='bg-blue-600 hover:bg-blue-700'>Submit</Button>
+            <Input onClear={() => {init()}} onChange={(date)=>{getStatementByDate(new Date(date.currentTarget.value))}} type="date" className="" />
+            <Button onClick={()=>{}} className='bg-blue-600 hover:bg-blue-700'>Submit</Button>
           </div>
-          <SearchFiedls placeholder="Search" />
+          <SearchFiedls 
+            onChange={(event) => setSearchId(event.target.value)} 
+            value={searchId} 
+            onClick={()=>handleStatementSearch()}
+            placeholder="Search" />
         </div>
 
         <Table className="mb-5">
           <TableHeader>
             <TableRow className="bg-zinc-100">
-              <TableHead className="text-center">No</TableHead>
+              {/* <TableHead className="text-center">No</TableHead> */}
+              <TableHead className="text-center">{"Id"}</TableHead>
               <TableHead className="text-center">{"Statement /Status"}</TableHead>
               <TableHead className="text-center">Amount</TableHead>
               {/* <TableHead className="text-center">Status</TableHead> */}
@@ -141,7 +202,8 @@ export default function Users() {
           {
             userBetStatment.map((statmen: UserPlayStatment, index: number) => {
               return <TableRow key={index} className="">
-                <TableCell className="text-center min-w-15">{1}</TableCell>
+                {/* <TableCell className="text-center min-w-15">{ index + 1}</TableCell> */}
+                <TableCell className="text-center min-w-15">{statmen.id}</TableCell>
                 <TableCell className="text-center ">
                   <div className="font-semibold text-green-600">{statmen.gameName ?? ""} Play</div>
                   <div> {dateTimeFormatter(statmen.dateTime)}</div>
@@ -160,7 +222,8 @@ export default function Users() {
               if (statmen.statement_type == "GAME") {
                 if (statmen.game_result == undefined) return;
                 return   <TableRow key={index} className="">
-                <TableCell className="text-center min-w-15">{5}</TableCell>
+                {/* <TableCell className="text-center min-w-15">{index + 1}</TableCell> */}
+                <TableCell className="text-center min-w-15">{statmen.id}</TableCell>
                 <TableCell className="text-center ">
                   <div className="font-semibold text-black-500 ">{statmen.game?.name} Result</div>
                   <div>{dateTimeFormatter(new Date(statmen.game_result.created_at))}</div>

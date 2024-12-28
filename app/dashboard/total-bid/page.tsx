@@ -188,12 +188,9 @@ export default function TotalBidAmount() {
                   const bidValue =  userBet ? userBet.amount : "--"
 
                   return (
-                    <tr className="w-full">
-                      <td key={index} className="text-center sm:m-[3px]  m-0 md:w-28 sm:w-16 w-12 ">
-                        <div
-                          key={index}
-                          className="text-center rounded-sm bg-gray-100"
-                        >
+                    <tr className="w-full" key={index}>
+                      <td className="text-center sm:m-[3px]  m-0 md:w-28 sm:w-16 w-12 ">
+                        <div className="text-center rounded-sm bg-gray-100" >
                           <p className="bg-indigo-600 text-white">{bidNumber}</p>
                           <p className="text-xs text-ellipsis">{bidValue}</p>
                         </div>
@@ -214,8 +211,8 @@ export default function TotalBidAmount() {
                   const bidValue =  userBet ? userBet.amount : "--"
 
                   return (
-                    <tr className="w-full">
-                      <td key={index} className="text-center sm:m-[3px]  m-0 md:w-28 sm:w-16 w-12 ">
+                    <tr className="w-full" key={index}>
+                      <td  className="text-center sm:m-[3px]  m-0 md:w-28 sm:w-16 w-12 ">
                         <div
                           key={index}
                           className="text-center rounded-sm bg-gray-100"

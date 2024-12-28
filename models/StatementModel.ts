@@ -34,6 +34,7 @@ interface Statement {
 interface UserPlayStatment {
     gameName: string,
     gameId: number,
+    id: number,
     dateTime: Date,
     totalAmount: number,
     closingBalance: number,
