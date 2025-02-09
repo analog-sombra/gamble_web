@@ -1,6 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 //  icons...
 import { IoCloseCircleSharp, IoTimeSharp } from "react-icons/io5";
@@ -14,9 +14,53 @@ import ApproveRequestCard from "@/components/infoCards/ApproveRequestCard";
 import FilterField from "@/components/Dashboard/FilterField";
 import EnteriesRequestCard from "@/components/infoCards/EnteriesRequestCard";
 import RejetedRequestCard from "@/components/infoCards/RejetedRequestCard";
+import { init } from "next/dist/compiled/webpack/webpack";
+import { HttpMethodType, makeApiRequeest } from "@/lib/api/untils";
+import { BASE_URL } from "@/lib/const";
+import { getCookie } from "cookies-next";
+import { toast } from "react-toastify";
+import { AxiosError } from "axios";
+import { Skeleton } from "antd";
+import SkeletonButton from "antd/es/skeleton/Button";
+import SkeletonImage from "antd/es/skeleton/Image";
+import SkeletonNode from "antd/es/skeleton/Node";
+import SkeletonAvatar from "antd/es/skeleton/Avatar";
 
 export default function AddMoney() {
+    const [depositeRequests, setDepositeRequests ] = useState([]);
+    const [isLoading, setIsLoading] = useState(false)
     const [currentTab, setTab] = useState("add");
+
+    async function init(): Promise<void> {
+        setIsLoading(true)
+        const userId = getCookie("id")
+        if (userId === undefined) {
+            toast.error("error fetching user id")
+            return;
+        }
+        console.log("Fetching deposite request of user")
+        try {
+            const response = await makeApiRequeest(
+                `${BASE_URL}/api/deposite/get`,
+                HttpMethodType.POST,
+                {  includeToke: true, 
+                    bodyParam: { 
+                        "worker_id": parseInt(userId)
+                    } 
+                }
+            )
+            console.log(response);
+            setDepositeRequests(response?.data.data as [])
+        } catch (error) {
+            const asioError: AxiosError = error as AxiosError;
+            toast.error(asioError.message);
+        } 
+        setIsLoading(false)
+    }    
+
+    useEffect(() => {
+        init();
+    }, []);
 
     return (
         <div>
@@ -65,7 +109,11 @@ export default function AddMoney() {
                     </div>
 
                     <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
-                        {Array.from([1, 2, 3, 4, 5, 6]).map((val, index) => {
+                        { isLoading 
+                            ? Array.from([1,2,3,4,5,6,7,8,9]).map((val, index) => {
+                                return <SkeletonNode key={index} active className="w-[100px] h-64 rounded-md"/>
+                            }) 
+                            : depositeRequests.map((val, index) => {
                             return (
                                 <PendingRequestCard key={index} showAdminInfo={false} />
                             );

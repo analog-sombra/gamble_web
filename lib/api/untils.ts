@@ -92,9 +92,10 @@ export async function makeApiRequeest(url: string,
     if (opt.queryParam) {
         axioConfig.params = opt.queryParam
     }
-    if (opt.bodyParam && (httpMethod === HttpMethodType.POST || httpMethod === HttpMethodType.PUT)) {
+    if (opt.bodyParam && (httpMethod === HttpMethodType.POST || httpMethod === HttpMethodType.PUT || httpMethod === HttpMethodType.GET)) {
         axioConfig.data = opt.bodyParam;
     }
+    // console.log(opt)
     const responsedata: AxiosResponse = await axios(axioConfig) as AxiosResponse<any>;
     return responsedata;
 }

@@ -45,9 +45,7 @@ export default function Home() {
           makeNewTokenReq: true
         }
       )
-
       console.log(responseData?.data.data);
-      
       const workerAccountResponse = await makeApiRequeest(
         `${BASE_URL}/api/account/get_workers_account/${userId}`,
         HttpMethodType.POST,
@@ -64,7 +62,7 @@ export default function Home() {
       console.error(error);
       toast.error(error.response?.data.message ?? error.message)
     }
-  }
+  } 
 
   useEffect(() => {
     init();

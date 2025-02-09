@@ -12,6 +12,7 @@ import { getCookie, getCookies } from 'cookies-next';
 import { boolean, set } from 'valibot';
 import { HttpMethodType, makeApiRequeest } from '@/lib/api/untils';
 import { cookies } from 'next/headers';
+import { AxiosError } from 'axios';
 
 
 const gatewaySwitchHandler = async (
@@ -19,15 +20,16 @@ const gatewaySwitchHandler = async (
     gatewayId: number,
     statuses: string[],
     setMakePayment: (val: boolean) => void,
-    setStatuses: (val: string[]) => void) => {
+    setStatuses: (val: string[]) => void): Promise<boolean> => {
+
     const userId = getCookie("id")
     if (userId === undefined) {
         toast.error("error fetching user id")
-        return;
+        return false;
     }
 
     try {
-        const responseData = await makeApiRequeest(
+         await makeApiRequeest(
             `${BASE_URL}/api/account/update_account_status`,
             HttpMethodType.POST,
             {
@@ -39,7 +41,7 @@ const gatewaySwitchHandler = async (
         setStatuses(statuses.map(e => "INACTIVE"))
         return true;
     } catch (error) {
-        console.log(error);
+        console.log(error as AxiosError);
         toast.error("Error turning payment off")
     }
     return false;
@@ -61,7 +63,7 @@ const updateAccountStatusHandler = async (
         return;
     }
     try {
-        await makeApiRequeest(
+        const response = await makeApiRequeest(
             `${BASE_URL}/api/account/update_account_status`,
             HttpMethodType.POST,
             {
@@ -131,6 +133,7 @@ const UpiGatewaysCard = (probs: any) => {
                 onChange={async value => {
                     if (value) {
                         const newActiveGateway = workerAccout.filter((item, index) => item.id === previousActiveId.current)[0]
+                        const indexOfprevActiveGateay = workerAccout.indexOf(newActiveGateway)
                         await makeApiRequeest(
                             `${BASE_URL}/api/account/update_account_status`,
                             HttpMethodType.POST,
@@ -144,7 +147,9 @@ const UpiGatewaysCard = (probs: any) => {
                                 }
                             }
                         )
+                        console.log("upi on");
                         setDisplayGatewayMethod(newActiveGateway.upi_address)
+                        setStatuses(statuses.map((value, index) => index === indexOfprevActiveGateay ? "ACTIVE" : "INACTIVE"))
                         setMakePayment(value)
                         return;
                     }
@@ -154,7 +159,8 @@ const UpiGatewaysCard = (probs: any) => {
                         parseInt(probs.gatewayId),
                         statuses,
                         setMakePayment,
-                        setStatuses)
+                        setStatuses,
+                    )
                     setDisplayGatewayMethod("UPI'd")
                 }}
                 className='bg-gray-200 hover:bg-gray-300' >
@@ -212,8 +218,6 @@ const UpiGatewaysCard = (probs: any) => {
                         {
                             workerAccout.map((account: WorkersAccount, index: number) => {
                                 const currentStatus = statuses[index];
-
-
                                 return <div key={index} className="flex mb-5 justify-start border-x-white">
                                     <span className=" pr-12"> {++index}.</span>
                                     <div className="grow">{account.upi_address}</div>

@@ -49,6 +49,7 @@ export default function WithdrawMoney() {
                     makeNewTokenReq: true
                 }
             )
+            
             setWithdrawalRequests(responseData?.data.data);
             setIsLoading(false);
         } catch (error: any) {

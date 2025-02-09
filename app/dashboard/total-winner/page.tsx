@@ -68,6 +68,10 @@ export default function TotalWinner() {
     }
     if (typeof date === 'string') return []
     let dateWithoutTime = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
+    console.log("search params", { 
+      game_id: currentGame.current?.id ?? 0 ,
+      created_at: dateWithoutTime
+    });
     
     try { 
       const response = await makeApiRequeest(

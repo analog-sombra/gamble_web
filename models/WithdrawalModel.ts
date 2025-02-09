@@ -4,7 +4,7 @@ interface GetWorkersWithdrawalRequest {
     id: number;
     account_holder: string;
     account_number: string;
-    amount: number;
+    amount: string;
     bank_name: string;
     ifsc_code: string;
     user_id: number;
@@ -19,7 +19,7 @@ interface WithdrawalRequest {
     id: number;
     user_id: number;
     worker_id: number;
-    amount: number;
+    amount: string;
     bank_name: string;
     account_holder: string;
     ifsc_code: string;
