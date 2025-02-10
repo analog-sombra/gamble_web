@@ -7,8 +7,15 @@ import { CiCreditCard2 } from 'react-icons/ci';
 import { FaMoneyBill, FaRegCalendar } from 'react-icons/fa6';
 import { MdSmartphone, MdEmail } from 'react-icons/md';
 import TransferDailouge from '../DialogeBoxes/transfer';
+import { AddMoneyProbParams } from '@/models/MoneyDeposite';
+import { dateTimeFormatter } from '@/lib/utilsMethod';
+import { BASE_URL } from '@/lib/const';
 
-const ProcessingResultCard = (probs: any) => {
+
+
+const ProcessingResultCard = (probs: AddMoneyProbParams) => {
+    const { depositeMoney } = probs;
+    
     return (
 
         <div className="flex bg-gray-50 shadow-md flex-col justify-start w-full items-center sm:w-[360px] p-0 rounded-lg" >
@@ -17,8 +24,8 @@ const ProcessingResultCard = (probs: any) => {
                 (
                 <Image
                     preview={false}
-                    // height={50}
-                    width={75}
+                    height={50}
+                    width={55}
                     alt="NextUI hero Image"
                     src="https://cdn.iconscout.com/icon/free/png-256/free-paytm-226448.png?f=webp&w=256"
                 />
@@ -30,42 +37,42 @@ const ProcessingResultCard = (probs: any) => {
             <div className="flex justify-between px-4 py-2 w-full">
                 <div className="flex flex-col gap-1">
                     <div className="flex gap-3 items-center">
-
-                        <MdSmartphone /> <span>+91 **********</span>
+                        <MdSmartphone /> <span>+91 {depositeMoney.user.mobile ?? ""}</span>
                     </div>
                     <div className="flex gap-3 items-center">
                         <BiSolidUser />
                         <span className="font-semibold text-sm "> User Id: </span>
-                        234
+                        {depositeMoney.user.id}
                     </div>
                     <div className="flex gap-3 items-center">
 
                         <FaMoneyBill />
                         <span className="font-semibold text-sm">
-
-                            23,490 INR
+                        {depositeMoney.user.id} INR
                         </span>
                     </div>
-                    <div className="flex gap-3 items-center">
 
+                    {/* <div className="flex gap-3 items-center">
                         <CiCreditCard2 />
                         <span className="font-semibold text-sm">
-
                             TXN ID:
                         </span>
                         A7238912IDA
-                    </div>
-                    <div className="flex gap-3 items-center">
+                    </div> */}
 
+
+                    <div className="flex gap-3 items-center">
                         <FaRegCalendar />
-                        <span className="font-semibold text-sm"> 29/05/2005 </span>
+                        <span className="font-semibold text-sm"> {dateTimeFormatter(depositeMoney.created_at)} </span>
                     </div>
                 </div>
-                <img
-                    className="w-20 "
-                    src="https://www.hackinclude.com/wp-content/uploads/2018/06/fake-paytm-receipt.jpg"
-                    alt=""
-                />
+                    <Image
+                        // width={80}
+                        height={130}
+                        className="w-20 h-32 max-w-28" 
+                        src={`${BASE_URL}/${depositeMoney.payment_screen_shot}`}
+                        alt=""
+                    />
             </div>
 
             {probs.showAdminInfo &&
@@ -86,19 +93,19 @@ const ProcessingResultCard = (probs: any) => {
                                 <span className="font-semibold text-sm">
                                     <MdSmartphone />
                                 </span>
-                                <span>+91 **********</span>
+                                <span>+91 {depositeMoney.worker.mobile ?? ""}</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <span className="font-semibold text-sm">
                                     <MdEmail />
                                 </span>
-                                <span>exampl@gmail.com</span>
+                                <span>{depositeMoney.worker.email ?? ""}</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <span className="font-semibold text-sm">
                                     <BiSolidUser />
                                 </span>
-                                <span>Name of admin</span>
+                                <span>{depositeMoney.worker.username ?? ""}</span>
                             </div>
                         </div>
                     </div>

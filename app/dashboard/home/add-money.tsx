@@ -1,6 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 //  icons...
 import { IoCloseCircleSharp, IoTimeSharp } from "react-icons/io5";
@@ -25,38 +25,79 @@ import SkeletonButton from "antd/es/skeleton/Button";
 import SkeletonImage from "antd/es/skeleton/Image";
 import SkeletonNode from "antd/es/skeleton/Node";
 import SkeletonAvatar from "antd/es/skeleton/Avatar";
+import { MoneyDepositeModel, MoneyDepositeSearchPayload, MoneyDepositWithRelations, PaymentStatus } from "@/models/MoneyDeposite";
 
 export default function AddMoney() {
-    const [depositeRequests, setDepositeRequests ] = useState([]);
+    const [depositeRequests, setDepositeRequests] = useState<MoneyDepositWithRelations[]>([]);
     const [isLoading, setIsLoading] = useState(false)
     const [currentTab, setTab] = useState("add");
 
+    // fetching user id of logined user
+    const userId: number =  useMemo(() => {
+        const userId = getCookie("id")
+        if (!userId || isNaN(Number(userId))) {
+            toast.error("User id not found. Please login again")
+            return 0;
+        }
+        return parseInt(userId)
+    }, []);
+
+    
     async function init(): Promise<void> {
         setIsLoading(true)
-        const userId = getCookie("id")
-        if (userId === undefined) {
-            toast.error("error fetching user id")
-            return;
-        }
-        console.log("Fetching deposite request of user")
         try {
             const response = await makeApiRequeest(
                 `${BASE_URL}/api/deposite/get`,
                 HttpMethodType.POST,
                 {  includeToke: true, 
                     bodyParam: { 
-                        "worker_id": parseInt(userId)
+                        "worker_id": userId
                     } 
                 }
             )
             console.log(response);
-            setDepositeRequests(response?.data.data as [])
+            setDepositeRequests(response?.data.data as MoneyDepositWithRelations[])
         } catch (error) {
             const asioError: AxiosError = error as AxiosError;
             toast.error(asioError.message);
         } 
         setIsLoading(false)
     }    
+
+    async function searchDepositeRequests(query: MoneyDepositeSearchPayload): Promise<void> {
+        setIsLoading(true)
+        try {
+            const response = await makeApiRequeest(
+                `${BASE_URL}/api/deposite/get`,
+                HttpMethodType.POST,
+                {  includeToke: true, 
+                    bodyParam: query
+                }
+            )
+            console.log(response);
+            setDepositeRequests(response?.data.data as MoneyDepositWithRelations[])
+        } catch (error) {
+            const asioError: AxiosError = error as AxiosError;
+            toast.error(asioError.message);
+        } 
+        setIsLoading(false)
+    }   
+
+    const stateUpdateForDepositeRequest = async (
+        depositeReqId: number, 
+        status: PaymentStatus, 
+        workerId?: number
+    ) => {
+        console.log("Updating parent's deposite list state");
+        let existedRequest = depositeRequests;
+        const updatedRequest = existedRequest.map((req, index) => {
+            if (req.id === depositeReqId) req.payment_status = status;
+            // if (workerId) req.worker_id = workerId;
+            return req;
+        }).filter((req) => req.worker_id === userId);
+        setDepositeRequests(updatedRequest);
+        console.log("After state change  -> ", depositeRequests);
+    }
 
     useEffect(() => {
         init();
@@ -65,14 +106,11 @@ export default function AddMoney() {
     return (
         <div>
             <div className="flex gap-5 justify-between items-center">
-
                 <div className="flex gap-2 items-center my-5 flex-row justify-center md:flex-row">
                 </div>
-
                 {/* <div className="p-2 text-center">
                     <div className=" text-[12px]  sm:text-medium"> Add limit: 234</div>
                 </div> */}
-
             </div>
 
 
@@ -104,8 +142,17 @@ export default function AddMoney() {
                 {/* ---- pending content ---- */}
                 <TabsContent value="pending" className="flex flex-col w-full justify-center items-center">
                     <div className="w-[250px] sm:w-[350px] flex flex-col gap-2 mt-10 items-center">
-                        <SearchFiedls placeholder="All" />
-                        <SearchFiedls placeholder="User Id" />
+                        <SearchFiedls onSearch={(query) => {}} placeholder="All" />
+                        <SearchFiedls onSearch={(query) => {
+                            searchDepositeRequests({
+                                worker_id: parseInt(query ?? "0"),
+                                payment_status: PaymentStatus.PENDING
+                            });
+                        }} 
+                        onChange={(event) => {
+                            if (event.target.value.length === 0) init();
+                        }}
+                        placeholder="User Id" />
                     </div>
 
                     <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
@@ -113,9 +160,10 @@ export default function AddMoney() {
                             ? Array.from([1,2,3,4,5,6,7,8,9]).map((val, index) => {
                                 return <SkeletonNode key={index} active className="w-[100px] h-64 rounded-md"/>
                             }) 
-                            : depositeRequests.map((val, index) => {
+                            : depositeRequests.filter((depositeReq) => depositeReq.payment_status === "PENDING")
+                                .map((val: MoneyDepositWithRelations, index) => {
                             return (
-                                <PendingRequestCard key={index} showAdminInfo={false} />
+                                <PendingRequestCard key={index} depositeMoney={val} setParentState={stateUpdateForDepositeRequest} showAdminInfo={false} />
                             );
                         })
                         }
@@ -125,9 +173,10 @@ export default function AddMoney() {
                 {/* ---- Processing content ---- */}
                 <TabsContent value="processing" className="flex flex-col w-full justify-center items-center">
                     <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
-                        {Array.from([1, 2, 3, 4, 5, 6]).map((val, index) => {
+                        { depositeRequests.filter((depositeReq) => depositeReq.payment_status === "PROCESSING")
+                            .map((val: MoneyDepositWithRelations, index)=> {
                             return (
-                                <ProcessingResultCard key={index} showAdminInfo={false} />
+                                <ProcessingResultCard key={index} depositeMoney={val}  showAdminInfo={false} />
                             );
                         })
                         }
@@ -143,9 +192,10 @@ export default function AddMoney() {
                     </div>
 
                     <div className="flex flex-wrap justify-center gap-5 my-5 items-center">
-                        {Array.from([1, 2, 3, 4, 5, 6]).map((val, index) => {
+                        { depositeRequests.filter((depositeReq) => depositeReq.payment_status === "ACCEPT")
+                            .map((val: MoneyDepositWithRelations, index)=> {
                             return (
-                                <ApproveRequestCard key={index} showAdminInfo={false} />
+                                <ApproveRequestCard key={index} depositeMoney={val} showAdminInfo={false} />
                             );
                         })}
                     </div>
@@ -159,7 +209,8 @@ export default function AddMoney() {
                     </div>
 
                     <div className="flex flex-wrap justify-center gap-5 my-9">
-                        {Array.from([1, 2, 3, 4, 5, 6]).map((val, index) => {
+                        { depositeRequests.filter((depositeReq) => depositeReq.payment_status === "REFUNDED")
+                            .map((val: MoneyDepositWithRelations, index)=> {
                             return (
                                 <EnteriesRequestCard key={index} showAdminInfo={false} />
                             );
@@ -175,9 +226,10 @@ export default function AddMoney() {
                     </div>
 
                     <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
-                        {Array.from([1, 2, 3, 4, 5, 6]).map((val, index) => {
+                        { depositeRequests.filter((depositeReq) => depositeReq.payment_status === "REJECT")
+                            .map((val: MoneyDepositWithRelations, index) => {
                             return (
-                                <RejetedRequestCard key={index} />
+                                <RejetedRequestCard key={index} depositeMoney={val} showAdminInfo={false}/>
                             );
                         })}
                     </div>

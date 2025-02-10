@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
     Select,
     SelectContent,
@@ -16,9 +16,28 @@ import { FaSearch } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { Input } from "antd";
 import { Input as input } from '@/components/ui/input';
+import { PaymentStatus } from '@/models/MoneyDeposite';
+import { numberToWords } from 'amount-to-words';
+import { updateDepositeRequestApi } from '@/lib/api/moneyDeposte';
+
+type ProbsParam = {
+    withdraw?: boolean,
+    setDepositeReqState?: (
+        depositeReqId: number,
+        status: PaymentStatus,
+        workerId?: number
+    ) => Promise<void>;
+}
 
 
-const ApproveDailouge = (probs: any) => {
+const ApproveDailouge = (probs: ProbsParam) => {
+    const [sendingAmount, setsendingAmount] = useState<string>("0")
+    const [amountInWords, setAmountInWords] = useState<string>(numberToWords(sendingAmount))
+
+    const handleOnSubmitButtonCall = () => {
+        
+    }
+    
     return (
         <>
             <AlertDialog>
@@ -31,7 +50,7 @@ const ApproveDailouge = (probs: any) => {
                 {/*  --- Transfer ---  */}
                 <AlertDialogContent className='p-0 sm:w-[470px] w-full'>
                     <div className="flex flex-col w-full ">
-
+                        {/* ================ Top nav bar ================ */}
                         <div className="flex px-4 py-2 justify-start items-center bg-[#e3ffde]">
                             <span className="font-medium pr-6 text-[#7cb673]">
                                 Enter Transaction ID
@@ -47,38 +66,34 @@ const ApproveDailouge = (probs: any) => {
                             <Label className='text-xl' htmlFor="picture">{!probs.withdraw ? "Sending Amount" : "Payment screenshot"}</Label>
                         </div>
 
-                        {/* ----------- search result ----------- */}
                         <div className="flex flex-col w-full px-4  my-3 mt-3 items-center justify-start gap-3">
-
                             {!probs.withdraw &&
                                 <div className="flex w-[70%]">
-                                    <Input placeholder={"500.00"} className="rounded-r-none rounded-l-2xl" id="picture" type="text" />
+                                    <Input 
+                                        value={sendingAmount} 
+                                        onChange={(e) => {
+                                            // if (isNaN(Number(e))) return;
+                                            setsendingAmount(e.target.value);
+                                            setAmountInWords(numberToWords(e.target.value))
+                                        }} 
+                                        placeholder={"500.00"} className="rounded-r-none rounded-l-2xl" id="picture" type="text" />
                                     <Button className="rounded-l-none rounded-r-2xl  flex justify-self-start bg-[#7cb673] px-8">Edit</Button>
                                 </div>
                             }
-
-                            {
-                                probs.withdraw &&
+                            {probs.withdraw &&
                                 <div className="flex   w-[70%]">
-                                    <Input
-                                        type="file"
-                                        placeholder="Upload QR code"
-                                    />
+                                    <Input type="file" placeholder="Upload QR code" />
                                 </div>
                             }
-
-                            <Label className='text-md font-bold mb-2 text-red-600' htmlFor="picture">FIVE HUNDRED</Label>
-
+                            <Label className='text-md font-bold mb-2 text-red-600' htmlFor="picture">{amountInWords}</Label>
                             {probs.withdraw &&
                                 <Input readOnly className='w-[70%] placeholder:text-black' placeholder='23,000  holder name' />
                             }
-
-                            {!probs.withdraw &&
+                            {/* {!probs.withdraw &&
                                 <div className="flex w-[30%]">
                                     <Input placeholder="Enter transaction ID" className="rounded-full h-11" id="picture" type="text" />
                                 </div>
-                            }
-
+                            } */}
                             {/* <div className="flex w-[70%]">
                                 <Select>
                                     <SelectTrigger className="w-full rounded-full h-11 focus:out">
@@ -95,12 +110,10 @@ const ApproveDailouge = (probs: any) => {
                                     </SelectContent>
                                 </Select>
                             </div> */}
-
-
                         </div>
 
                         <div className="flex justify-center my-5">
-                            <Button className="bg-[#7cb673] w-[68%] hover:bg-[#7cb673] rounded-full">Sumbit</Button>
+                            <Button onClick={e=>handleOnSubmitButtonCall} className="bg-[#7cb673] w-[68%] hover:bg-[#7cb673] rounded-full">Sumbit</Button>
                         </div>
 
 

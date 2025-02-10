@@ -25,8 +25,6 @@ interface probType {
 
 const PendingRequestCard = (probs: probType) => {
     const { pendingWithdrawalRequest } = probs;
-    console.log(pendingWithdrawalRequest);
-
 
     return (
         <div

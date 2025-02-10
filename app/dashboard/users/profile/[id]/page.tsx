@@ -170,7 +170,7 @@ export default function Users() {
                     <SearchFiedls
                         onChange={(event) => setSearchId(event.target.value)}
                         value={searchId}
-                        onClick={() => handleStatementSearch()}
+                        onSearch={() => handleStatementSearch()}
                         placeholder="Search" />
                 </div>
 

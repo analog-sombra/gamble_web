@@ -1,3 +1,6 @@
+import { BASE_URL } from '@/lib/const'
+import { dateTimeFormatter } from '@/lib/utilsMethod'
+import { AddMoneyProbParams } from '@/models/MoneyDeposite'
 import { Tag, Image } from 'antd'
 import React from 'react'
 import { BiSolidUser } from 'react-icons/bi'
@@ -5,7 +8,8 @@ import { CiCreditCard2 } from 'react-icons/ci'
 import { FaMoneyBill, FaRegCalendar } from 'react-icons/fa6'
 import { MdSmartphone, MdEmail } from 'react-icons/md'
 
-const ApproveRequestCard = (probs: any) => {
+const ApproveRequestCard = (probs: AddMoneyProbParams) => {
+    const { depositeMoney } = probs;
     return (
         <div
             className="flex bg-gray-50 shadow-md flex-col w-full justify-start items-center sm:w-[360px] p-0 rounded-lg">
@@ -29,40 +33,37 @@ const ApproveRequestCard = (probs: any) => {
             <div className="flex justify-between px-4 py-2 w-full">
                 <div className="flex flex-col gap-1">
                     <div className="flex gap-3 items-center">
-
-                        <MdSmartphone /> <span>+91 **********</span>
+                        <MdSmartphone /> <span>+91 {depositeMoney.user.mobile ?? ""}</span>
                     </div>
                     <div className="flex gap-3 items-center">
                         <BiSolidUser />
                         <span className="font-semibold text-sm "> User Id: </span>
-                        234
+                        {depositeMoney.user.id}
                     </div>
                     <div className="flex gap-3 items-center">
-
                         <FaMoneyBill />
                         <span className="font-semibold text-sm">
-
-                            23,490 INR
+                            {depositeMoney.amount} INR
                         </span>
                     </div>
-                    <div className="flex gap-3 items-center">
-
+                    {
+                    /* <div className="flex gap-3 items-center">
                         <CiCreditCard2 />
                         <span className="font-semibold text-sm">
-
-                            Ref no:
+                            TXN ID:
                         </span>
                         A7238912IDA
-                    </div>
+                    </div> */
+                    }
                     <div className="flex gap-3 items-center">
-
                         <FaRegCalendar />
-                        <span className="font-semibold text-sm"> 29/05/2005 </span>
+                        <span className="font-semibold text-sm"> {dateTimeFormatter(depositeMoney.created_at)} </span>
                     </div>
                 </div>
-                <img
-                    className="w-20 "
-                    src="https://www.hackinclude.com/wp-content/uploads/2018/06/fake-paytm-receipt.jpg"
+                <Image
+                    height={130}
+                    className="w-20 h-32 max-w-28" 
+                    src={`${BASE_URL}/${depositeMoney.payment_screen_shot}`}
                     alt=""
                 />
             </div>
@@ -81,36 +82,39 @@ const ApproveRequestCard = (probs: any) => {
 
                     <div className="px-4 py-2 w-full justify-between items-center flex ">
                         <div className="flex flex-col justify-between items-start gap-2 ">
-                            <div className="flex items-center gap-2">
-                                <span className="font-semibold text-sm">
-                                    <MdSmartphone />
-                                </span>
-                                <span>+91 **********</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <span className="font-semibold text-sm">
-                                    <MdEmail />
-                                </span>
-                                <span>exampl@gmail.com</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <span className="font-semibold text-sm">
-                                    <BiSolidUser />
-                                </span>
-                                <span>Name of admin</span>
+                            <div className="flex flex-col justify-between items-start gap-2 ">
+                                <div className="flex items-center gap-2">
+                                    <span className="font-semibold text-sm">
+                                        <MdSmartphone />
+                                    </span>
+                                    <span>+91 {depositeMoney.worker.mobile ?? ""}</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <span className="font-semibold text-sm">
+                                        <MdEmail />
+                                    </span>
+                                    <span>{depositeMoney.worker.email ?? ""}</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <span className="font-semibold text-sm">
+                                        <BiSolidUser />
+                                    </span>
+                                    <span>{depositeMoney.worker.username ?? ""}</span>
+                                </div>
                             </div>
                         </div>
 
-                        {/* <div className="flex flex-col my-2 gap-2 justify-between ">
-        <div className="flex flex-col">
-            <span className="font-semibold text-sm">Last approved:-</span>
-            <span> one minute ago </span>
-        </div>
-        <div className="flex flex-col">
-            <span className="font-semibold text-sm">Last rejected:-</span>
-            <span> one minute ago </span>
-        </div>
-    </div> */
+                        {/* 
+                        <div className="flex flex-col my-2 gap-2 justify-between ">
+                            <div className="flex flex-col">
+                                <span className="font-semibold text-sm">Last approved:-</span>
+                                <span> one minute ago </span>
+                            </div>
+                            <div className="flex flex-col">
+                                <span className="font-semibold text-sm">Last rejected:-</span>
+                                <span> one minute ago </span>
+                            </div>
+                        </div> */
                         }
                     </div>
                 </>

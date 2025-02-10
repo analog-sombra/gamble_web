@@ -1,3 +1,6 @@
+import { BASE_URL } from '@/lib/const'
+import { dateTimeFormatter } from '@/lib/utilsMethod'
+import { AddMoneyProbParams } from '@/models/MoneyDeposite'
 import { Tag, Image } from 'antd'
 import React from 'react'
 import { BiSolidUser } from 'react-icons/bi'
@@ -5,7 +8,8 @@ import { CiCreditCard2 } from 'react-icons/ci'
 import { FaMoneyBill, FaRegCalendar, FaArrowRight } from 'react-icons/fa6'
 import { MdSmartphone, MdEmail } from 'react-icons/md'
 
-const RejetedRequestCard = (probs: any) => {
+const RejetedRequestCard = (probs: AddMoneyProbParams) => {
+    const { depositeMoney } = probs;
     return (
         <div
             className="flex bg-gray-50 shadow-md flex-col justify-start w-full items-center sm:w-[360px] p-0 rounded-lg"
@@ -22,55 +26,55 @@ const RejetedRequestCard = (probs: any) => {
                 />
                 )
                 {/* <div className="grow"></div>
-                                <TransferDailouge /> */}
+                    <TransferDailouge /> */
+                }
             </div>
 
             {/* Payment infomation */}
             <div className="flex justify-between px-4 py-2 w-full">
                 <div className="flex flex-col gap-1">
                     <div className="flex gap-3 items-center">
-                        {" "}
-                        <MdSmartphone /> <span>+91 **********</span>
+                        <MdSmartphone /> <span>+91 {depositeMoney.user.mobile ?? ""}</span>
                     </div>
                     <div className="flex gap-3 items-center">
-                        <BiSolidUser />{" "}
-                        <span className="font-semibold text-sm "> User Id: </span>{" "}
-                        234
+                        <BiSolidUser />
+                        <span className="font-semibold text-sm "> User Id: </span>
+                        {depositeMoney.user.id}
                     </div>
+
                     <div className="flex gap-3 items-center">
-                        {" "}
-                        <FaMoneyBill />{" "}
+                        <FaMoneyBill />
                         <span className="font-semibold text-sm">
-                            {" "}
-                            23,490 INR{" "}
-                        </span>{" "}
-                    </div>
-                    <div className="flex gap-3 items-center">
-                        {" "}
-                        <CiCreditCard2 />{" "}
-                        <span className="font-semibold text-sm">
-                            {" "}
-                            Ref no:{" "}
-                        </span>{" "}
-                        A7238912IDA
-                    </div>
-                    <div className="flex gap-3 items-center">
-                        {" "}
-                        <FaRegCalendar />{" "}
-                        <span className="font-semibold text-sm"> 29/05/2005 </span>
-                    </div>
-                    <div className="flex gap-3 mt-3 items-center">
-                        {" "}
-                        <FaArrowRight />{" "}
-                        <span className="font-semibold text-sm text-red-500">
-                            {" "}
-                            reason of rejection{" "}
+                            {depositeMoney.amount} INR
                         </span>
                     </div>
+
+                    <div className="flex gap-3 items-center">
+                        <CiCreditCard2 />
+                        <span className="font-semibold text-sm">
+                            Ref no:
+                        </span>
+                        A7238912IDA
+                    </div>
+
+                    <div className="flex gap-3 items-center">
+                        <FaRegCalendar />
+                        <span className="font-semibold text-sm"> {dateTimeFormatter(depositeMoney.created_at)} </span>
+                    </div>
+
+                    <div className="flex flex-wrap gap-3 mt-3 text-sm items-center">
+                        <FaArrowRight />
+                        <span className="font-semibold  text-red-500">
+                            reason of rejection:
+                        </span>
+                        *Reaseon*
+                    </div>
                 </div>
-                <img
-                    className="w-20  "
-                    src="https://www.hackinclude.com/wp-content/uploads/2018/06/fake-paytm-receipt.jpg"
+                <Image
+                    // width={80}
+                    height={130}
+                    className="w-20 h-32 max-w-28" 
+                    src={`${BASE_URL}/${depositeMoney.payment_screen_shot}`}
                     alt=""
                 />
             </div>
