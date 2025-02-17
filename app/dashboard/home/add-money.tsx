@@ -145,7 +145,7 @@ export default function AddMoney() {
                         <SearchFiedls onSearch={(query) => {}} placeholder="All" />
                         <SearchFiedls onSearch={(query) => {
                             searchDepositeRequests({
-                                worker_id: parseInt(query ?? "0"),
+                                user_id: parseInt(query ?? "0"),
                                 payment_status: PaymentStatus.PENDING
                             });
                         }} 
@@ -176,7 +176,7 @@ export default function AddMoney() {
                         { depositeRequests.filter((depositeReq) => depositeReq.payment_status === "PROCESSING")
                             .map((val: MoneyDepositWithRelations, index)=> {
                             return (
-                                <ProcessingResultCard key={index} depositeMoney={val}  showAdminInfo={false} />
+                                <ProcessingResultCard key={index} setParentState={stateUpdateForDepositeRequest}  depositeMoney={val}  showAdminInfo={false} />
                             );
                         })
                         }
@@ -188,7 +188,17 @@ export default function AddMoney() {
                     <div className="w-[250px] sm:w-[400px] flex flex-col gap-2 m-2 sm:mt-10 items-center">
                         <SearchFiedls placeholder="Enter UTR" />
                         <FilterField />
-                        <SearchFiedls placeholder="User id" />
+                        <SearchFiedls 
+                            onSearch={(query) => {
+                                searchDepositeRequests({
+                                    worker_id: parseInt(query ?? "0"),
+                                    payment_status: PaymentStatus.ACCEPT
+                                });
+                            }}     
+                            onChange={(event) => {
+                                if (event.target.value.length === 0) init();
+                            }}
+                            placeholder="User id" />
                     </div>
 
                     <div className="flex flex-wrap justify-center gap-5 my-5 items-center">

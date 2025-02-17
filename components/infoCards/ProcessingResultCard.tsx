@@ -48,7 +48,7 @@ const ProcessingResultCard = (probs: AddMoneyProbParams) => {
 
                         <FaMoneyBill />
                         <span className="font-semibold text-sm">
-                        {depositeMoney.user.id} INR
+                        {depositeMoney.amount} INR
                         </span>
                     </div>
 
@@ -114,13 +114,16 @@ const ProcessingResultCard = (probs: AddMoneyProbParams) => {
 
             {/* ... ... Action buttons ... ... */}
             <div className="flex justify-around pb-4 px-3 gap-0 mt-5 w-full">
-                <ApproveDailouge />
+                <ApproveDailouge 
+                    setDepositeReqState={probs.setParentState} 
+                    depositeReqest={depositeMoney} 
+                />
                 {
                     /* <Button className="bg-blue-500 py-2  hover:bg-blue-700 text-white w-full hover:text-white" variant={"outline"}>
                               processing
                           </Button> */
                 }
-                <RejectDailouge />
+                <RejectDailouge withdraw={false} depositeReqest={depositeMoney} setDepositeReqState={probs.setParentState} />
             </div>
         </div>
     )

@@ -15,10 +15,35 @@ import { Button } from '@/components/ui/button'
 import { FaSearch } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { Input } from "antd";
+import { MoneyDepositWithRelations, PaymentStatus } from '@/models/MoneyDeposite';
+import { updateDepositeRequestApi } from '@/lib/api/moneyDeposte';
+import { toast } from 'react-toastify';
 // import { Input } from '@/components/ui/input';
+type ProbsParam = {
+    withdraw?: boolean,
+    depositeReqest?: MoneyDepositWithRelations,
+    setDepositeReqState?: (
+        depositeReqId: number,
+        status: PaymentStatus,
+        workerId?: number,
+    ) => Promise<void>;
+}
 
+const RejectDailouge = (probs: ProbsParam) => {
 
-const RejectDailouge = (probs: any) => {
+    const handleSubmitRejectRequest = async () => {
+        if (!probs.depositeReqest) return;
+        const isRejected = await updateDepositeRequestApi({
+            id: probs.depositeReqest.id,
+            payment_status: PaymentStatus.REJECT 
+        })
+        if (!isRejected) return;
+        toast.success(`Deposite request is with id ${probs.depositeReqest.id} reject`)
+        probs.setDepositeReqState 
+            ? probs.setDepositeReqState(probs.depositeReqest.id, PaymentStatus.REJECT,) 
+            : undefined
+    }
+    
     return (
         <>
             <AlertDialog>
@@ -45,28 +70,22 @@ const RejectDailouge = (probs: any) => {
 
                         {/* ----------- search result ----------- */}
                         <div className="flex flex-col w-full px-4  my-3 mt-10 items-center justify-start gap-3">
-
                             <div className="flex w-[70%]">
                                 <Select>
                                     <SelectTrigger className="w-full rounded-full h-11 focus:out">
                                         <SelectValue defaultValue={"Today"} placeholder="Select a reason" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {/* <SelectLabel>Select a reason</SelectLabel> */}
-                                        <SelectItem value="Today">Today</SelectItem>
-                                        <SelectItem value="Yesterday">Yesterday</SelectItem>
-                                        <SelectItem value="Last 7 days">Last 7 days</SelectItem>
-                                        <SelectItem value="Last 30 days">Last 30 days</SelectItem>
-                                        <SelectItem value="This month">This month</SelectItem>
-                                        <SelectItem value="Last month">Last month</SelectItem>
-                                        <SelectItem value="Custom range">Custom range</SelectItem>
+                                        {
+                                            rejectedReason.map((value, index) => {
+                                                return <SelectItem key={index} value={value}>{value}</SelectItem> 
+                                            })
+                                        }
                                     </SelectContent>
                                 </Select>
                             </div>
-
-                            {
-                                probs.withdraw &&
-                                <div className="flex   w-[70%]">
+                            { probs.withdraw &&
+                                <div className="flex w-[70%]">
                                     <Input
                                         type="file"
                                         placeholder="Upload QR code"
@@ -76,15 +95,28 @@ const RejectDailouge = (probs: any) => {
                         </div>
 
                         <div className="flex justify-center my-5">
-                            <Button className="bg-[#fc7371] w-[68%] hover:bg-[#fc7371] rounded-full">Sumbit</Button>
+                            <Button onClick={e=> handleSubmitRejectRequest()} className="bg-[#fc7371] w-[68%] hover:bg-[#fc7371] rounded-full">Sumbit</Button>
                         </div>
-
-
                     </div>
                 </AlertDialogContent>
             </AlertDialog>
         </>
     )
 }
+
+const rejectedReason = [
+    "Invalid payment method",
+    "Insufficient balance in sender's account",
+    "Transaction limit exceeded",
+    "Suspicious or fraudulent activity detected",
+    "Incorrect payment screenshot",
+    "Deposit amount does not meet the minimum requirement",
+    "Duplicate deposit request detected",
+    "Third-party payment service failure",
+    "Regulatory or compliance restrictions",
+    "Technical error during transaction processing",
+    "User account under review or restricted"
+];
+
 
 export default RejectDailouge

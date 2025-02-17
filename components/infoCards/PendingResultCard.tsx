@@ -143,7 +143,7 @@ const PendingRequestCard = (probs: AddMoneyProbParams) => {
 
             {/* ... ... Action buttons ... ... */}
             <div className="flex justify-between pb-4 px-3 gap-0 mt-5 w-full">
-                <ApproveDailouge withdraw={false} setDepositeReqState={probs.setParentState}  />
+                <ApproveDailouge withdraw={false} depositeReqest={depositeMoney} setDepositeReqState={probs.setParentState}  />
                 {updateStatusLoading 
                     ? <Button  className="bg-blue-300 py-2 m-0 rounded-none hover:bg-blue-300 hover:text-opacity-[0.9] text-white hover:text-white text-opacity-[0.9] w-full" variant={"outline"} >
                         processing
@@ -152,7 +152,7 @@ const PendingRequestCard = (probs: AddMoneyProbParams) => {
                         processing
                     </Button>
                 }
-                <RejectDailouge />
+                <RejectDailouge withdraw={false} depositeReqest={depositeMoney} setDepositeReqState={probs.setParentState} />
             </div>
 
         </div>

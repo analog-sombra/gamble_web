@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     Select,
     SelectContent,
@@ -16,27 +16,62 @@ import { FaSearch } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { Input } from "antd";
 import { Input as input } from '@/components/ui/input';
-import { PaymentStatus } from '@/models/MoneyDeposite';
+import { MoneyDepositWithRelations, PaymentStatus } from '@/models/MoneyDeposite';
 import { numberToWords } from 'amount-to-words';
-import { updateDepositeRequestApi } from '@/lib/api/moneyDeposte';
+import { updateDepositeRequestApi, updateUserWalletApi } from '@/lib/api/moneyDeposte';
+import { toast } from 'react-toastify';
+import { getUserByIdApi } from '@/lib/api/userApis';
 
 type ProbsParam = {
     withdraw?: boolean,
+    depositeReqest?: MoneyDepositWithRelations,
     setDepositeReqState?: (
         depositeReqId: number,
         status: PaymentStatus,
-        workerId?: number
+        workerId?: number,
     ) => Promise<void>;
 }
 
 
-const ApproveDailouge = (probs: ProbsParam) => {
+const ApproveDailouge = (probs: ProbsParam ) => {
     const [sendingAmount, setsendingAmount] = useState<string>("0")
+    const [isAmountedSended, setIsAmountedSended] = useState<boolean>(false)
     const [amountInWords, setAmountInWords] = useState<string>(numberToWords(sendingAmount))
 
-    const handleOnSubmitButtonCall = () => {
-        
+    const handleOnSubmitButtonCall = async () => {
+        if (isAmountedSended) {
+            toast.error("Already sended once")
+            return;
+        }
+        if (!probs.depositeReqest) return;
+
+        const user =  await getUserByIdApi(probs.depositeReqest.user.id);
+        if (!user) return;
+
+        const prevWalletAmount: number = Number(user.wallet)
+        const isWalletUpdated = await updateUserWalletApi(
+            (probs.depositeReqest?.user_id ?? 0),
+            `${prevWalletAmount + Number(sendingAmount)}`
+        );
+        const isPaymentAccept = await updateDepositeRequestApi({
+            id: probs.depositeReqest?.id ?? 0,
+            payment_status: PaymentStatus.ACCEPT
+        })
+        if (!isWalletUpdated || !isPaymentAccept) return;
+        setIsAmountedSended(true)
+        probs.setDepositeReqState 
+            ? probs.setDepositeReqState(probs.depositeReqest.id, PaymentStatus.ACCEPT) 
+            : undefined;
+        toast.success(`Money has been added to ${probs.depositeReqest?.user.username}`)
     }
+
+
+    useEffect(() => {
+        if (probs.depositeReqest) {
+            setsendingAmount(probs.depositeReqest.amount ?? "")
+            setAmountInWords(numberToWords(probs.depositeReqest.amount ?? "0"))
+        }
+    }, [])
     
     return (
         <>
@@ -113,7 +148,11 @@ const ApproveDailouge = (probs: ProbsParam) => {
                         </div>
 
                         <div className="flex justify-center my-5">
-                            <Button onClick={e=>handleOnSubmitButtonCall} className="bg-[#7cb673] w-[68%] hover:bg-[#7cb673] rounded-full">Sumbit</Button>
+                            <Button 
+                                onClick={e=>handleOnSubmitButtonCall()} 
+                                className="bg-[#7cb673] w-[68%] hover:bg-[#7cb673] rounded-full">
+                                Sumbit
+                            </Button>
                         </div>
 
 
