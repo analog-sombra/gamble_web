@@ -19,3 +19,11 @@ export interface User {
 }
 
 
+enum Role {
+    SYSTEM = "SYSTEM",
+    ADMIN = "ADMIN",
+    WORKER = "WORKER",
+    USER = "USER",
+    NONE = "NONE",
+  }
+

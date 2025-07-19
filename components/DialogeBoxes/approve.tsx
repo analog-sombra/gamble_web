@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
     Select,
     SelectContent,
@@ -37,6 +37,7 @@ const ApproveDailouge = (probs: ProbsParam ) => {
     const [sendingAmount, setsendingAmount] = useState<string>("0")
     const [isAmountedSended, setIsAmountedSended] = useState<boolean>(false)
     const [amountInWords, setAmountInWords] = useState<string>(numberToWords(sendingAmount))
+    const alertDialogRef = useRef<HTMLButtonElement | null>(null)
 
     const handleOnSubmitButtonCall = async () => {
         if (isAmountedSended) {
@@ -44,10 +45,8 @@ const ApproveDailouge = (probs: ProbsParam ) => {
             return;
         }
         if (!probs.depositeReqest) return;
-
         const user =  await getUserByIdApi(probs.depositeReqest.user.id);
         if (!user) return;
-
         const prevWalletAmount: number = Number(user.wallet)
         const isWalletUpdated = await updateUserWalletApi(
             (probs.depositeReqest?.user_id ?? 0),
@@ -62,6 +61,7 @@ const ApproveDailouge = (probs: ProbsParam ) => {
         probs.setDepositeReqState 
             ? probs.setDepositeReqState(probs.depositeReqest.id, PaymentStatus.ACCEPT) 
             : undefined;
+        alertDialogRef.current?.click()
         toast.success(`Money has been added to ${probs.depositeReqest?.user.username}`)
     }
 
@@ -92,7 +92,7 @@ const ApproveDailouge = (probs: ProbsParam ) => {
                             </span>
                             {/* <img className="w-10 h-10" src="https://cdn-icons-png.flaticon.com/128/6124/6124998.png" alt="" /> */}
                             <div className="grow"></div>
-                            <AlertDialogCancel className="bg-[#9ad897] text-white">
+                            <AlertDialogCancel ref={alertDialogRef} className="bg-[#9ad897] text-white">
                                 <IoMdClose className="font-bold" />
                             </AlertDialogCancel>
                         </div>
@@ -124,11 +124,11 @@ const ApproveDailouge = (probs: ProbsParam ) => {
                             {probs.withdraw &&
                                 <Input readOnly className='w-[70%] placeholder:text-black' placeholder='23,000  holder name' />
                             }
-                            {/* {!probs.withdraw &&
+                            {!probs.withdraw &&
                                 <div className="flex w-[30%]">
                                     <Input placeholder="Enter transaction ID" className="rounded-full h-11" id="picture" type="text" />
                                 </div>
-                            } */}
+                            }
                             {/* <div className="flex w-[70%]">
                                 <Select>
                                     <SelectTrigger className="w-full rounded-full h-11 focus:out">

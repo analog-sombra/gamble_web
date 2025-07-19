@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useRef } from 'react'
+import { UploadOutlined } from '@ant-design/icons';
 import {
     Select,
     SelectContent,
@@ -14,7 +15,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from '@/components/ui/button'
 import { FaSearch } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
-import { Input } from "antd";
+import { Input, Upload, UploadProps } from "antd";
 import { MoneyDepositWithRelations, PaymentStatus } from '@/models/MoneyDeposite';
 import { updateDepositeRequestApi } from '@/lib/api/moneyDeposte';
 import { toast } from 'react-toastify';
@@ -30,7 +31,7 @@ type ProbsParam = {
 }
 
 const RejectDailouge = (probs: ProbsParam) => {
-
+    const alertDialogRef = useRef<HTMLButtonElement | null>(null)
     const handleSubmitRejectRequest = async () => {
         if (!probs.depositeReqest) return;
         const isRejected = await updateDepositeRequestApi({
@@ -42,7 +43,23 @@ const RejectDailouge = (probs: ProbsParam) => {
         probs.setDepositeReqState 
             ? probs.setDepositeReqState(probs.depositeReqest.id, PaymentStatus.REJECT,) 
             : undefined
+        alertDialogRef.current?.click()
     }
+
+    const props: UploadProps = {
+        action: '//jsonplaceholder.typicode.com/posts/',
+        listType: 'picture',
+        previewFile(file: any) {
+          console.log('Your upload file:', file, " ", typeof file);
+          // Your process logic. Here we just mock to the same file
+          return fetch('https://next.json-generator.com/api/json/get/4ytyBoLK8', {
+            method: 'POST',
+            body: file,
+          })
+            .then((res) => res.json())
+            .then(({ thumbnail }) => thumbnail);
+        },
+    };
     
     return (
         <>
@@ -63,7 +80,7 @@ const RejectDailouge = (probs: ProbsParam) => {
                             </span>
                             {/* <img className="w-10 h-10" src="https://cdn-icons-png.flaticon.com/128/6124/6124998.png" alt="" /> */}
                             <div className="grow"></div>
-                            <AlertDialogCancel className="bg-[#fc7371] text-white">
+                            <AlertDialogCancel ref={alertDialogRef} className="bg-[#fc7371] text-white">
                                 <IoMdClose className="font-bold" />
                             </AlertDialogCancel>
                         </div>
@@ -86,10 +103,14 @@ const RejectDailouge = (probs: ProbsParam) => {
                             </div>
                             { probs.withdraw &&
                                 <div className="flex w-[70%]">
-                                    <Input
+                                    <Upload {...props}>
+                                        <Button ><UploadOutlined /> Upload</Button>
+                                    </Upload>
+
+                                    {/* <Input
                                         type="file"
                                         placeholder="Upload QR code"
-                                    />
+                                    /> */}
                                 </div>
                             }
                         </div>
@@ -106,16 +127,16 @@ const RejectDailouge = (probs: ProbsParam) => {
 
 const rejectedReason = [
     "Invalid payment method",
-    "Insufficient balance in sender's account",
     "Transaction limit exceeded",
-    "Suspicious or fraudulent activity detected",
     "Incorrect payment screenshot",
-    "Deposit amount does not meet the minimum requirement",
     "Duplicate deposit request detected",
     "Third-party payment service failure",
     "Regulatory or compliance restrictions",
+    "User account under review or restricted",
+    "Insufficient balance in sender's account",
+    "Suspicious or fraudulent activity detected",
     "Technical error during transaction processing",
-    "User account under review or restricted"
+    "Deposit amount does not meet the minimum requirement",
 ];
 
 

@@ -44,7 +44,7 @@ interface MoneyDepositWithRelations {
     user: User;
 }
 
-interface probType {
+interface DepositeMoneyProbType {
     showAdminInfo: boolean
     depositeMoney: MoneyDepositWithRelations,
     setParentState?: (
@@ -69,6 +69,7 @@ interface UpdateMoneyDeposite {
     payment_status?: PaymentStatus;
     updated_by?: number;
     deleted_by?: number;
+    worker_id?: number
 }
 
 enum PaymentStatus {
@@ -86,7 +87,7 @@ enum PaymentStatus {
 export {
     type MoneyDeposite as MoneyDepositeModel,
     type MoneyDepositWithRelations,
-    type probType as AddMoneyProbParams,
+    type DepositeMoneyProbType as AddMoneyProbParams,
     type MoneyDepositeSearchPayload,
     type UpdateMoneyDeposite,
     PaymentStatus,

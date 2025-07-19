@@ -33,7 +33,7 @@ export default function Users() {
   const [allUsers, setAllUsers] = useState<[User] | []>([]);
   const [searchedUser, setSearcheduser] = useState<[User] | []>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const pageSize = useRef(10);
+  const pageSize = useRef(3);
   const route = useRouter();
 
   const init = async (page: number, pageSize: number) => {
@@ -89,7 +89,6 @@ export default function Users() {
 
   return (
     <Suspense>
-
       <main>
         <div className="shadow bg-white p-4 rounded-md">
           <h2 className="mx-auto text-lg font-medium text-left">Users</h2>
@@ -97,9 +96,9 @@ export default function Users() {
           <div className="flex gap-2 md:flex-row flex-col">
             <Input
               value={userId}
-              onChange={(e) => setuserId(e.target.value)}
               placeholder="User Id"
               className="w-full md:w-60"
+              onChange={(e) => setuserId(e.target.value)}
             />
             <Input
               value={mobileNumber}
@@ -166,7 +165,6 @@ export default function Users() {
                           console.log("go to statmenst");
                           route.push(`/dashboard/users/profile/${encryptURLData(user.id.toString())}`);
                         }} >
-
                           <div className="pb-1">+91 {user.mobile ?? ""}</div>
                           <span className="font-bold">{`UserID: \n${user.id}`}</span>
                         </button>
@@ -246,10 +244,10 @@ export default function Users() {
 
           <div className="w-full flex justify-start items-center">
             <button
+              className="sm:w-full mt-2 md:w-32 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md"
               onClick={() => {
                 route.push("/dashboard/users/profile");
               }}
-              className="sm:w-full mt-2 md:w-32 text-white h-8 text-sm bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded-md"
             >
               Statement option
             </button>

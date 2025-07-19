@@ -21,7 +21,6 @@ const ProcessingResultCard = (probs: AddMoneyProbParams) => {
         <div className="flex bg-gray-50 shadow-md flex-col justify-start w-full items-center sm:w-[360px] p-0 rounded-lg" >
             <div className="min-h-7 bg-zinc-200 w-full flex items-center px-2 justify-start">
                 <span className="mx-1">Processing</span>
-                (
                 <Image
                     preview={false}
                     height={50}
@@ -29,8 +28,8 @@ const ProcessingResultCard = (probs: AddMoneyProbParams) => {
                     alt="NextUI hero Image"
                     src="https://cdn.iconscout.com/icon/free/png-256/free-paytm-226448.png?f=webp&w=256"
                 />
-                )<div className="grow"></div>
-                <TransferDailouge />
+                <div className="grow"></div>
+                <TransferDailouge depositeReqest={probs.depositeMoney} setDepositeReqState={probs.setParentState} />
             </div>
 
             {/* Payment infomation */}

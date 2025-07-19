@@ -92,7 +92,7 @@ export default function AddMoney() {
         let existedRequest = depositeRequests;
         const updatedRequest = existedRequest.map((req, index) => {
             if (req.id === depositeReqId) req.payment_status = status;
-            // if (workerId) req.worker_id = workerId;
+            if (workerId && depositeReqId === req.id) req.worker_id = workerId;
             return req;
         }).filter((req) => req.worker_id === userId);
         setDepositeRequests(updatedRequest);
@@ -145,12 +145,12 @@ export default function AddMoney() {
                         <SearchFiedls onSearch={(query) => {}} placeholder="All" />
                         <SearchFiedls onSearch={(query) => {
                             searchDepositeRequests({
-                                user_id: parseInt(query ?? "0"),
+                                user_id: parseInt(query ?? "0"), 
                                 payment_status: PaymentStatus.PENDING
                             });
                         }} 
-                        onChange={(event) => {
-                            if (event.target.value.length === 0) init();
+                        onChange={(event) => { 
+                            if (event.target.value.length === 0) init(); 
                         }}
                         placeholder="User Id" />
                     </div>
@@ -163,7 +163,12 @@ export default function AddMoney() {
                             : depositeRequests.filter((depositeReq) => depositeReq.payment_status === "PENDING")
                                 .map((val: MoneyDepositWithRelations, index) => {
                             return (
-                                <PendingRequestCard key={index} depositeMoney={val} setParentState={stateUpdateForDepositeRequest} showAdminInfo={false} />
+                                <PendingRequestCard 
+                                    key={index} 
+                                    depositeMoney={val} 
+                                    setParentState={stateUpdateForDepositeRequest} 
+                                    showAdminInfo={false} 
+                                />
                             );
                         })
                         }
@@ -174,11 +179,11 @@ export default function AddMoney() {
                 <TabsContent value="processing" className="flex flex-col w-full justify-center items-center">
                     <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
                         { depositeRequests.filter((depositeReq) => depositeReq.payment_status === "PROCESSING")
-                            .map((val: MoneyDepositWithRelations, index)=> {
-                            return (
-                                <ProcessingResultCard key={index} setParentState={stateUpdateForDepositeRequest}  depositeMoney={val}  showAdminInfo={false} />
-                            );
-                        })
+                            .map((val: MoneyDepositWithRelations, index) => {
+                                return (
+                                    <ProcessingResultCard key={index} setParentState={stateUpdateForDepositeRequest}  depositeMoney={val}  showAdminInfo={false} />
+                                );
+                            })
                         }
                     </div>
                 </TabsContent>
@@ -198,9 +203,9 @@ export default function AddMoney() {
                             onChange={(event) => {
                                 if (event.target.value.length === 0) init();
                             }}
-                            placeholder="User id" />
+                            placeholder="User id" 
+                        />
                     </div>
-
                     <div className="flex flex-wrap justify-center gap-5 my-5 items-center">
                         { depositeRequests.filter((depositeReq) => depositeReq.payment_status === "ACCEPT")
                             .map((val: MoneyDepositWithRelations, index)=> {
@@ -217,7 +222,6 @@ export default function AddMoney() {
                         <SearchFiedls placeholder="All" />
                         <SearchFiedls placeholder="User id" />
                     </div>
-
                     <div className="flex flex-wrap justify-center gap-5 my-9">
                         { depositeRequests.filter((depositeReq) => depositeReq.payment_status === "REFUNDED")
                             .map((val: MoneyDepositWithRelations, index)=> {

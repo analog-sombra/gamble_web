@@ -2,7 +2,7 @@
 
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import React, { useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 
 // Icons ....
@@ -22,15 +22,59 @@ import EnteriesRequestCard from "@/components/infoCards/EnteriesRequestCard";
 import PendingEntriesRequestCard from "@/components/infoCards/PendingEntriesRequestCard";
 import RejectedRequestCard from "@/components/infoCards/RejectedRequestCard";
 import HightToLowCard from "@/components/infoCards/hightToLowCard";
+import { HttpMethodType, makeApiRequeest } from "@/lib/api/untils";
+import { BASE_URL } from "@/lib/const";
+import { MoneyDepositWithRelations } from "@/models/MoneyDeposite";
+import { AxiosError } from "axios";
+import { toast } from "react-toastify";
+import { getCookie } from "cookies-next";
 
 
 
 export default function AddMoney() {
     const [currentTab, setTab] = useState("pending");
+    const [depositeRequests, setDepositeRequests] = useState<MoneyDepositWithRelations[]>([]);
+    const [isLoading, setIsLoading] = useState(false)
+    // fetching user id of logined user
+    const userId: number =  useMemo(() => {
+        const userId = getCookie("id")
+        if (!userId || isNaN(Number(userId))) {
+            toast.error("User id not found. Please login again")
+            return 0;
+        }
+        return parseInt(userId)
+    }, []);
+
+    
+    
+    const init = async (): Promise<void> => {
+        setIsLoading(true)
+        try {
+            const response = await makeApiRequeest(
+                `${BASE_URL}/api/deposite/get`,
+                HttpMethodType.POST,
+                {  includeToke: true, 
+                    bodyParam: { 
+                        "worker_id": userId
+                    } 
+                }
+            )
+            setDepositeRequests(response?.data.data as MoneyDepositWithRelations[])
+        } catch (error) {
+            const asioError: AxiosError = error as AxiosError;
+            toast.error(asioError.message);
+        } 
+        setIsLoading(false)
+    }   
+
+    console.log(depositeRequests);
+    
+    
+    useEffect(() => {init()}, []) 
+
 
     return (
         <div>
-
             <Tabs value={currentTab} className="w-full  flex flex-col sm:mt-2">
                 <TabsList className=" mx-auto sm:mb-0 mb-24 bg-transparent w-full flex flex-wrap">
                     <TabsTrigger
@@ -86,11 +130,12 @@ export default function AddMoney() {
                     </div>
 
                     <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
-                        {Array.from([1, 2, 3, 4, 5, 6]).map((val, index) => {
-                            return (
-                                <PendingRequestCard key={index} showAdminInfo={true} />
-                            );
-                        })
+                        {depositeRequests.filter((depositeReq) => depositeReq.payment_status === "PENDING")
+                            .map((val, index) => {
+                                return (
+                                    <PendingRequestCard depositeMoney={val} key={index} showAdminInfo={true} />
+                                );
+                            })
                         }
                     </div>
                 </TabsContent>
@@ -103,9 +148,10 @@ export default function AddMoney() {
                     </div>
 
                     <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
-                        {Array.from([1, 2, 3, 4, 5, 6]).map((val, index) => {
+                        {depositeRequests.filter((depositeReq) => depositeReq.payment_status === "PROCESSING")
+                            .map((val, index) => {
                             return (
-                                <ProcessingResultCard key={index} showAdminInfo={true} />
+                                <ProcessingResultCard depositeMoney={val} key={index} showAdminInfo={true} />
                             );
                         })
                         }
@@ -121,11 +167,13 @@ export default function AddMoney() {
                         <SearchFiedls placeholder="User I'd" />
                     </div>
                     <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
-                        {Array.from([1, 2, 3, 4, 5, 6]).map((val, index) => {
-                            return (
-                                <ApproveRequestCard key={index} showAdminInfo={true} />
-                            );
-                        })
+                        {
+                            depositeRequests.filter((depositeReq) => depositeReq.payment_status === "ACCEPT")
+                                .map((val, index) => {
+                                return (
+                                    <ApproveRequestCard depositeMoney={val} key={index} showAdminInfo={true} />
+                                );
+                            })
                         }
                     </div>
 
@@ -137,7 +185,6 @@ export default function AddMoney() {
                         <SearchFiedls placeholder="All" />
                         <SearchFiedls placeholder="User Id" />
                     </div>
-
                     <div className="flex flex-wrap justify-start gap-5 my-9 items-center">
                         {Array.from([1, 2, 3, 4, 5, 6]).map((val, index) => {
                             return (
